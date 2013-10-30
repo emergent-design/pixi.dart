@@ -13,18 +13,6 @@ abstract class BaseLoader
 	void load();
 }
 
-/*
- *     this.loadersByType = {
-        "jpg":  PIXI.ImageLoader,
-        "jpeg": PIXI.ImageLoader,
-        "png":  PIXI.ImageLoader,
-        "gif":  PIXI.ImageLoader,
-        "json": PIXI.JsonLoader,
-        "anim": PIXI.SpineLoader,
-        "xml":  PIXI.BitmapFontLoader,
-        "fnt":  PIXI.BitmapFontLoader
-    };
- */
 
 class AssetLoader
 {
@@ -34,7 +22,9 @@ class AssetLoader
 		'png':	(url, c) => new ImageLoader(url, c),
 		'gif':	(url, c) => new ImageLoader(url, c),
 		'json':	(url, c) => new JsonLoader(url, c),
+		//'amin':	(url, c) => new SpineLoader(url, c),
 		'fnt':	(url, c) => new BitmapFontLoader(url, c),
+		'xml':	(url, c) => new BitmapFontLoader(url, c),
 	};
 
 	List<String> _assetUrls;

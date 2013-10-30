@@ -1,3 +1,29 @@
+pixi.dart
+=========
+
+A [Dart](https://www.dartlang.org/) port of [pixi.js](https://github.com/GoodBoyDigital/pixi.js/).
+
+
+Work in Progress
+----------------
+
+Implemented so far:
+
+* Canvas renderer
+* Full scene graph
+* Asset loader / sprite sheet loader
+* Text
+* BitmapFont text
+* Multiline text
+* Primitive drawing
+
+No WebGL renderer or interaction yet I'm afraid!
+
+
+Usage
+-----
+
+```dart
 import 'dart:html';
 import 'package:pixi/pixi.dart';
 
@@ -37,3 +63,4 @@ void main()
 {
 	new BunnyExample();
 }
+```

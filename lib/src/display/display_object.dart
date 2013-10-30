@@ -61,11 +61,6 @@ class DisplayObject
 			this._cosr		= cos(this.rotation);
 		}
 
-		if (this.parent == null)
-		{
-			print(this);
-		}
-
 		var local 	= this._localTransform;
 		var parent	= this.parent.worldTransform;
 		var world	= this._worldTransform;

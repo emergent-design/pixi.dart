@@ -27,28 +27,24 @@ class BaseTexture
 
 		if (source is ImageElement)
 		{
-			var src = source as ImageElement;
-
-			if (src.complete)
+			if (source.complete)
 			{
 				this._hasLoaded = true;
-				this._width		= src.width;
-				this._height	= src.height;
+				this._width		= source.width;
+				this._height	= source.height;
 			}
-			else src.onLoad.listen((e) {
+			else source.onLoad.listen((e) {
 				this._hasLoaded = true;
-				this._width		= src.width;
-				this._height	= src.height;
+				this._width		= source.width;
+				this._height	= source.height;
 				this._loadedController.add('loaded');
 			});
 		}
 		else if (source is CanvasElement)
 		{
-			var src = source as CanvasElement;
-
 			this._hasLoaded = true;
-			this._width		= src.width;
-			this._height	= src.height;
+			this._width		= source.width;
+			this._height	= source.height;
 		}
 		else this._source = null;
 	}
