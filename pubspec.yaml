@@ -1,0 +1,10 @@
+name:  pixi
+version: 0.0.1
+description: Port of the pixi.js library
+author: Dan Parnham <dan@teadriven.me.uk>
+homepage: http://github.com/parnham/pixi.dart
+
+dependencies:
+  unittest: any
+  browser: any
+  js: any

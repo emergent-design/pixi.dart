@@ -1,0 +1,9 @@
+pubspec.lock
+*~
+*.js
+*.js.deps
+*.map
+
+packages
+.settings
+.buildlog
