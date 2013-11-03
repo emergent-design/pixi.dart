@@ -5,8 +5,8 @@ import 'dart:math';
 
 class GraphicsExample
 {
-	// TODO enable anti-aliasing when webgl is available
-	var renderer	= new CanvasRenderer(620, 380);
+	//var renderer	= new CanvasRenderer(width: 620, height: 380);
+	var renderer	= new WebGLRenderer(width: 620, height: 380, antialias: true);
 	var stage		= new Stage(new Colour(255,255,255), true);
 	var thing		= new Graphics();
 	var count		= 0;

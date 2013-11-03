@@ -10,6 +10,8 @@ class Graphics extends DisplayObject
 	Colour _fillColor	= new Colour(0, 0, 0);
 	bool _filling		= false;
 	_Path _path 		= new _Path(_Path.POLY, 0, new Colour(0, 0, 0), 1.0, 1.0, new Colour(0, 0, 0), false, []);
+	_WebGL __webgl		= null;
+	bool _clearDirty	= false;
 	List<_Path> _data;
 
 
@@ -111,11 +113,12 @@ class Graphics extends DisplayObject
 
 	void clear()
 	{
-		this._lineWidth = 0.0;
-		this._filling	= false;
-		this.dirty		= true;
-		this._path		= new _Path(_Path.POLY, 0, new Colour(0, 0, 0), 1.0, 1.0, new Colour(0, 0, 0), false, []);
-		this._data		= [ this._path ];
+		this._lineWidth 	= 0.0;
+		this._filling		= false;
+		this.dirty			= true;
+		this._clearDirty	= true;
+		this._path			= new _Path(_Path.POLY, 0, new Colour(0, 0, 0), 1.0, 1.0, new Colour(0, 0, 0), false, []);
+		this._data			= [ this._path ];
 	}
 }
 

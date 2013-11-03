@@ -4,7 +4,8 @@ import 'package:pixi/pixi.dart';
 
 class BunnyExample
 {
-	var renderer	= new CanvasRenderer(400, 300);
+	//var renderer	= new CanvasRenderer(width: 400, height: 300);
+	var renderer	= new WebGLRenderer(width: 400, height: 300);
 	var stage		= new Stage(new Colour.fromHtml('#6f9'));
 	var bunny		= new Sprite.fromImage("bunny.png");
 

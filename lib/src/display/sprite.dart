@@ -9,6 +9,8 @@ class Sprite extends DisplayObject
 
 	Point anchor		= new Point(0, 0);
 	int blendMode		= NORMAL;
+	WebGLBatch __batch	= null;
+	_SpriteLink __link	= null;
 	num _width			= 0;
 	num _height			= 0;
 	bool _updateFrame	= false;
@@ -62,6 +64,8 @@ class Sprite extends DisplayObject
 		if (this._texture == null || this._texture._base != texture._base)
 		{
 			this._textureChange = true;
+
+			if (this.__group != null) this.__group._updateTexture(this);
 		}
 
 		this._texture		= texture;

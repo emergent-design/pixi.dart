@@ -2,7 +2,7 @@ import 'dart:html';
 import 'package:pixi/pixi.dart';
 
 
-var renderer	= new CanvasRenderer(800, 600, querySelector("#canvas"));
+var renderer	= new CanvasRenderer(width: 800, height: 600, view: querySelector("#canvas"));
 var stage		= new Stage();
 var graphics	= new Graphics();
 

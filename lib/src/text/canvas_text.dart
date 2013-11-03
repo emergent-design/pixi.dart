@@ -144,6 +144,8 @@ class CanvasText extends Sprite
 		this._texture._base._width	= this._canvas.width;
 		this._texture._base._height	= this._canvas.height;
 		this._texture.setFrame(null);
+
+		BaseTexture._toUpdate.add(this._texture._base);
 	}
 
 

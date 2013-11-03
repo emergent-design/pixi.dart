@@ -3,7 +3,8 @@ part of pixi;
 
 abstract class Matrix
 {
-	List<num> _source;
+	//List<num> _source;
+	Float32List _source;
 
 	Matrix()
 	{
@@ -13,7 +14,8 @@ abstract class Matrix
 	Matrix.from(Iterable<num> source)
 	{
 		//this._source = new List<num>.from(source.map((i) => i.toDouble()), growable: false);
-		this._source = new List<num>.from(source, growable: false);
+		//this._source = new List<num>.from(source, growable: false);
+		this._source = new Float32List.fromList(source);
 	}
 
 	num operator [](int index) => this._source[index];
@@ -42,11 +44,11 @@ class Mat3 extends Matrix
 
 	void identity()
 	{
-		this._source = [
-			1, 0, 0,
-			0, 1, 0,
-			0, 0, 1
-		];
+		this._source = new Float32List.fromList([
+			1.0, 0.0, 0.0,
+			0.0, 1.0, 0.0,
+			0.0, 0.0, 1.0
+		]);
 	}
 
 
@@ -112,12 +114,12 @@ class Mat4 extends Matrix
 
 	void identity()
 	{
-		this._source = [
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, 1, 0,
-			0, 0, 0, 1
-		];
+		this._source = new Float32List.fromList([
+			1.0, 0.0, 0.0, 0.0,
+			0.0, 1.0, 0.0, 0.0,
+			0.0, 0.0, 1.0, 0.0,
+			0.0, 0.0, 0.0, 1.0
+		]);
 	}
 
 

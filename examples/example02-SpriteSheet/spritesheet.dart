@@ -5,7 +5,8 @@ import 'package:pixi/pixi.dart';
 
 class SpriteSheetExample
 {
-	var renderer		= new CanvasRenderer(800, 600);
+	///var renderer		= new CanvasRenderer(width: 800, height: 600);
+	var renderer		= new WebGLRenderer(width: 800, height: 600);
 	var stage			= new Stage();
 	var alienContainer	= new DisplayObjectContainer();
 	var alienFrames		= [ "eggHead.png", "flowerTop.png", "helmlok.png", "skully.png" ];

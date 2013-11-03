@@ -6,6 +6,26 @@ class DisplayObjectContainer extends DisplayObject
 	List<DisplayObject> _children = [];
 	List<DisplayObject> get children => this._children;
 
+	// Linked list containing the flattened scenegraph (local to this container).
+	// When this container is added to another (such as the stage) this list will become
+	// empty and the parent container linked list will own the link elements. When this
+	// container is removed it will resume ownership of the link elements here.
+	// It is named _childList because a DisplayObject is a link element and therefore
+	// contains a reference to the parent via _list.
+	PixiList<DisplayObject> _childList = new PixiList<DisplayObject>();
+
+
+	// Get the very last item (including any children) that belongs to this container
+	DisplayObject get getLast => this._children.last is DisplayObjectContainer
+		? (this._children.last as DisplayObjectContainer).getLast
+		: this._children.last;
+
+
+	DisplayObjectContainer()
+	{
+		this._childList.add(this);
+	}
+
 
 	void addChild(DisplayObject child)
 	{
@@ -13,19 +33,54 @@ class DisplayObjectContainer extends DisplayObject
 
 		child._parent = this;
 
-		this._children.add(child);
-
 		if (this._stage != null)
 		{
+			child._setStage(this._stage);
+		}
 
+		// Add to the linked list
+		if (child is DisplayObjectContainer)
+		{
+			if (this._children.isEmpty) this.insertListAfter(child._childList);
+			else						this._children.last.insertListAfter(child._childList);
+		}
+		else if (this._children.isEmpty)	this.insertAfter(child);
+		else								this._children.last.insertAfter(child);
+
+		this._children.add(child);
+
+		if (this.__group != null)
+		{
+			if (child.__group != null) child.__group._removeDisplayObjectAndChildren(child);
+			this.__group._addDisplayObjectAndChildren(child);
 		}
 	}
 
 
 	void removeChild(DisplayObject child)
 	{
+		if (child._parent != this)
+		{
+			throw "Child does not belong to this container";
+		}
+
 		child._parent = null;
+		child._setStage(null);
+
+		// Remove from the linked list
+		if (child is DisplayObjectContainer)
+		{
+			if (child.children.isEmpty) child._childList = this._list.removeList(child, child);
+			else						child._childList = this._list.removeList(child, child._children.last);
+		}
+		else child.unlink();
+
 		this._children.remove(child);
+
+		if(child.__group != null)
+		{
+			child.__group._removeDisplayObjectAndChildren(child);
+		}
 	}
 
 
@@ -61,84 +116,11 @@ class DisplayObjectContainer extends DisplayObject
 
 		for (var c in this._children) c.updateTransform();
 	}
+
+
+	void _setStage(Stage stage)
+	{
+		super._setStage(stage);
+		for (var c in this._children) c._setStage(stage);
+	}
 }
-
-/*
-if(child.parent != undefined)
-{
-
-//// COULD BE THIS???
-child.parent.removeChild(child);
-//	return;
-}
-
-child.parent = this;
-
-this.children.push(child);
-
-// update the stage refference..
-
-if(this.stage)
-{
-var tmpChild = child;
-do
-{
-if(tmpChild.interactive)this.stage.dirty = true;
-tmpChild.stage = this.stage;
-tmpChild = tmpChild._iNext;
-}
-while(tmpChild)
-}
-
-// LINKED LIST //
-
-// modify the list..
-var childFirst = child.first
-var childLast = child.last;
-var nextObject;
-var previousObject;
-
-// this could be wrong if there is a filter??
-if(this.filter)
-{
-previousObject =  this.last._iPrev;
-}
-else
-{
-previousObject = this.last;
-}
-
-nextObject = previousObject._iNext;
-
-// always true in this case
-// need to make sure the parents last is updated too
-var updateLast = this;
-var prevLast = previousObject;
-
-while(updateLast)
-{
-if(updateLast.last == prevLast)
-{
-updateLast.last = child.last;
-}
-updateLast = updateLast.parent;
-}
-
-if(nextObject)
-{
-nextObject._iPrev = childLast;
-childLast._iNext = nextObject;
-}
-
-childFirst._iPrev = previousObject;
-previousObject._iNext = childFirst;
-
-// need to remove any render groups..
-if(this.__renderGroup)
-{
-// being used by a renderTexture.. if it exists then it must be from a render texture;
-if(child.__renderGroup)child.__renderGroup.removeDisplayObjectAndChildren(child);
-// add them to the new render group..
-this.__renderGroup.addDisplayObjectAndChildren(child);
-}
-*/

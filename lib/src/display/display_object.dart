@@ -1,8 +1,10 @@
 part of pixi;
 
 
-class DisplayObject
+class DisplayObject extends PixiListEntry
 {
+	static int _visibleCount = 0;
+
 	Point position	= new Point(0, 0);
 	Point pivot		= new Point(0, 0);
 	Point scale 	= new Point(1.0, 1.0);
@@ -10,12 +12,16 @@ class DisplayObject
 	double rotation			= 0.0;
 	double _rotation		= 0.0;
 	double alpha			= 1.0;
+	double _cacheAlpha		= 0.0;	// Used by WebGLBatch
+	int _vcount				= -1;
 
 	bool dirty				= true;
 	bool visible			= true;
 	bool buttonMode			= false;
 	bool _renderable		= false;
 	bool get renderable => this._renderable;
+
+	WebGLRenderGroup __group = null;
 	// hitArea				= null;
 
 
@@ -87,9 +93,14 @@ class DisplayObject
 		world[4] = b10 * a01 + b11 * a11;
 		world[5] = b10 * a02 + b11 * a12 + b12;
 
-		this._worldAlpha = this.alpha * this.parent.worldAlpha;
+		this._worldAlpha	= this.alpha * this.parent.worldAlpha;
+		this._vcount		= _visibleCount;
+	}
 
-		//this.vcount = ??
+
+	void _setStage(Stage stage)
+	{
+		this._stage = stage;
 	}
 
 //	var _mask = null;

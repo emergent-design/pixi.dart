@@ -1,34 +1,26 @@
 part of pixi;
 
 
-class CanvasRenderer
+class CanvasRenderer extends Renderer
 {
-	int _count							= 0;
-	int _width							= 800;
-	int _height							= 600;
-	bool _transparent					= false;
-	bool _refresh						= true;
-	CanvasElement _view 				= null;
 	CanvasRenderingContext2D _context	= null;
 
-	CanvasElement get view => this._view;
 
-
-	CanvasRenderer(this._width, this._height, [CanvasElement view = null, this._transparent = false])
+	CanvasRenderer({int width: 800, int height: 600, CanvasElement view: null, bool transparent: false }) : super(width, height, view, transparent)
 	{
-		this._view			= view != null ? view : new CanvasElement();
-		this._context		= this._view.getContext("2d");
-		this._view.width	= this._width;
-		this._view.height	= this._height;
+		this._context = this._view.getContext("2d");
 	}
 
 
 	void render(Stage stage)
 	{
+		BaseTexture._toUpdate.clear();
+		BaseTexture._toDestroy.clear();
 		//texturesToUpdate??
 		//texturesToDestroy??
 		//visibleCount++??
 
+		DisplayObject._visibleCount++;
 		stage.updateTransform();
 
 		if (this._view.style.backgroundColor != stage.backgroundColor && !this._transparent)
@@ -40,7 +32,11 @@ class CanvasRenderer
 		this._context.clearRect(0, 0, this._width, this._height);
 		this._context.globalCompositeOperation = 'source-over';
 
-		this._renderDisplayObject(stage);
+		for (var object in stage._list)
+		{
+			this._renderDisplayObject(object);
+		}
+		//this._renderDisplayObject(stage);
 
 		if (stage.interactive)
 		{
@@ -55,28 +51,24 @@ class CanvasRenderer
 	}
 
 
-	void resize(int width, int height)
-	{
-		this._view.width	= this._width	= width;
-		this._view.height	= this._height	= height;
-	}
-
-
 	void _renderDisplayObject(DisplayObject object)
 	{
-		if (!object.visible) return;
+		//if (!object.visible) return;
 
-		var transform = object.worldTransform;
 
-		if (object is DisplayObjectContainer)
+
+		//if (object is DisplayObjectContainer)
+		//{
+			//for (var c in object.children)
+			//{
+			//	this._renderDisplayObject(c);
+			//}
+		//}
+		//else
+		if (object.visible && object.renderable)
 		{
-			for (var c in (object as DisplayObjectContainer).children)
-			{
-				this._renderDisplayObject(c);
-			}
-		}
-		else if (object.renderable)
-		{
+			var transform = object.worldTransform;
+
 			if (object is Graphics)
 			{
 				this._context.setTransform(transform[0], transform[3], transform[1], transform[4], transform[2], transform[5]);
@@ -84,16 +76,15 @@ class CanvasRenderer
 			}
 			else if (object is Sprite)
 			{
-				var sprite	= object as Sprite;
-				var frame	= sprite.texture.frame;
+				var frame = object.texture.frame;
 
 				if (frame != null)
 				{
-					this._context.globalAlpha = sprite.worldAlpha;
+					this._context.globalAlpha = object.worldAlpha;
 					this._context.setTransform(transform[0], transform[3], transform[1], transform[4], transform[2], transform[5]);
 					this._context.drawImageToRect(
-						sprite.texture.source,
-						new Rectangle((sprite.anchor.x) * (-frame.width), (sprite.anchor.y) * (-frame.height), frame.width, frame.height),
+						object.texture.source as CanvasImageSource,
+						new Rectangle((object.anchor.x) * (-frame.width), (object.anchor.y) * (-frame.height), frame.width, frame.height),
 						sourceRect: frame
 					);
 				}

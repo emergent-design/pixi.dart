@@ -5,7 +5,8 @@ import 'package:js/js.dart' as js;
 
 class TextExample
 {
-	var renderer		= new CanvasRenderer(620, 400);
+	//var renderer		= new CanvasRenderer(width: 620, height: 400);
+	var renderer		= new WebGLRenderer(width: 620, height: 400);
 	var stage			= new Stage(new Colour.fromInt(0x66ff99));
 	var loader 			= new AssetLoader([ 'desyrel.fnt' ]);
 	var countingText	= null;

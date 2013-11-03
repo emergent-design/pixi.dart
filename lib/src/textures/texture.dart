@@ -11,7 +11,7 @@ class Texture
 
 	Element get source => this._base.source;
 
-	Rectangle _frame;
+	Rectangle _frame = null;
 	Rectangle get frame => this._frame;
 
 	int _width = 1;

@@ -4,8 +4,12 @@ import 'dart:math';
 import 'dart:html';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:web_gl' as GL;
+import 'dart:collection';
+import 'dart:typed_data';
 
 part 'src/core/matrix.dart';
+part 'src/core/pixi_list.dart';
 
 part 'src/primitives/colour.dart';
 part 'src/primitives/graphics.dart';
@@ -26,5 +30,15 @@ part 'src/loaders/image_loader.dart';
 part 'src/loaders/json_loader.dart';
 part 'src/loaders/bitmap_font_loader.dart';
 
+part 'src/renderers/renderer.dart';
 part 'src/renderers/canvas/canvas_renderer.dart';
 part 'src/renderers/canvas/canvas_graphics.dart';
+
+part 'src/renderers/webgl/webgl_renderer.dart';
+part 'src/renderers/webgl/webgl_graphics.dart';
+part 'src/renderers/webgl/webgl_shaders.dart';
+part 'src/renderers/webgl/webgl_render_group.dart';
+part 'src/renderers/webgl/webgl_batch.dart';
+part 'src/renderers/webgl/pixi_shader.dart';
+
+part 'src/utils/polyk.dart';
