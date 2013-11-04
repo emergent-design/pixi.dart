@@ -10,6 +10,7 @@ Work in Progress
 Implemented so far:
 
 * Canvas renderer
+* Partial WebGL renderer
 * Full scene graph
 * Asset loader / sprite sheet loader
 * Text
@@ -17,7 +18,7 @@ Implemented so far:
 * Multiline text
 * Primitive drawing
 
-No WebGL renderer or interaction yet I'm afraid!
+No interaction yet I'm afraid!
 
 
 Usage
