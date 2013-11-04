@@ -49,7 +49,7 @@ class WebGLBatch extends DisplayObject
 	void addBefore(_SpriteLink sprite, _SpriteLink next)
 	{
 		sprite.src.__batch	= this;
-		this.dirty			= true;
+		this._dirty			= true;
 
 		next.insertBefore(sprite);
 	}
@@ -58,7 +58,7 @@ class WebGLBatch extends DisplayObject
 	void addAfter(_SpriteLink sprite, _SpriteLink previous)
 	{
 		sprite.src.__batch	= this;
-		this.dirty			= true;
+		this._dirty			= true;
 
 		previous.insertAfter(sprite);
 	}
@@ -67,7 +67,7 @@ class WebGLBatch extends DisplayObject
 	void remove(_SpriteLink sprite)
 	{
 		sprite.src.__batch	= null;
-		this.dirty			= true;
+		this._dirty			= true;
 
 		sprite.unlink();
 	}
@@ -76,7 +76,7 @@ class WebGLBatch extends DisplayObject
 	WebGLBatch split(_SpriteLink sprite)
 	{
 		var result = new WebGLBatch(this._gl);
-		this.dirty = true;
+		this._dirty = true;
 
 		result._blendMode 	= this._blendMode;
 		result._texture		= this._texture;
@@ -90,7 +90,7 @@ class WebGLBatch extends DisplayObject
 
 	void merge(WebGLBatch batch)
 	{
-		this.dirty = true;
+		this._dirty = true;
 
 		this._sprites.merge(batch._sprites);
 
@@ -101,7 +101,7 @@ class WebGLBatch extends DisplayObject
 	void init(_SpriteLink sprite)
 	{
 		sprite.src.__batch	= this;
-		this.dirty			= true;
+		this._dirty			= true;
 		//this._size		= 1;
 		this._blendMode		= sprite.src.blendMode;
 		this._texture		= sprite.src.texture._base;
@@ -272,10 +272,10 @@ class WebGLBatch extends DisplayObject
 	{
 		if (end == 0) end = this.size;
 
-		if (this.dirty)
+		if (this._dirty)
 		{
 			this._refresh(gl);
-			this.dirty = false;
+			this._dirty = false;
 		}
 
 		if (this.size == 0) return;

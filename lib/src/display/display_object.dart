@@ -5,6 +5,9 @@ class DisplayObject extends PixiListEntry
 {
 	static int _visibleCount = 0;
 
+	// Switch to getters/setters that dirty the object
+	// so that updateTransform can use that flag to avoid
+	// recalculating everything each time.
 	Point position	= new Point(0, 0);
 	Point pivot		= new Point(0, 0);
 	Point scale 	= new Point(1.0, 1.0);
@@ -15,9 +18,9 @@ class DisplayObject extends PixiListEntry
 	double _cacheAlpha		= 0.0;	// Used by WebGLBatch
 	int _vcount				= -1;
 
-	bool dirty				= true;
 	bool visible			= true;
 	bool buttonMode			= false;
+	bool _dirty				= true;
 	bool _renderable		= false;
 	bool get renderable => this._renderable;
 

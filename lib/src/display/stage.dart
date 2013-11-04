@@ -4,7 +4,6 @@ part of pixi;
 class Stage extends DisplayObjectContainer
 {
 	Mat3 _worldTransform	= new Mat3();
-	bool _dirty				= true;
 
 	Colour backgroundColor;
 	bool interactive;

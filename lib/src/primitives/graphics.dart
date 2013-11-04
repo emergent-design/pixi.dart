@@ -51,7 +51,7 @@ class Graphics extends DisplayObject
 	void lineTo(num x, num y)
 	{
 		this._path.points.addAll([x, y]);
-		this.dirty = true;
+		this._dirty = true;
 	}
 
 
@@ -79,7 +79,7 @@ class Graphics extends DisplayObject
 		);
 
 		this._data.add(this._path);
-		this.dirty = true;
+		this._dirty = true;
 	}
 
 
@@ -93,7 +93,7 @@ class Graphics extends DisplayObject
 		);
 
 		this._data.add(this._path);
-		this.dirty = true;
+		this._dirty = true;
 	}
 
 
@@ -107,7 +107,7 @@ class Graphics extends DisplayObject
 		);
 
 		this._data.add(this._path);
-		this.dirty = true;
+		this._dirty = true;
 	}
 
 
@@ -115,7 +115,7 @@ class Graphics extends DisplayObject
 	{
 		this._lineWidth 	= 0.0;
 		this._filling		= false;
-		this.dirty			= true;
+		this._dirty			= true;
 		this._clearDirty	= true;
 		this._path			= new _Path(_Path.POLY, 0, new Colour(0, 0, 0), 1.0, 1.0, new Colour(0, 0, 0), false, []);
 		this._data			= [ this._path ];

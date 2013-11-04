@@ -34,7 +34,6 @@ class CanvasText extends Sprite
 
 	CanvasElement _canvas 				= new CanvasElement();
 	CanvasRenderingContext2D _context	= null;
-	bool _dirty							= true;
 	String _text						= " ";
 	Style _style						= new Style();
 

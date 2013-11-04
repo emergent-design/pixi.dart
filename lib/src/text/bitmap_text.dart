@@ -37,7 +37,6 @@ class BitmapText extends DisplayObjectContainer
 {
 	static Map<String, _Font> _fonts = {};
 
-	bool _dirty		= true;
 	String _text	= " ";
 	Style _style	= new Style();
 	String _fontFace;

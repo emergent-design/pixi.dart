@@ -8,8 +8,7 @@ class _WebGL
 	int lastIndex		= 0;
 	GL.Buffer buffer;
 	GL.Buffer indexBuffer;
-	//Float32List glPoints;
-	//Uint16List glIndices;
+
 
 	_WebGL(GL.RenderingContext gl)
 	{
@@ -25,9 +24,9 @@ class WebGLGraphics
 	{
 		if (graphics.__webgl == null) graphics.__webgl = new _WebGL(gl);
 
-		if (graphics.dirty)
+		if (graphics._dirty)
 		{
-			graphics.dirty = false;
+			graphics._dirty = false;
 
 			if (graphics._clearDirty)
 			{
