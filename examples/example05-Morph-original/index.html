@@ -25,7 +25,7 @@
 
 	var n = 2000;
 	var d = 1;
-	var current = 1;
+	var current = 0;
 	var objs = 17;
 	var vx = 0;
 	var vy = 0;
@@ -67,7 +67,8 @@
 
 		resize();
 
-		setTimeout(nextObject, 5000);
+		//setTimeout(nextObject, 5000);
+		$(renderer.view).click(function(e) { nextObject(); });
 
 		requestAnimFrame(update);
 
@@ -84,7 +85,7 @@
 
 		makeObject(current);
 
-		setTimeout(nextObject, 8000);
+		//setTimeout(nextObject, 8000);
 
 	}
 

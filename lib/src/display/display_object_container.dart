@@ -16,7 +16,8 @@ class DisplayObjectContainer extends DisplayObject
 
 
 	// Get the very last item (including any children) that belongs to this container
-	DisplayObject get getLast => this._children.last is DisplayObjectContainer
+	// If there are no children then it returns itself
+	DisplayObject get getLast => this._children.isEmpty ? this : this._children.last is DisplayObjectContainer
 		? (this._children.last as DisplayObjectContainer).getLast
 		: this._children.last;
 

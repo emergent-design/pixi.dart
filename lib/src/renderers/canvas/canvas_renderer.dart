@@ -90,10 +90,50 @@ class CanvasRenderer extends Renderer
 				}
 			}
 			//else if (object is Strip)
-			//else if (object is TilingSprite)
+			else if (object is TilingSprite)
+			{
+				this._context.setTransform(transform[0], transform[3], transform[1], transform[4], transform[2], transform[5]);
+				this._renderTilingSprite(object);
+			}
 			//else if (object is CustomRenderable)
 			//else if (object is FilterBlock)
 		}
+	}
+
+
+	void _renderTilingSprite(TilingSprite sprite)
+	{
+		var context = this._context;
+
+		context.globalAlpha = sprite.worldAlpha;
+
+		if (sprite.__tilePattern == null)
+		{
+			if (sprite._texture._base._source is ImageElement)
+			{
+				sprite.__tilePattern = context.createPatternFromImage(sprite._texture._base._source, "repeat");
+			}
+			else if (sprite._texture._base._source is CanvasElement)
+			{
+				sprite.__tilePattern = context.createPattern(sprite._texture._base._source, "repeat");
+			}
+		}
+
+		context.beginPath();
+
+		var position	= sprite.tilePosition;
+		var scale		= sprite.tileScale;
+
+		context.scale(scale.x, scale.y);
+		context.translate(position.x, position.y);
+
+		context.fillStyle = sprite.__tilePattern;
+		context.fillRect(-position.x, -position.y, sprite._width / scale.x, sprite._height / scale.y);
+
+		context.scale(1 / scale.x, 1 / scale.y);
+		context.translate(-position.x, -position.y);
+
+		context.closePath();
 	}
 }
 

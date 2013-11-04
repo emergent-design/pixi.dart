@@ -22,7 +22,7 @@ abstract class Matrix
 
 	void operator []=(int index, num value)
 	{
-		this._source[index] = value;
+		this._source[index] = value.toDouble();
 	}
 
 

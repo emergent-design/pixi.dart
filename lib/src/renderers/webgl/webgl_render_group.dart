@@ -1,6 +1,19 @@
 part of pixi;
 
 
+abstract class WebGLData
+{
+	Float32List __vertices		= null;
+	Float32List __uvs			= null;
+	Float32List __colours		= null;
+	Uint16List __indices		= null;
+	GL.Buffer __vertexBuffer	= null;
+	GL.Buffer __indexBuffer		= null;
+	GL.Buffer __uvBuffer		= null;
+	GL.Buffer __colourBuffer	= null;
+}
+
+
 class WebGLRenderGroup
 {
 	GL.RenderingContext _context	= null;
@@ -58,10 +71,10 @@ class WebGLRenderGroup
 		//{
 		//	if(worldVisible) this.renderStrip(renderable, projection);
 		//}
-		//else if (object is TilingSprite)
-		//{
-		//	if(worldVisible) this.renderTilingSprite(renderable, projection);
-		//}
+		else if (object is TilingSprite)
+		{
+			if (worldVisible) this._renderTilingSprite(gl, object, projection);
+		}
 		//else if (object is FilterBlock)
 		//{
 		//	this._renderFilterBlock(gl, object, projection);
@@ -199,7 +212,7 @@ class WebGLRenderGroup
 
 			return;
 		}
-		//else if (object is TilingSprite)
+		else if (object is TilingSprite) this._initTilingSprite(this._context, object);
 		//else if (object is Strip)
 
 
@@ -302,6 +315,78 @@ class WebGLRenderGroup
 
 			if (toRemove is WebGLBatch) WebGLBatch._returnBatch(toRemove);
 		}
+	}
+
+
+	void _initTilingSprite(GL.RenderingContext gl, TilingSprite sprite)
+	{
+		var w = sprite._width.toDouble();
+		var h = sprite._height.toDouble();
+
+		sprite.__vertices	= new Float32List.fromList([ 0.0, 0.0, w,   0.0, w,   h,   0.0, h ]);
+		sprite.__uvs		= new Float32List.fromList([ 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0 ]);
+		sprite.__colours	= new Float32List.fromList([ 1.0, 1.0, 1.0, 1.0 ]);
+		sprite.__indices	= new Uint16List.fromList([ 0, 1, 3, 2 ]);
+
+		sprite.__vertexBuffer	= gl.createBuffer();
+		sprite.__indexBuffer	= gl.createBuffer();
+		sprite.__uvBuffer		= gl.createBuffer();
+		sprite.__colourBuffer	= gl.createBuffer();
+
+		gl.bindBuffer(GL.ARRAY_BUFFER, sprite.__vertexBuffer);
+		gl.bufferData(GL.ARRAY_BUFFER, sprite.__vertices, GL.STATIC_DRAW);
+
+		gl.bindBuffer(GL.ARRAY_BUFFER, sprite.__uvBuffer);
+	    gl.bufferData(GL.ARRAY_BUFFER,  sprite.__uvs, GL.DYNAMIC_DRAW);
+
+	    gl.bindBuffer(GL.ARRAY_BUFFER, sprite.__colourBuffer);
+		gl.bufferData(GL.ARRAY_BUFFER, sprite.__colours, GL.STATIC_DRAW);
+
+	    gl.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, sprite.__indexBuffer);
+	    gl.bufferData(GL.ELEMENT_ARRAY_BUFFER, sprite.__indices, GL.STATIC_DRAW);
+
+		if (sprite._texture._base._glTexture != null)
+		{
+		  	gl.bindTexture(GL.TEXTURE_2D, sprite._texture._base._glTexture);
+		  	gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.REPEAT);
+			gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.REPEAT);
+			sprite._texture._base._powerOf2 = true;
+		}
+		else
+		{
+			sprite._texture._base._powerOf2 = true;
+		}
+	}
+
+
+	void _renderTilingSprite(GL.RenderingContext gl, TilingSprite sprite, Point projection)
+	{
+		var position	= sprite.tilePosition;
+		var scale		= sprite.tileScale;
+		var offsetX		= position.x / sprite._texture._base.width;
+		var offsetY		= position.y / sprite._texture._base.height;
+		var scaleX		= (sprite._width / sprite._texture._base.width) / scale.x;
+		var scaleY		= (sprite._height / sprite._texture._base.height) / scale.y;
+
+		sprite.__uvs[0] = -offsetX;
+		sprite.__uvs[1] = -offsetY;
+		sprite.__uvs[2] = scaleX - offsetX;
+		sprite.__uvs[3] = -offsetY;
+		sprite.__uvs[4] = scaleX - offsetX;
+		sprite.__uvs[5] = scaleY - offsetY;
+		sprite.__uvs[6] = -offsetX;
+		sprite.__uvs[7] = scaleY - offsetY;
+
+		gl.bindBuffer(GL.ARRAY_BUFFER, sprite.__uvBuffer);
+		gl.bufferSubData(GL.ARRAY_BUFFER, 0, sprite.__uvs);
+
+		this._renderStrip(gl, sprite, projection);
+	}
+
+
+	void _renderStrip(GL.RenderingContext gl, DisplayObject object, Point projection)
+	{
+		throw "RenderStrip not implemented yet";
 	}
 
 

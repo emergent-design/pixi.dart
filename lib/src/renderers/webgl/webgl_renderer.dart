@@ -7,7 +7,7 @@ class WebGLRenderer extends Renderer
 	bool _contextLost				= false;
 	Point _projection				= new Point(400, -300);
 	Point _offset					= new Point(0, 0);
-	WebGLBatch _batch				= null;
+	//WebGLBatch _batch				= null;
 	WebGLRenderGroup _group			= null;
 	Stage _stage					= null;
 	//List<_Batch> batches = []
@@ -29,11 +29,15 @@ class WebGLRenderer extends Renderer
 		WebGLShaders.initDefaultShader(gl);
 		//WebGLShaders.activateDefaultShader(gl);
 
-		this._batch = new WebGLBatch(gl);
+		//this._batch = new WebGLBatch(gl);
 		gl.disable(GL.DEPTH_TEST);
 		gl.disable(GL.CULL_FACE);
 		gl.enable(GL.BLEND);
-		gl.colorMask(true, true, true, transparent);
+
+		// Disabling the alpha in the colour mask seems to prevent it from rendering properly
+		// if the background colour of the page is white despite the alpha and premultipliedAlpha
+		// options above being disabled.
+		gl.colorMask(true, true, true, true);
 
 		this.resize(width, height);
 
@@ -70,8 +74,8 @@ class WebGLRenderer extends Renderer
 		var gl = this._context;
 
 		// -- Does this need to be set every frame?
-		gl.colorMask(true, true, true, this._transparent);
-		gl.viewport(0, 0, this._width, this._height);
+		//gl.colorMask(true, true, true, this._transparent);
+		//gl.viewport(0, 0, this._width, this._height);
 
 		gl.bindFramebuffer(GL.FRAMEBUFFER, null);
 

@@ -16,8 +16,7 @@ class GraphicsExample
 	{
 		document.body.append(this.renderer.view);
 
-		var random		= new Random();
-		var graphics	= new Graphics()
+		var graphics = new Graphics()
 			// set a fill and line style
 			..beginFill(new Colour.fromInt(0xFF3300))
 			..lineStyle(10, new Colour.fromInt(0xffd900), 1.0)
