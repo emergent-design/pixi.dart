@@ -7,10 +7,8 @@ class WebGLRenderer extends Renderer
 	bool _contextLost				= false;
 	Point _projection				= new Point(400, -300);
 	Point _offset					= new Point(0, 0);
-	//WebGLBatch _batch				= null;
 	WebGLRenderGroup _group			= null;
 	Stage _stage					= null;
-	//List<_Batch> batches = []
 
 
 	WebGLRenderer({int width: 800, int height: 600, CanvasElement view: null, bool transparent: false, bool antialias: false }) : super(width, height, view, transparent)
@@ -79,10 +77,14 @@ class WebGLRenderer extends Renderer
 
 		gl.bindFramebuffer(GL.FRAMEBUFFER, null);
 
-		gl.clearColor(stage.backgroundColor.r / 255.0, stage.backgroundColor.g / 255.0, stage.backgroundColor.b / 255.0, this._transparent ? 0.0 : 1.0);
+		if (!this._transparent)
+		{
+			gl.clearColor(stage.backgroundColor.r / 255.0, stage.backgroundColor.g / 255.0, stage.backgroundColor.b / 255.0, 1.0);
+		}
+		else gl.clearColor(0, 0, 0, 0);
+
 		gl.clear(GL.COLOR_BUFFER_BIT);
 
-		this._group.backgroundColor = stage.backgroundColor;
 		this._group.render(gl, this._projection, this._offset);
 
 		if (stage.interactive)

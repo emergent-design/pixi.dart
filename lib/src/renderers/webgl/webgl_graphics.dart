@@ -41,11 +41,11 @@ class WebGLGraphics
 
 		WebGLShaders.activatePrimitiveShader(gl);
 
-		var m = graphics.worldTransform.clone().transpose();
+		var matrix = graphics.worldTransform.transpose();
 
 		gl.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
 
-		gl.uniformMatrix3fv(WebGLShaders.primitiveProgram.translationMatrix, false, m._source);
+		gl.uniformMatrix3fv(WebGLShaders.primitiveProgram.translationMatrix, false, matrix._source);
 
 		gl.uniform2f(WebGLShaders.primitiveProgram.projectionVector, projection.x, -projection.y);
 		gl.uniform2f(WebGLShaders.primitiveProgram.offset, -offset.x, -offset.y);

@@ -1,5 +1,5 @@
 name:  pixi
-version: 0.0.2
+version: 0.0.3
 description: >
   Port of the pixi.js library for 2D graphics using WebGL where available and the
   canvas where not.
@@ -7,8 +7,8 @@ author: Dan Parnham <dan@teadriven.me.uk>
 homepage: http://github.com/emergent-design/pixi.dart
 
 dependencies:
-  browser: ">=0.8.7 <0.8.8"
-  js: ">=0.0.26 <0.0.27"
+  browser: any
+  js: any
 
 dev_dependencies:
   unittest: any

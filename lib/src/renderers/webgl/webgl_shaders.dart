@@ -4,9 +4,6 @@ part of pixi;
 class _Program
 {
 	GL.Program program;
-
-	_Program(this.program);
-
 	int vertexPosition;
 	int colour;
 	int textureCoord;
@@ -16,6 +13,8 @@ class _Program
 	GL.UniformLocation sampler;
 	GL.UniformLocation offset;
 
+
+	_Program(this.program);
 
 	void initialise(GL.RenderingContext gl, bool translation, bool alpha, bool texture, bool sampler, bool offset)
 	{
@@ -125,7 +124,7 @@ class WebGLShaders
 		void main(void)
 		{
 			gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));
-			gl_FragColor = gl_FragColor * alpha;
+			gl_FragColor = gl_FragColor * alpha * vColor;
 		}
 	""";
 

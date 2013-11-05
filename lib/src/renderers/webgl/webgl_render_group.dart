@@ -1,7 +1,7 @@
 part of pixi;
 
 
-abstract class WebGLData
+abstract class _WebGLData
 {
 	Float32List __vertices		= null;
 	Float32List __uvs			= null;
@@ -18,7 +18,6 @@ class WebGLRenderGroup
 {
 	GL.RenderingContext _context	= null;
 	DisplayObjectContainer _root	= null;
-	Colour backgroundColor			= new Colour(0, 0, 0);
 	List<DisplayObject> _batches	= [];
 	// toRemove = [] ??
 	// filterManager
@@ -384,11 +383,48 @@ class WebGLRenderGroup
 	}
 
 
-	void _renderStrip(GL.RenderingContext gl, DisplayObject object, Point projection)
-	{
-		throw "RenderStrip not implemented yet";
-	}
+	//void _initStrip()
 
+
+	void _renderStrip(GL.RenderingContext gl, DisplayObject strip, Point projection)
+	{
+		var program = WebGLShaders.stripProgram;
+
+		gl.useProgram(program.program);
+
+		var matrix 	= strip.worldTransform.transpose();
+		var dirty	= strip._dirty;
+
+		gl.uniformMatrix3fv(program.translationMatrix, false, matrix._source);
+		gl.uniform2f(program.projectionVector, projection.x, projection.y);
+		gl.uniform1f(program.alpha, strip.worldAlpha);
+
+		var data = strip as _WebGLData;	// Mainly to get rid of the warnings
+
+		gl.bindBuffer(GL.ARRAY_BUFFER, data.__vertexBuffer);
+		if (dirty)	gl.bufferData(GL.ARRAY_BUFFER, data.__vertices, GL.STATIC_DRAW);
+		else		gl.bufferSubData(GL.ARRAY_BUFFER, 0, data.__vertices);
+	    gl.vertexAttribPointer(program.vertexPosition, 2, GL.FLOAT, false, 0, 0);
+
+	   	gl.bindBuffer(GL.ARRAY_BUFFER, data.__uvBuffer);
+		if (dirty) gl.bufferData(GL.ARRAY_BUFFER, data.__uvs, GL.STATIC_DRAW);
+	    gl.vertexAttribPointer(program.textureCoord, 2, GL.FLOAT, false, 0, 0);
+
+	    gl.activeTexture(GL.TEXTURE0);
+	    gl.bindTexture(GL.TEXTURE_2D, data._texture._base._glTexture);
+
+		gl.bindBuffer(GL.ARRAY_BUFFER, data.__colourBuffer);
+		if (dirty) gl.bufferData(GL.ARRAY_BUFFER, data.__colours, GL.STATIC_DRAW);
+	    gl.vertexAttribPointer(program.colour, 1, GL.FLOAT, false, 0, 0);
+
+	    gl.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, data.__indexBuffer);
+		if (dirty) gl.bufferData(GL.ELEMENT_ARRAY_BUFFER, data.__indices, GL.STATIC_DRAW);
+
+		strip._dirty = false;
+
+		gl.drawElements(GL.TRIANGLE_STRIP, data.__indices.length, GL.UNSIGNED_SHORT, 0);
+		gl.useProgram(WebGLShaders.currentShader.program);
+	}
 
 
 	/*void _renderFilterBlock(RenderingContext gl, FilterBlock filter, Point projection)

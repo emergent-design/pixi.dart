@@ -1,7 +1,7 @@
 part of pixi;
 
 
-class TilingSprite extends DisplayObject with WebGLData
+class TilingSprite extends DisplayObject with _WebGLData
 {
 	Texture _texture;
 	int _width;
