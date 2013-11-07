@@ -51,6 +51,42 @@ class CanvasRenderer extends Renderer
 	}
 
 
+	void renderRecursive(Stage stage)
+	{
+		BaseTexture._toUpdate.clear();
+		BaseTexture._toDestroy.clear();
+		DisplayObject._visibleCount++;
+
+		stage.updateTransform();
+
+		if (this._view.style.backgroundColor != stage.backgroundColor && !this._transparent)
+		{
+			this._view.style.backgroundColor = stage.backgroundColor.html;
+		}
+
+		this._context.setTransform(1, 0, 0, 1, 0, 0);
+		this._context.clearRect(0, 0, this._width, this._height);
+		this._context.globalCompositeOperation = 'source-over';
+
+		this._renderDisplayObjectRecursive(stage);
+	}
+
+	void _renderDisplayObjectRecursive(DisplayObject object)
+	{
+		if (object is DisplayObjectContainer)
+		{
+			for (var child in object.children)
+			{
+				this._renderDisplayObjectRecursive(child);
+			}
+		}
+		else if (object.visible && object.renderable)
+		{
+			this._renderDisplayObject(object);
+		}
+	}
+
+
 	void _renderDisplayObject(DisplayObject object)
 	{
 		var transform = object.worldTransform;

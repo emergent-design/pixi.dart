@@ -129,7 +129,7 @@ class WebGLRenderer extends Renderer
 			gl.bindTexture(GL.TEXTURE_2D, texture._glTexture);
 		 	gl.pixelStorei(GL.UNPACK_PREMULTIPLY_ALPHA_WEBGL, GL.ONE);
 
-			gl.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, GL.RGBA, GL.UNSIGNED_BYTE, texture.source);
+			gl.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, GL.RGBA, GL.UNSIGNED_BYTE, texture._source);
 			gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
 			gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
 

@@ -103,11 +103,13 @@ class WebGLShaders
 		uniform mat3 translationMatrix;
 		uniform vec2 projectionVector;
 		varying vec2 vTextureCoord;
+		uniform vec2 offsetVector;
 		varying float vColor;
 
 		void main(void)
 		{
 			vec3 v = translationMatrix * vec3(aVertexPosition, 1.0);
+			v -= offsetVector.xyx;
 			gl_Position = vec4( v.x / projectionVector.x -1.0, v.y / -projectionVector.y + 1.0 , 0.0, 1.0);
 			vTextureCoord = aTextureCoord;
 			vColor = aColor;
@@ -160,7 +162,7 @@ class WebGLShaders
 	static void initDefaultStripShader(GL.RenderingContext gl)
 	{
 		stripProgram = new _Program(_compileProgram(gl, _stripVertex, _stripFragment));
-		stripProgram.initialise(gl, true, true, true, true, false);
+		stripProgram.initialise(gl, true, true, true, true, true);
 	}
 
 

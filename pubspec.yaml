@@ -10,5 +10,8 @@ dependencies:
   browser: any
   js: any
 
+#environment:
+#  sdk: ">=0.8.10+6 <2.0.0"
+
 dev_dependencies:
   unittest: any

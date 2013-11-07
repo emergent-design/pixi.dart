@@ -72,7 +72,7 @@ class WebGLRenderGroup
 		//}
 		else if (object is TilingSprite)
 		{
-			if (worldVisible) this._renderTilingSprite(gl, object, projection);
+			if (worldVisible) this._renderTilingSprite(gl, object, projection, offset);
 		}
 		//else if (object is FilterBlock)
 		//{
@@ -97,14 +97,14 @@ class WebGLRenderGroup
 			previous = previous._previous;
 		}
 
-		var next = object is DisplayObjectContainer ? object.getLast._next : object._next;
+		var next = object.getLast._next;
 		while (next != end && !(next._renderable && next.__group != null))
 		{
 			next = next._next;
 		}
 
 		var temp = object;
-		var last = object is DisplayObjectContainer ? object.getLast._next : object._next;
+		var last = object.getLast._next;
 
 		while (temp != last)
 		{
@@ -125,7 +125,7 @@ class WebGLRenderGroup
 	{
 		if (object.__group != this) return;
 
-		var last = object is DisplayObjectContainer ? object.children.last._next : object._next;
+		var last = object.getLast._next;
 
 		while (object != last)
 		{
@@ -336,7 +336,7 @@ class WebGLRenderGroup
 		gl.bufferData(GL.ARRAY_BUFFER, sprite.__vertices, GL.STATIC_DRAW);
 
 		gl.bindBuffer(GL.ARRAY_BUFFER, sprite.__uvBuffer);
-	    gl.bufferData(GL.ARRAY_BUFFER,  sprite.__uvs, GL.DYNAMIC_DRAW);
+	    gl.bufferData(GL.ARRAY_BUFFER, sprite.__uvs, GL.DYNAMIC_DRAW);
 
 	    gl.bindBuffer(GL.ARRAY_BUFFER, sprite.__colourBuffer);
 		gl.bufferData(GL.ARRAY_BUFFER, sprite.__colours, GL.STATIC_DRAW);
@@ -358,14 +358,14 @@ class WebGLRenderGroup
 	}
 
 
-	void _renderTilingSprite(GL.RenderingContext gl, TilingSprite sprite, Point projection)
+	void _renderTilingSprite(GL.RenderingContext gl, TilingSprite sprite, Point projection, Point offset)
 	{
 		var position	= sprite.tilePosition;
 		var scale		= sprite.tileScale;
-		var offsetX		= position.x / sprite._texture._base.width;
-		var offsetY		= position.y / sprite._texture._base.height;
-		var scaleX		= (sprite._width / sprite._texture._base.width) / scale.x;
-		var scaleY		= (sprite._height / sprite._texture._base.height) / scale.y;
+		double offsetX	= position.x / sprite._texture._base.width;
+		double offsetY	= position.y / sprite._texture._base.height;
+		double scaleX	= (sprite._width / sprite._texture._base.width) / scale.x;
+		double scaleY	= (sprite._height / sprite._texture._base.height) / scale.y;
 
 		sprite.__uvs[0] = -offsetX;
 		sprite.__uvs[1] = -offsetY;
@@ -379,14 +379,14 @@ class WebGLRenderGroup
 		gl.bindBuffer(GL.ARRAY_BUFFER, sprite.__uvBuffer);
 		gl.bufferSubData(GL.ARRAY_BUFFER, 0, sprite.__uvs);
 
-		this._renderStrip(gl, sprite, projection);
+		this._renderStrip(gl, sprite, projection, offset);
 	}
 
 
 	//void _initStrip()
 
 
-	void _renderStrip(GL.RenderingContext gl, DisplayObject strip, Point projection)
+	void _renderStrip(GL.RenderingContext gl, DisplayObject strip, Point projection, Point offset)
 	{
 		var program = WebGLShaders.stripProgram;
 
@@ -394,12 +394,12 @@ class WebGLRenderGroup
 
 		var matrix 	= strip.worldTransform.transpose();
 		var dirty	= strip._dirty;
+		var data	= strip as _WebGLData;	// Mainly to get rid of the warnings
 
 		gl.uniformMatrix3fv(program.translationMatrix, false, matrix._source);
 		gl.uniform2f(program.projectionVector, projection.x, projection.y);
+		gl.uniform2f(program.offset, -offset.x, -offset.y);
 		gl.uniform1f(program.alpha, strip.worldAlpha);
-
-		var data = strip as _WebGLData;	// Mainly to get rid of the warnings
 
 		gl.bindBuffer(GL.ARRAY_BUFFER, data.__vertexBuffer);
 		if (dirty)	gl.bufferData(GL.ARRAY_BUFFER, data.__vertices, GL.STATIC_DRAW);
@@ -410,8 +410,8 @@ class WebGLRenderGroup
 		if (dirty) gl.bufferData(GL.ARRAY_BUFFER, data.__uvs, GL.STATIC_DRAW);
 	    gl.vertexAttribPointer(program.textureCoord, 2, GL.FLOAT, false, 0, 0);
 
-	    gl.activeTexture(GL.TEXTURE0);
-	    gl.bindTexture(GL.TEXTURE_2D, data._texture._base._glTexture);
+		gl.activeTexture(GL.TEXTURE0);
+		gl.bindTexture(GL.TEXTURE_2D, data._texture._base._glTexture);
 
 		gl.bindBuffer(GL.ARRAY_BUFFER, data.__colourBuffer);
 		if (dirty) gl.bufferData(GL.ARRAY_BUFFER, data.__colours, GL.STATIC_DRAW);
@@ -423,6 +423,7 @@ class WebGLRenderGroup
 		strip._dirty = false;
 
 		gl.drawElements(GL.TRIANGLE_STRIP, data.__indices.length, GL.UNSIGNED_SHORT, 0);
+
 		gl.useProgram(WebGLShaders.currentShader.program);
 	}
 

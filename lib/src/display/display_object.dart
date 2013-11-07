@@ -31,6 +31,8 @@ class DisplayObject extends PixiListEntry
 	DisplayObjectContainer _parent = null;
 	DisplayObjectContainer get parent => this._parent;
 
+	DisplayObject get getLast => this;
+
 	Stage _stage = null;
 	Stage get stage => this._stage;
 

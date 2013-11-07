@@ -17,9 +17,7 @@ class DisplayObjectContainer extends DisplayObject
 
 	// Get the very last item (including any children) that belongs to this container
 	// If there are no children then it returns itself
-	DisplayObject get getLast => this._children.isEmpty ? this : this._children.last is DisplayObjectContainer
-		? (this._children.last as DisplayObjectContainer).getLast
-		: this._children.last;
+	DisplayObject get getLast => this._children.isEmpty ? this : this._children.last.getLast;
 
 
 	DisplayObjectContainer()
@@ -42,11 +40,13 @@ class DisplayObjectContainer extends DisplayObject
 		// Add to the linked list
 		if (child is DisplayObjectContainer)
 		{
-			if (this._children.isEmpty) this.insertListAfter(child._childList);
-			else						this._children.last.insertListAfter(child._childList);
+			this.getLast.insertListAfter(child._childList);
+			//if (this._children.isEmpty) this.insertListAfter(child._childList);
+			//else						this._children.last.insertListAfter(child._childList);
 		}
-		else if (this._children.isEmpty)	this.insertAfter(child);
-		else								this._children.last.insertAfter(child);
+		else this.getLast.insertAfter(child);
+		//else if (this._children.isEmpty)	this.insertAfter(child);
+		//else								this._children.last.insertAfter(child);
 
 		this._children.add(child);
 

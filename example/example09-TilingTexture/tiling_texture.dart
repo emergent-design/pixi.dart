@@ -24,7 +24,9 @@ class TilingTextureExample
 		var texture 		= new Texture.fromImage("p2.jpeg");
 		this.tilingSprite 	= new TilingSprite(texture, window.innerWidth, window.innerHeight);
 
+
 		this.stage.addChild(tilingSprite);
+		//this.stage.addChild(new Sprite(texture));
 
 		window.requestAnimationFrame(this._animate);
 	}
