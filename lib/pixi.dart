@@ -8,6 +8,7 @@ import 'dart:web_gl' as GL;
 import 'dart:collection';
 import 'dart:typed_data';
 
+part 'src/core/circle.dart';
 part 'src/core/matrix.dart';
 part 'src/core/pixi_list.dart';
 
