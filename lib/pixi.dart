@@ -11,6 +11,7 @@ import 'dart:typed_data';
 part 'src/core/circle.dart';
 part 'src/core/matrix.dart';
 part 'src/core/pixi_list.dart';
+part 'src/core/rectangle.dart';
 
 part 'src/primitives/colour.dart';
 part 'src/primitives/graphics.dart';
