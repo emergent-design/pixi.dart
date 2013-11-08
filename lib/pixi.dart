@@ -42,5 +42,8 @@ part 'src/renderers/webgl/webgl_render_group.dart';
 part 'src/renderers/webgl/webgl_batch.dart';
 part 'src/renderers/webgl/pixi_shader.dart';
 
+part 'src/renderers/webgl/batch/base_batch.dart';
+part 'src/renderers/webgl/batch/simple_batch.dart';
+
 part 'src/extras/tiling_sprite.dart';
 part 'src/utils/polyk.dart';

@@ -7,8 +7,9 @@ class WebGLRenderer extends Renderer
 	bool _contextLost				= false;
 	Point _projection				= new Point(400, -300);
 	Point _offset					= new Point(0, 0);
-	WebGLRenderGroup _group			= null;
-	Stage _stage					= null;
+	//WebGLRenderGroup _group			= null;
+	//Stage _stage					= null;
+	_BaseBatch _batch				= null;
 
 
 	WebGLRenderer({int width: 800, int height: 600, CanvasElement view: null, bool transparent: false, bool antialias: false }) : super(width, height, view, transparent)
@@ -27,7 +28,6 @@ class WebGLRenderer extends Renderer
 		WebGLShaders.initDefaultShader(gl);
 		//WebGLShaders.activateDefaultShader(gl);
 
-		//this._batch = new WebGLBatch(gl);
 		gl.disable(GL.DEPTH_TEST);
 		gl.disable(GL.CULL_FACE);
 		gl.enable(GL.BLEND);
@@ -41,7 +41,8 @@ class WebGLRenderer extends Renderer
 
 		//WebGLShaders.pushShader(gl, WebGLShaders.defaultShader);
 
-		this._group = new WebGLRenderGroup(gl);
+		//this._group = new WebGLRenderGroup(gl);
+		this._batch = new _SimpleBatch(gl, 1000);
 	}
 
 
@@ -58,15 +59,16 @@ class WebGLRenderer extends Renderer
 	{
 		if (this._contextLost) return;
 
-		if (this._stage != stage)
+		/*if (this._stage != stage)
 		{
 			this._stage = stage;
 			this._group.setRenderable(stage);
-		}
+		}*/
 
 		this._updateTextures();
 
 		DisplayObject._visibleCount++;
+
 		stage.updateTransform();
 
 		var gl = this._context;
@@ -85,23 +87,35 @@ class WebGLRenderer extends Renderer
 
 		gl.clear(GL.COLOR_BUFFER_BIT);
 
-		this._group.render(gl, this._projection, this._offset);
+		//this._group.render(gl, this._projection, this._offset);
+		this._batch.begin(this._projection);
+		stage._render(this);
+		this._batch.end();
+
+		//print(this._batch.totalRenderCalls);
 
 		if (stage.interactive)
 		{
 			// ??
 		}
+	}
 
-//		if(PIXI.Texture.frameUpdates.length > 0)
-//		{
-//			for (var i=0; i < PIXI.Texture.frameUpdates.length; i++)
-//			{
-//			  	PIXI.Texture.frameUpdates[i].updateFrame = false;
-//			};
-//
-//			PIXI.Texture.frameUpdates = [];
-//		}
 
+	void _renderGraphics(Graphics graphics)
+	{
+		this._batch.flush();
+		WebGLGraphics.renderGraphics(this._context, graphics, this._projection, this._offset);
+	}
+
+
+	void _renderSprite(Sprite sprite)
+	{
+		this._batch.renderSprite(sprite);
+	}
+
+
+	void _renderTilingSprite(TilingSprite sprite)
+	{
 	}
 
 
@@ -199,4 +213,6 @@ class WebGLRenderer extends Renderer
 	this.contextLost = false;
 		 */
 	}
+
+
 }

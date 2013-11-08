@@ -1,7 +1,7 @@
 part of pixi;
 
 
-class DisplayObject extends PixiListEntry
+class DisplayObject //extends PixiListEntry
 {
 	static int _visibleCount = 0;
 
@@ -21,10 +21,10 @@ class DisplayObject extends PixiListEntry
 	bool visible			= true;
 	bool buttonMode			= false;
 	bool _dirty				= true;
-	bool _renderable		= false;
-	bool get renderable => this._renderable;
+	//bool _renderable		= false;
+	//bool get renderable => this._renderable;
 
-	WebGLRenderGroup __group = null;
+	//WebGLRenderGroup __group = null;
 	// hitArea				= null;
 
 
@@ -33,8 +33,8 @@ class DisplayObject extends PixiListEntry
 
 	DisplayObject get getLast => this;
 
-	Stage _stage = null;
-	Stage get stage => this._stage;
+	//Stage _stage = null;
+	//Stage get stage => this._stage;
 
 	double _worldAlpha = 1.0;
 	double get worldAlpha => this._worldAlpha;
@@ -58,7 +58,7 @@ class DisplayObject extends PixiListEntry
 	void set interactive(bool i)
 	{
 		this._interactive = i;
-		if (this.stage != null) this.stage._dirty = true;
+		//if (this.stage != null) this.stage._dirty = true;
 	}
 
 
@@ -103,10 +103,17 @@ class DisplayObject extends PixiListEntry
 	}
 
 
-	void _setStage(Stage stage)
-	{
-		this._stage = stage;
-	}
+	//void _setStage(Stage stage)
+	//{
+		//this._stage = stage;
+	//}
+
+
+	// Default is no-op for a non-renderable object, should be
+	// overridden by derived display objects that are renderable.
+	void _render(Renderer renderer) {}
+
+
 
 //	var _mask = null;
 //	var get mask => this._mask;

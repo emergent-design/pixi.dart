@@ -29,13 +29,16 @@ class CanvasRenderer extends Renderer
 		this._context.clearRect(0, 0, this._width, this._height);
 		this._context.globalCompositeOperation = 'source-over';
 
-		for (var object in stage._list)
+
+		stage._render(this);
+
+		/*for (var object in stage._list)
 		{
 			if (object.visible && object.renderable)
 			{
 				this._renderDisplayObject(object);
 			}
-		}
+		}*/
 		//this._renderDisplayObject(stage);
 
 		if (stage.interactive)
@@ -51,7 +54,7 @@ class CanvasRenderer extends Renderer
 	}
 
 
-	void renderRecursive(Stage stage)
+	/*void renderRecursive(Stage stage)
 	{
 		BaseTexture._toUpdate.clear();
 		BaseTexture._toDestroy.clear();
@@ -89,11 +92,11 @@ class CanvasRenderer extends Renderer
 
 	void _renderDisplayObject(DisplayObject object)
 	{
-		var transform = object.worldTransform;
+		var trans = object.worldTransform;
 
 		if (object is Graphics)
 		{
-			this._context.setTransform(transform[0], transform[3], transform[1], transform[4], transform[2], transform[5]);
+			this._context.setTransform(trans[0], trans[3], trans[1], trans[4], trans[2], trans[5]);
 			_CanvasGraphics.renderGraphics(object, this._context);
 		}
 		else if (object is Sprite)
@@ -103,7 +106,7 @@ class CanvasRenderer extends Renderer
 			if (frame != null)
 			{
 				this._context.globalAlpha = object.worldAlpha;
-				this._context.setTransform(transform[0], transform[3], transform[1], transform[4], transform[2], transform[5]);
+				this._context.setTransform(trans[0], trans[3], trans[1], trans[4], trans[2], trans[5]);
 				this._context.drawImageToRect(
 					object.texture.source as CanvasImageSource,
 					new Rectangle((object.anchor.x) * (-frame.width), (object.anchor.y) * (-frame.height), frame.width, frame.height),
@@ -114,19 +117,54 @@ class CanvasRenderer extends Renderer
 		//else if (object is Strip)
 		else if (object is TilingSprite)
 		{
-			this._context.setTransform(transform[0], transform[3], transform[1], transform[4], transform[2], transform[5]);
+			this._context.setTransform(trans[0], trans[3], trans[1], trans[4], trans[2], trans[5]);
 			this._renderTilingSprite(object);
 		}
 		//else if (object is CustomRenderable)
 		//else if (object is FilterBlock)
+	}*/
+
+
+	void _renderGraphics(Graphics graphics)
+	{
+		var trans = graphics.worldTransform;
+
+		this._context.setTransform(trans[0], trans[3], trans[1], trans[4], trans[2], trans[5]);
+		_CanvasGraphics.renderGraphics(graphics, this._context);
+	}
+
+
+	void _renderSprite(Sprite sprite)
+	{
+		var frame	= sprite.texture.frame;
+		var context	= this._context;
+		var trans	= sprite.worldTransform;
+
+		if (frame != null)
+		{
+			context.globalAlpha = sprite.worldAlpha;
+			context.setTransform(trans[0], trans[3], trans[1], trans[4], trans[2], trans[5]);
+			context.drawImageToRect(
+				sprite.texture.source as CanvasImageSource,
+				new Rectangle(
+					(sprite.anchor.x) * (-frame.width),
+					(sprite.anchor.y) * (-frame.height),
+					frame.width,
+					frame.height
+				),
+				sourceRect: frame
+			);
+		}
 	}
 
 
 	void _renderTilingSprite(TilingSprite sprite)
 	{
 		var context = this._context;
+		var trans	= sprite.worldTransform;
 
 		context.globalAlpha = sprite.worldAlpha;
+		context.setTransform(trans[0], trans[3], trans[1], trans[4], trans[2], trans[5]);
 
 		if (sprite.__tilePattern == null)
 		{
@@ -156,5 +194,7 @@ class CanvasRenderer extends Renderer
 
 		context.closePath();
 	}
+
+
 }
 

@@ -12,7 +12,7 @@ class DisplayObjectContainer extends DisplayObject
 	// container is removed it will resume ownership of the link elements here.
 	// It is named _childList because a DisplayObject is a link element and therefore
 	// contains a reference to the parent via _list.
-	PixiList<DisplayObject> _childList = new PixiList<DisplayObject>();
+	//PixiList<DisplayObject> _childList = new PixiList<DisplayObject>();
 
 
 	// Get the very last item (including any children) that belongs to this container
@@ -22,7 +22,13 @@ class DisplayObjectContainer extends DisplayObject
 
 	DisplayObjectContainer()
 	{
-		this._childList.add(this);
+		//this._childList.add(this);
+	}
+
+
+	void _render(Renderer renderer)
+	{
+		for (var c in this._children) c._render(renderer);
 	}
 
 
@@ -32,7 +38,7 @@ class DisplayObjectContainer extends DisplayObject
 
 		child._parent = this;
 
-		if (this._stage != null)
+		/*if (this._stage != null)
 		{
 			child._setStage(this._stage);
 		}
@@ -46,15 +52,15 @@ class DisplayObjectContainer extends DisplayObject
 		}
 		else this.getLast.insertAfter(child);
 		//else if (this._children.isEmpty)	this.insertAfter(child);
-		//else								this._children.last.insertAfter(child);
+		//else								this._children.last.insertAfter(child);*/
 
 		this._children.add(child);
 
-		if (this.__group != null)
+		/*if (this.__group != null)
 		{
 			if (child.__group != null) child.__group._removeDisplayObjectAndChildren(child);
 			this.__group._addDisplayObjectAndChildren(child);
-		}
+		}*/
 	}
 
 
@@ -66,7 +72,7 @@ class DisplayObjectContainer extends DisplayObject
 		}
 
 		child._parent = null;
-		child._setStage(null);
+		/*child._setStage(null);
 
 		// Remove from the linked list
 		if (child is DisplayObjectContainer)
@@ -74,14 +80,14 @@ class DisplayObjectContainer extends DisplayObject
 			if (child.children.isEmpty) child._childList = this._list.removeList(child, child);
 			else						child._childList = this._list.removeList(child, child._children.last);
 		}
-		else child.unlink();
+		else child.unlink();*/
 
 		this._children.remove(child);
 
-		if(child.__group != null)
+		/*if(child.__group != null)
 		{
 			child.__group._removeDisplayObjectAndChildren(child);
-		}
+		}*/
 	}
 
 
@@ -94,7 +100,6 @@ class DisplayObjectContainer extends DisplayObject
 
 	void swapChildren(DisplayObject childA, DisplayObject childB)
 	{
-
 	}
 
 
@@ -119,9 +124,9 @@ class DisplayObjectContainer extends DisplayObject
 	}
 
 
-	void _setStage(Stage stage)
+	/*void _setStage(Stage stage)
 	{
 		super._setStage(stage);
 		for (var c in this._children) c._setStage(stage);
-	}
+	}*/
 }

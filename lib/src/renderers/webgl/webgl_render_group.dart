@@ -1,6 +1,6 @@
 part of pixi;
 
-
+/*
 abstract class _WebGLData
 {
 	Float32List __vertices		= null;
@@ -500,4 +500,4 @@ class WebGLRenderGroup
 	//void removeFilterBlocks
 
 }
-
+*/

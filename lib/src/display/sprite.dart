@@ -9,8 +9,8 @@ class Sprite extends DisplayObject
 
 	Point anchor		= new Point(0, 0);
 	int blendMode		= NORMAL;
-	WebGLBatch __batch	= null;
-	_SpriteLink __link	= null;
+	//WebGLBatch __batch	= null;
+	//_SpriteLink __link	= null;
 	num _width			= 0;
 	num _height			= 0;
 	bool _updateFrame	= false;
@@ -22,7 +22,7 @@ class Sprite extends DisplayObject
 
 	Sprite(this._texture)
 	{
-		this._renderable = true;
+		//this._renderable = true;
 
 		if (this._texture != null)
 		{
@@ -41,6 +41,12 @@ class Sprite extends DisplayObject
 				this._updateFrame	= true;
 			});
 		}
+	}
+
+
+	void _render(Renderer renderer)
+	{
+		if (this.visible) renderer._renderSprite(this);
 	}
 
 
@@ -65,7 +71,7 @@ class Sprite extends DisplayObject
 		{
 			this._textureChange = true;
 
-			if (this.__group != null) this.__group._updateTexture(this);
+			//if (this.__group != null) this.__group._updateTexture(this);
 		}
 
 		this._texture		= texture;

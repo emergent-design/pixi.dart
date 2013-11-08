@@ -354,12 +354,11 @@ class WebGLGraphics
 
 		if (data.filling)
 		{
-			var colour	= data.fillColor;
-			var alpha	= data.fillAlpha;
-			var r		= alpha * colour.r / 255.0;
-			var g		= alpha * colour.g / 255.0;
-			var b		= alpha * colour.b / 255.0;
-
+			var colour		= data.fillColor;
+			var alpha		= data.fillAlpha;
+			var r			= alpha * colour.r / 255.0;
+			var g			= alpha * colour.g / 255.0;
+			var b			= alpha * colour.b / 255.0;
 			var vertices	= dst.points;
 			var indices		= dst.indices;
 			int pos			= vertices.length ~/ 6;

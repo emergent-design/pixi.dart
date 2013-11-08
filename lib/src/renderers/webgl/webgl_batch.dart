@@ -1,6 +1,6 @@
 part of pixi;
 
-
+/*
 // A container for sprites because they are already
 // linked list entry items that belong to a container
 // owned flattened graph.
@@ -361,4 +361,4 @@ class WebGLBatch extends DisplayObject
 		for (var b in _batches) b._setContext(gl);
 	}
 }
-
+*/

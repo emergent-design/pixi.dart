@@ -6,11 +6,11 @@ import 'package:pixi/pixi.dart';
 
 class BenchmarkRecursion
 {
-	static const LEVELS = 100;
-	static const SPRITES_PER_LEVEL = 20;
+	static const LEVELS = 12;
+	static const SPRITES_PER_LEVEL = 4;
 
-	var renderer	= new CanvasRenderer(width: 1024, height: 768);
-	//var renderer	= new WebGLRenderer(width: 1024, height: 768);
+	//var renderer	= new CanvasRenderer(width: 1024, height: 768);
+	var renderer	= new WebGLRenderer(width: 1024, height: 768);
 	var stage		= new Stage(new Colour.fromHtml('#6f9'));
 	var texture		= new Texture.fromImage("bunny.png");
 	Random random	= new Random();
@@ -35,7 +35,7 @@ class BenchmarkRecursion
 		//this.stage.addChild(text);
 		//this.stage.addChild(this._addContainer(0));
 
-		print("Number of children: ${this.stage.list.length}");
+		//print("Number of children: ${this.stage.list.length}");
 
 		window.requestAnimationFrame(this._animate);
 	}
@@ -45,7 +45,7 @@ class BenchmarkRecursion
 	{
 		var result = new DisplayObjectContainer();
 
-		//if (level < LEVELS) result.addChild(this._addContainer(level+1));
+		if (level < LEVELS) result.addChild(this._addContainer(level+1));
 
 		for (int i=0; i<SPRITES_PER_LEVEL; i++)
 		{
@@ -67,9 +67,9 @@ class BenchmarkRecursion
 
 		var start = window.performance.now();
 
-		if (recursive)	this.renderer.renderRecursive(this.stage);
-		else 			this.renderer.render(this.stage);
-		//this.renderer.render(this.stage);
+		//if (recursive)	this.renderer.renderRecursive(this.stage);
+		//else 			this.renderer.render(this.stage);
+		this.renderer.render(this.stage);
 
 		var end = window.performance.now();
 

@@ -1,5 +1,6 @@
 part of pixi;
 
+/*
 
 // Mostly a copy of LinkedList<E> but since that cannot be extended
 // to provide the split and merge functionality it has to be duplicated
@@ -344,4 +345,4 @@ abstract class PixiListEntry<E extends PixiListEntry<E>> implements _PixiListLin
 		_list._insertListAfter(list, this);
 	}
 }
-
+*/

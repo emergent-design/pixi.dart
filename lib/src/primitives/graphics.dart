@@ -17,8 +17,14 @@ class Graphics extends DisplayObject
 
 	Graphics()
 	{
-		this._renderable 	= true;
+		//this._renderable 	= true;
 		this._data 			= [ this._path ];
+	}
+
+
+	void _render(Renderer renderer)
+	{
+		if (this.visible) renderer._renderGraphics(this);
 	}
 
 

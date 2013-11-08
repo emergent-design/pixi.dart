@@ -11,7 +11,7 @@ class Stage extends DisplayObjectContainer
 
 	Stage([this.backgroundColor = const Colour(255, 255, 255), this.interactive = false])
 	{
-		this._stage = this;
+		//this._stage = this;
 		//this._list.add(this);
 	}
 

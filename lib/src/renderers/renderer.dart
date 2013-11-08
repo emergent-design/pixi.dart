@@ -26,4 +26,9 @@ abstract class Renderer
 
 
 	void render(Stage stage);
+
+
+	void _renderSprite(Sprite sprite);
+	void _renderGraphics(Graphics graphics);
+	void _renderTilingSprite(TilingSprite sprite);
 }
