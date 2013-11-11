@@ -43,7 +43,7 @@ class BunnyExample
 		this.bunny.anchor 	= new Point(0.5, 0.5);
 		this.bunny.position	= new Point(200, 150);
 
-		this.stage.addChild(this.bunny);
+		this.stage.children.add(this.bunny);
 
 		window.requestAnimationFrame(this._animate);
 	}

@@ -1,4 +1,4 @@
-part of pixi;
+/*part of pixi;
 
 
 class _Program
@@ -47,7 +47,7 @@ class WebGLShaders
 
 		const vec2 center = vec2(-1.0, 1.0);
 
-		void main(void) 
+		void main(void)
 		{
 			gl_Position = vec4( ((aVertexPosition + offsetVector) / projectionVector) + center , 0.0, 1.0);
 			vTextureCoord = aTextureCoord;
@@ -77,7 +77,7 @@ class WebGLShaders
 		uniform float alpha;
 		varying vec4 vColor;
 
-		void main(void) 
+		void main(void)
 		{
 			vec3 v = translationMatrix * vec3(aVertexPosition , 1.0);
 			v -= offsetVector.xyx;
@@ -267,4 +267,4 @@ class WebGLShaders
 
 		return shader;
 	}
-}
+}*/

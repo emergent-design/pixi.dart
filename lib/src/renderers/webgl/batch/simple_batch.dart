@@ -3,14 +3,13 @@ part of pixi;
 
 class _SimpleBatch extends _BaseBatch
 {
+	_SpriteShader shader;
 	BaseTexture texture = null;
 
 	int get vertexSize => 5;
 
-	//Shader shader;
 
-
-	_SimpleBatch(GL.RenderingContext gl, [ int size = 500 ]) : super(gl, size);
+	_SimpleBatch(GL.RenderingContext gl, this.shader, [ int size = 500 ]) : super(gl, size);
 
 
 	// Called during a flush
@@ -19,15 +18,10 @@ class _SimpleBatch extends _BaseBatch
 		gl.activeTexture(GL.TEXTURE0);
 		gl.bindTexture(GL.TEXTURE_2D, this.texture._glTexture);
 
-		var shader = WebGLShaders.currentShader;
-
-		//this.shader.activate();
-		gl.useProgram(shader.program);
-
-		gl.uniform2f(shader.projectionVector, this.projection.x, this.projection.y);
-		gl.vertexAttribPointer(shader.vertexPosition, 2, GL.FLOAT, false, 20, 0);
-		gl.vertexAttribPointer(shader.textureCoord, 2, GL.FLOAT, false, 20, 8);
-		gl.vertexAttribPointer(shader.colour, 1, GL.FLOAT, false, 20, 16);
+		gl.uniform2f(this.shader.projectionVector, this.projection.x, this.projection.y);
+		gl.vertexAttribPointer(this.shader.vertexPosition, 2, GL.FLOAT, false, 20, 0);
+		gl.vertexAttribPointer(this.shader.textureCoord, 2, GL.FLOAT, false, 20, 8);
+		gl.vertexAttribPointer(this.shader.colour, 1, GL.FLOAT, false, 20, 16);
 
 		// After the flush the texture is reset
 		this.texture = null;

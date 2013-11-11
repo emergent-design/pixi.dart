@@ -86,8 +86,6 @@ abstract class _BaseBatch
 
 		gl.depthMask(false);
 		gl.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
-
-		//gl.bufferData(GL.ELEMENT_ARRAY_BUFFER, this.indices, GL.STATIC_DRAW); // Do we need to do this again?
 	}
 
 

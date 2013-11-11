@@ -12,15 +12,6 @@ class TilingSprite extends DisplayObject //with _WebGLData
 	Point<double> tilePosition	= new Point(0.0, 0.0);
 	CanvasPattern __tilePattern	= null;
 
-	/*Float32List __vertices		= null;
-	Float32List __uvs			= null;
-	Float32List __colours		= null;
-	Uint16List __indices		= null;
-	GL.Buffer __vertexBuffer	= null;
-	GL.Buffer __indexBuffer		= null;
-	GL.Buffer __uvBuffer		= null;
-	GL.Buffer __colourBuffer	= null;*/
-
 
 	TilingSprite(this._texture, this._width, this._height)
 	{
@@ -37,7 +28,7 @@ class TilingSprite extends DisplayObject //with _WebGLData
 
 	void _render(Renderer renderer)
 	{
-		if (this.visible) renderer._renderTilingSprite(this);
+		renderer._renderTilingSprite(this);
 	}
 
 	//void onTextureUpdate ??

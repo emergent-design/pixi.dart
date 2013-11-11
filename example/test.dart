@@ -12,7 +12,7 @@ class TestExample
 
 	TestExample()
 	{
-		this.stage.addChild(this.graphics);
+		this.stage.children.add(this.graphics);
 
 		this.graphics
 			..position	= new Point(300, 300)

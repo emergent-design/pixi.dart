@@ -35,12 +35,17 @@ part 'src/renderers/renderer.dart';
 part 'src/renderers/canvas/canvas_renderer.dart';
 part 'src/renderers/canvas/canvas_graphics.dart';
 
-part 'src/renderers/webgl/webgl_renderer.dart';
-part 'src/renderers/webgl/webgl_graphics.dart';
-part 'src/renderers/webgl/webgl_shaders.dart';
-part 'src/renderers/webgl/webgl_render_group.dart';
-part 'src/renderers/webgl/webgl_batch.dart';
-part 'src/renderers/webgl/pixi_shader.dart';
+part 'src/renderers/webgl/gl_renderer.dart';
+part 'src/renderers/webgl/gl_graphics.dart';
+//part 'src/renderers/webgl/webgl_shaders.dart';
+//part 'src/renderers/webgl/webgl_render_group.dart';
+//part 'src/renderers/webgl/webgl_batch.dart';
+//part 'src/renderers/webgl/pixi_shader.dart';
+
+part 'src/renderers/webgl/shaders/base_shader.dart';
+part 'src/renderers/webgl/shaders/sprite_shader.dart';
+part 'src/renderers/webgl/shaders/graphics_shader.dart';
+
 
 part 'src/renderers/webgl/batch/base_batch.dart';
 part 'src/renderers/webgl/batch/simple_batch.dart';

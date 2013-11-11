@@ -52,7 +52,7 @@ class MorphExample
 				..alpha		= 0.5;
 
 			this.pixels.add(pixel);
-			this.stage.addChild(pixel);
+			this.stage.children.add(pixel);
 		}
 
 		window.onResize.listen((t) => this._resize());

@@ -59,8 +59,8 @@ class GraphicsExample
 			..lineTo(600, 300);
 
 
-		stage.addChild(graphics);
-		stage.addChild(this.thing);
+		stage.children.add(graphics);
+		stage.children.add(this.thing);
 
 		this.thing.position = new Point(620 / 2, 380 / 2);
 

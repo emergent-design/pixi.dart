@@ -1,4 +1,4 @@
-part of pixi;
+/*part of pixi;
 
 
 class _Uniform
@@ -64,4 +64,4 @@ class _PixiShader
 		}});
 	}
 }
-
+*/

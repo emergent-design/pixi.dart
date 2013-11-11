@@ -27,7 +27,8 @@ class Style
 	});
 }
 
-
+// TODO: Derive both text classes from an abstract base
+// which share some of the word wrapping functionality?
 class CanvasText extends Sprite
 {
 	static Map<String, int> _heights = {};
@@ -36,6 +37,7 @@ class CanvasText extends Sprite
 	CanvasRenderingContext2D _context	= null;
 	String _text						= " ";
 	Style _style						= new Style();
+	bool _dirtyText						= false;
 
 
 	CanvasText(String text, Style style) : super(null)
@@ -48,34 +50,32 @@ class CanvasText extends Sprite
 		this.setStyle(style);
 
 		this._updateText();
-
-		this._dirty = false;
 	}
 
 
 	void setText(String text)
 	{
 		this._text	= text != null ? text : " ";
-		this._dirty	= true;
+		this._dirtyText	= true;
 	}
 
 
 	void setStyle(Style style)
 	{
 		this._style = style;
-		this._dirty	= true;
+		this._dirtyText	= true;
 	}
 
 
-	void updateTransform()
+	void _updateTransform(DisplayObject parent)
 	{
-		if (this._dirty)
+		if (this._dirtyText)
 		{
 			this._updateText();
-			this._dirty = false;
+			this._dirtyText = false;
 		}
 
-		super.updateTransform();
+		super._updateTransform(parent);
 	}
 
 

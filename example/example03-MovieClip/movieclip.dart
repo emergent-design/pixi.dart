@@ -44,7 +44,7 @@ class MovieClipExample
 				..onComplete.listen((c) => print("complete"))
 				..gotoAndPlay(random.nextInt(28));
 
-			this.stage.addChild(explosion);
+			this.stage.children.add(explosion);
 		}
 
 		window.requestAnimationFrame(this._animate);

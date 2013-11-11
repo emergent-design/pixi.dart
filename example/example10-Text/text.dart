@@ -21,14 +21,14 @@ class TextExample
 			var bitmapText		= new BitmapText("bitmap fonts are\n now supported!", new Style(font: "35px Desyrel", align: Style.RIGHT));
 			bitmapText.position = new Point(620 - bitmapText.width - 20, 20);
 
-			this.stage.addChild(bitmapText);
+			this.stage.children.add(bitmapText);
 		});
 
 		document.body.append(this.renderer.view);
 
 		// add a shiny background..
 		var background = new Sprite.fromImage("textDemoBG.jpg");
-		stage.addChild(background);
+		stage.children.add(background);
 
 		// create some white text using the Snippet webfont
 		var textSample = new CanvasText("Pixi.dart can has\nmultiline text!", new Style(
@@ -64,9 +64,9 @@ class TextExample
 		this.countingText.position 	= new Point(620 / 2, 320);
 		this.countingText.anchor	= new Point(0.5, 0.0);
 
-		this.stage.addChild(textSample);
-		this.stage.addChild(this.spinningText);
-		this.stage.addChild(this.countingText);
+		this.stage.children.add(textSample);
+		this.stage.children.add(this.spinningText);
+		this.stage.children.add(this.countingText);
 
 		loader.load();
 

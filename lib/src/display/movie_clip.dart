@@ -55,9 +55,9 @@ class MovieClip extends Sprite
 	}
 
 
-	void updateTransform()
+	void _updateTransform(DisplayObject parent)
 	{
-		super.updateTransform();
+		super._updateTransform(parent);
 
 		if (!this._playing) return;
 

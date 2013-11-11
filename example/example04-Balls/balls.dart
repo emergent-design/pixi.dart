@@ -42,7 +42,7 @@ class BallsExample
 				..anchor	= new Point(0.5, 0.5);
 
 			this.stars.add(new Star(ball, ball.position.x, ball.position.y));
-			this.stage.addChild(ball);
+			this.stage.children.add(ball);
 		}
 
 		window.onResize.listen((t) => this._resize());

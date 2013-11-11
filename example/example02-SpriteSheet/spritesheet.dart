@@ -24,7 +24,7 @@ class SpriteSheetExample
 
 		this.alienContainer.position = new Point(400, 300);
 
-		this.stage.addChild(alienContainer);
+		this.stage.children.add(this.alienContainer);
 
 		loader.load();
 	}
@@ -41,7 +41,7 @@ class SpriteSheetExample
 				..anchor	= new Point(0.5, 0.5);
 
 			this.aliens.add(alien);
-			this.alienContainer.addChild(alien);
+			this.alienContainer.children.add(alien);
 		}
 
 		window.requestAnimationFrame(this._animate);

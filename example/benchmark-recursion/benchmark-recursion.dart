@@ -30,7 +30,7 @@ class BenchmarkRecursion
 		//this.stage.addChild(this.bunny);
 		var text = new CanvasText("Some text", new Style());
 
-		this.stage.addChild(this._addContainer(0));
+		this.stage.children.add(this._addContainer(0));
 		//this.stage.addChild(new Sprite.fromImage("bunny.png"));
 		//this.stage.addChild(text);
 		//this.stage.addChild(this._addContainer(0));
@@ -45,17 +45,17 @@ class BenchmarkRecursion
 	{
 		var result = new DisplayObjectContainer();
 
-		if (level < LEVELS) result.addChild(this._addContainer(level+1));
+		if (level < LEVELS) result.children.add(this._addContainer(level+1));
 
 		for (int i=0; i<SPRITES_PER_LEVEL; i++)
 		{
-			result.addChild(new Sprite(this.texture)
+			result.children.add(new Sprite(this.texture)
 				..anchor 	= new Point(0.5, 0.5)
 				..position	= new Point(this.random.nextInt(1024), this.random.nextInt(768))
 			);
 		}
 
-		if (level < LEVELS) result.addChild(this._addContainer(level+1));
+		if (level < LEVELS) result.children.add(this._addContainer(level+1));
 
 		return result;
 	}

@@ -7,9 +7,14 @@ class WebGLRenderer extends Renderer
 	bool _contextLost				= false;
 	Point _projection				= new Point(400, -300);
 	Point _offset					= new Point(0, 0);
-	//WebGLRenderGroup _group			= null;
-	//Stage _stage					= null;
+
+	_BaseShader _shader							= null;
+	_SpriteShader _spriteShader			= null;
+	_GraphicsShader _graphicsShader	= null;
+
 	_BaseBatch _batch				= null;
+	_GLGraphics _graphics		= null;
+
 
 
 	WebGLRenderer({int width: 800, int height: 600, CanvasElement view: null, bool transparent: false, bool antialias: false }) : super(width, height, view, transparent)
@@ -23,10 +28,14 @@ class WebGLRenderer extends Renderer
 
 		var gl = this._context;
 
-		WebGLShaders.initPrimitiveShader(gl);
-		WebGLShaders.initDefaultStripShader(gl);
-		WebGLShaders.initDefaultShader(gl);
+		//WebGLShaders.initPrimitiveShader(gl);
+		//WebGLShaders.initDefaultStripShader(gl);
+		//WebGLShaders.initDefaultShader(gl);
 		//WebGLShaders.activateDefaultShader(gl);
+
+		this._spriteShader		= new _SpriteShader(gl);
+		this._graphicsShader	= new _GraphicsShader(gl);
+		//this._stripShader	= new _StripShader(gl);
 
 		gl.disable(GL.DEPTH_TEST);
 		gl.disable(GL.CULL_FACE);
@@ -39,10 +48,8 @@ class WebGLRenderer extends Renderer
 
 		this.resize(width, height);
 
-		//WebGLShaders.pushShader(gl, WebGLShaders.defaultShader);
-
-		//this._group = new WebGLRenderGroup(gl);
-		this._batch = new _SimpleBatch(gl, 1000);
+		this._batch		= new _SimpleBatch(gl, this._spriteShader, 1000);
+		this._graphics	= new _GLGraphics(gl, this._graphicsShader);
 	}
 
 
@@ -59,23 +66,9 @@ class WebGLRenderer extends Renderer
 	{
 		if (this._contextLost) return;
 
-		/*if (this._stage != stage)
-		{
-			this._stage = stage;
-			this._group.setRenderable(stage);
-		}*/
-
 		this._updateTextures();
 
-		DisplayObject._visibleCount++;
-
-		stage.updateTransform();
-
 		var gl = this._context;
-
-		// -- Does this need to be set every frame?
-		//gl.colorMask(true, true, true, this._transparent);
-		//gl.viewport(0, 0, this._width, this._height);
 
 		gl.bindFramebuffer(GL.FRAMEBUFFER, null);
 
@@ -87,7 +80,6 @@ class WebGLRenderer extends Renderer
 
 		gl.clear(GL.COLOR_BUFFER_BIT);
 
-		//this._group.render(gl, this._projection, this._offset);
 		this._batch.begin(this._projection);
 		stage._render(this);
 		this._batch.end();
@@ -101,21 +93,37 @@ class WebGLRenderer extends Renderer
 	}
 
 
+	void _setShader(_BaseShader shader)
+	{
+		if (this._shader != shader)
+		{
+			if (this._shader != null) this._shader.deactivate(this._context);
+
+			shader.activate(this._context);
+
+			this._shader = shader;
+		}
+	}
+
+
 	void _renderGraphics(Graphics graphics)
 	{
 		this._batch.flush();
-		WebGLGraphics.renderGraphics(this._context, graphics, this._projection, this._offset);
+		this._setShader(this._graphicsShader);
+		this._graphics.renderGraphics(graphics, this._projection, this._offset);
 	}
 
 
 	void _renderSprite(Sprite sprite)
 	{
+		this._setShader(this._spriteShader);
 		this._batch.renderSprite(sprite);
 	}
 
 
 	void _renderTilingSprite(TilingSprite sprite)
 	{
+		//this._setShader(this._stripShader);
 	}
 
 

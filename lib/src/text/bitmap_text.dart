@@ -39,6 +39,8 @@ class BitmapText extends DisplayObjectContainer
 
 	String _text	= " ";
 	Style _style	= new Style();
+	bool _dirtyText	= false;
+
 	String _fontFace;
 	int _fontSize;
 
@@ -54,15 +56,13 @@ class BitmapText extends DisplayObjectContainer
 		this.setText(text);
 		this.setStyle(style);
 		this._updateText();
-
-		this._dirty = false;
 	}
 
 
 	void setText(String text)
 	{
 		this._text	= text != null ? text : " ";
-		this._dirty	= true;
+		this._dirtyText	= true;
 	}
 
 
@@ -85,19 +85,19 @@ class BitmapText extends DisplayObjectContainer
 		else throw "Unable to parse font information since it must be in the format 'Arial' or '24px Arial'";
 
 		this._style	= style;
-		this._dirty	= true;
+		this._dirtyText	= true;
 	}
 
 
-	void updateTransform()
+	void _updateTransform(DisplayObject parent)
 	{
-		if (this._dirty)
+		if (this._dirtyText)
 		{
 			this._updateText();
-			this._dirty = false;
+			this._dirtyText = false;
 		}
 
-		super.updateTransform();
+		super._updateTransform(parent);
 	}
 
 
@@ -150,11 +150,11 @@ class BitmapText extends DisplayObjectContainer
 			}
 		}
 
-		this.removeChildren();
+		this.children.clear();
 
 		for (var char in chars)
 		{
-			this.addChild(new Sprite(char.texture)
+			this.children.add(new Sprite(char.texture)
 				..position	= new Point(char.x + offsets[char.line], char.y) * scale
 				..scale		= new Point(scale, scale)
 			);

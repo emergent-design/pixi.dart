@@ -10,8 +10,10 @@ class Graphics extends DisplayObject
 	Colour _fillColor	= new Colour(0, 0, 0);
 	bool _filling		= false;
 	_Path _path 		= new _Path(_Path.POLY, 0, new Colour(0, 0, 0), 1.0, 1.0, new Colour(0, 0, 0), false, []);
-	_WebGL __webgl		= null;
-	bool _clearDirty	= false;
+	//_WebGL __webgl		= null;
+	//bool _clearDirty	= false;
+	bool _dirtyGraphics	= true;
+	bool _dirtyClear	= false;
 	List<_Path> _data;
 
 
@@ -24,7 +26,7 @@ class Graphics extends DisplayObject
 
 	void _render(Renderer renderer)
 	{
-		if (this.visible) renderer._renderGraphics(this);
+		renderer._renderGraphics(this);
 	}
 
 
@@ -57,7 +59,7 @@ class Graphics extends DisplayObject
 	void lineTo(num x, num y)
 	{
 		this._path.points.addAll([x, y]);
-		this._dirty = true;
+		this._dirtyGraphics = true;
 	}
 
 
@@ -85,7 +87,7 @@ class Graphics extends DisplayObject
 		);
 
 		this._data.add(this._path);
-		this._dirty = true;
+		this._dirtyGraphics = true;
 	}
 
 
@@ -99,7 +101,7 @@ class Graphics extends DisplayObject
 		);
 
 		this._data.add(this._path);
-		this._dirty = true;
+		this._dirtyGraphics = true;
 	}
 
 
@@ -113,7 +115,7 @@ class Graphics extends DisplayObject
 		);
 
 		this._data.add(this._path);
-		this._dirty = true;
+		this._dirtyGraphics = true;
 	}
 
 
@@ -121,8 +123,8 @@ class Graphics extends DisplayObject
 	{
 		this._lineWidth 	= 0.0;
 		this._filling		= false;
-		this._dirty			= true;
-		this._clearDirty	= true;
+		this._dirtyGraphics	= true;
+		this._dirtyClear	= true;
 		this._path			= new _Path(_Path.POLY, 0, new Colour(0, 0, 0), 1.0, 1.0, new Colour(0, 0, 0), false, []);
 		this._data			= [ this._path ];
 	}

@@ -3,8 +3,8 @@ part of pixi;
 
 abstract class Matrix
 {
-	//List<num> _source;
 	Float32List _source;
+
 
 	Matrix()
 	{

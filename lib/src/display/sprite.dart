@@ -9,58 +9,60 @@ class Sprite extends DisplayObject
 
 	Point anchor		= new Point(0, 0);
 	int blendMode		= NORMAL;
-	//WebGLBatch __batch	= null;
-	//_SpriteLink __link	= null;
 	num _width			= 0;
 	num _height			= 0;
 	bool _updateFrame	= false;
 	bool _textureChange = false;
-
 	Texture _texture	= null;
 	Texture get texture => this._texture;
 
 
-	Sprite(this._texture)
+	Sprite(this._texture, { num width: 0, num height: 0 })
 	{
-		//this._renderable = true;
+		this._width		= width;
+		this._height	= height;
 
 		if (this._texture != null)
 		{
-			if (this._texture.hasLoaded)
+			if (!this._texture.hasLoaded)
 			{
-				this._updateFrame = true;
+				this._texture.onLoaded.listen((i) => this._initialise());
 			}
-			else this._texture.onLoaded.listen((i) {
-				var x = this.scale.x;
-				var y = this.scale.y;
-
-				if (this._width > 0) 	x = this._width / this._texture.frame.width;
-				if (this._height > 0)	y = this._height / this._texture.frame.height;
-
-				this.scale			= new Point(x, y);
-				this._updateFrame	= true;
-			});
+			else this._initialise();
 		}
+	}
+
+
+	void _initialise()
+	{
+		var x = this._scale.x;
+		var y = this._scale.y;
+
+		if (this._width > 0) 	x = this._width / this._texture.frame.width;
+		if (this._height > 0)	y = this._height / this._texture.frame.height;
+
+		this._scale			= new Point(x, y);
+		this._updateFrame	= true;
 	}
 
 
 	void _render(Renderer renderer)
 	{
-		if (this.visible) renderer._renderSprite(this);
+		renderer._renderSprite(this);
 	}
 
 
-	num get width => this.scale.x * this._texture.frame.width;
+	num get width => this._scale.x * this._texture.frame.width;
 	void set width(num value)
 	{
-		this.scale	= new Point(value / this._texture.frame.width, this.scale.y);
+		this._scale	= new Point(value / this._texture.frame.width, this._scale.y);
 		this._width	= value;
 	}
 
-	num get height => this.scale.y * this._texture.frame.height;
+	num get height => this._scale.y * this._texture.frame.height;
 	void set height(num value)
 	{
-		this.scale 		= new Point(this.scale.x, value / this._texture.frame.height);
+		this._scale 	= new Point(this._scale.x, value / this._texture.frame.height);
 		this._height	= value;
 	}
 
@@ -70,8 +72,6 @@ class Sprite extends DisplayObject
 		if (this._texture == null || this._texture._base != texture._base)
 		{
 			this._textureChange = true;
-
-			//if (this.__group != null) this.__group._updateTexture(this);
 		}
 
 		this._texture		= texture;

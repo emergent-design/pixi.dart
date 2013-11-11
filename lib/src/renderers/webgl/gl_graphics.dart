@@ -1,7 +1,10 @@
 part of pixi;
 
 
-class _WebGL
+// Data specific to _GLGraphics but associated with an instance of Graphics
+// display object. Rather than add GL specific variables to the Graphics
+// object we instead store of map of relations in _GLGraphics.
+class _GLData
 {
 	List<double> points	= [];
 	List<int> indices	= [];
@@ -10,63 +13,96 @@ class _WebGL
 	GL.Buffer indexBuffer;
 
 
-	_WebGL(GL.RenderingContext gl)
+	_GLData(GL.RenderingContext gl)
 	{
 		this.buffer			= gl.createBuffer();
 		this.indexBuffer	= gl.createBuffer();
 	}
+
+
+	void update(GL.RenderingContext gl)
+	{
+		gl.bindBuffer(GL.ARRAY_BUFFER, this.buffer);
+		gl.bufferData(GL.ARRAY_BUFFER, new Float32List.fromList(this.points), GL.STATIC_DRAW);
+
+		gl.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+		gl.bufferData(GL.ELEMENT_ARRAY_BUFFER, new Uint16List.fromList(this.indices), GL.STATIC_DRAW);
+	}
 }
 
 
-class WebGLGraphics
+class _GLGraphics
 {
-	static void renderGraphics(GL.RenderingContext gl, Graphics graphics, Point projection, Point offset)
+	GL.RenderingContext gl;
+	_GraphicsShader shader;
+	Map<DisplayObject, _GLData> data = {};
+
+
+	_GLGraphics(GL.RenderingContext gl, this.shader)
 	{
-		if (graphics.__webgl == null) graphics.__webgl = new _WebGL(gl);
+		this.initialise(gl);
+	}
 
-		if (graphics._dirty)
+
+	void initialise(GL.RenderingContext gl)
+	{
+		this.gl = gl;
+
+		if (this.data.isNotEmpty)
 		{
-			graphics._dirty = false;
-
-			if (graphics._clearDirty)
+			for (var d in this.data.values)
 			{
-				graphics._clearDirty		= false;
-				graphics.__webgl.lastIndex	= 0;
-				graphics.__webgl.points		= [];
-				graphics.__webgl.indices	= [];
+				d.buffer		= gl.createBuffer();
+				d.indexBuffer	= gl.createBuffer();
+				d.update(gl);
+			}
+		}
+	}
+
+
+	void renderGraphics(Graphics graphics, Point projection, Point offset)
+	{
+		var dst = this.data.putIfAbsent(graphics, () => new _GLData(this.gl));
+
+		if (graphics._dirtyGraphics)
+		{
+			graphics._dirtyGraphics = false;
+
+			if (graphics._dirtyClear)
+			{
+				graphics._dirtyClear	= false;
+				dst.lastIndex			= 0;
+				dst.points				= [];
+				dst.indices				= [];
 			}
 
-			updateGraphics(gl, graphics);
+			this.updateGraphics(graphics, dst);
 		}
-
-		WebGLShaders.activatePrimitiveShader(gl);
 
 		var matrix = graphics.worldTransform.transpose();
 
 		gl.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
 
-		gl.uniformMatrix3fv(WebGLShaders.primitiveProgram.translationMatrix, false, matrix._source);
+		gl.uniformMatrix3fv(shader.translationMatrix, false, matrix._source);
 
-		gl.uniform2f(WebGLShaders.primitiveProgram.projectionVector, projection.x, -projection.y);
-		gl.uniform2f(WebGLShaders.primitiveProgram.offset, -offset.x, -offset.y);
-		gl.uniform1f(WebGLShaders.primitiveProgram.alpha, graphics.worldAlpha);
+		gl.uniform2f(shader.projectionVector, projection.x, -projection.y);
+		gl.uniform2f(shader.offset, -offset.x, -offset.y);
+		gl.uniform1f(shader.alpha, graphics.worldAlpha);
 
-		gl.bindBuffer(GL.ARRAY_BUFFER, graphics.__webgl.buffer);
+		gl.bindBuffer(GL.ARRAY_BUFFER, dst.buffer);
 
-		gl.vertexAttribPointer(WebGLShaders.primitiveProgram.vertexPosition, 2, GL.FLOAT, false, 4 * 6, 0);
-		gl.vertexAttribPointer(WebGLShaders.primitiveProgram.colour, 4, GL.FLOAT, false, 4 * 6, 2 * 4);
+		gl.vertexAttribPointer(shader.vertexPosition, 2, GL.FLOAT, false, 4 * 6, 0);
+		gl.vertexAttribPointer(shader.colour, 4, GL.FLOAT, false, 4 * 6, 2 * 4);
 
-		gl.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, graphics.__webgl.indexBuffer);
+		gl.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, dst.indexBuffer);
 
-		gl.drawElements(GL.TRIANGLE_STRIP, graphics.__webgl.indices.length, GL.UNSIGNED_SHORT, 0);
-
-		WebGLShaders.deactivatePrimitiveShader(gl);
+		gl.drawElements(GL.TRIANGLE_STRIP, dst.indices.length, GL.UNSIGNED_SHORT, 0);
 	}
 
 
-	static void updateGraphics(GL.RenderingContext gl, Graphics graphics)
+	void updateGraphics(Graphics graphics, _GLData dst)
 	{
-		for (int i = graphics.__webgl.lastIndex; i < graphics._data.length; i++)
+		for (int i = dst.lastIndex; i < graphics._data.length; i++)
 		{
 			var data = graphics._data[i];
 
@@ -74,32 +110,27 @@ class WebGLGraphics
 			{
 				if (data.filling)
 				{
-					if (data.points.length > 3) buildPoly(data, graphics.__webgl);
+					if (data.points.length > 3) buildPoly(data, dst);
 				}
 
-				if (data.lineWidth > 0) buildLine(data, graphics.__webgl);
+				if (data.lineWidth > 0) buildLine(data, dst);
 			}
 			else if (data.type == _Path.RECTANGLE)
 			{
-				buildRectangle(data, graphics.__webgl);
+				buildRectangle(data, dst);
 			}
 			else if (data.type == _Path.CIRCLE || data.type == _Path.ELLIPSE)
 			{
-				buildCircle(data, graphics.__webgl);
+				buildCircle(data, dst);
 			}
 		}
 
-		graphics.__webgl.lastIndex	= graphics._data.length;
-
-		gl.bindBuffer(GL.ARRAY_BUFFER, graphics.__webgl.buffer);
-		gl.bufferData(GL.ARRAY_BUFFER, new Float32List.fromList(graphics.__webgl.points), GL.STATIC_DRAW);
-
-		gl.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, graphics.__webgl.indexBuffer);
-		gl.bufferData(GL.ELEMENT_ARRAY_BUFFER, new Uint16List.fromList(graphics.__webgl.indices), GL.STATIC_DRAW);
+		dst.lastIndex = graphics._data.length;
+		dst.update(this.gl);
 	}
 
 
-	static void buildPoly(_Path data, _WebGL dst)
+	void buildPoly(_Path data, _GLData dst)
 	{
 		if (data.points.length < 6) return;
 
@@ -128,7 +159,7 @@ class WebGLGraphics
 	}
 
 
-	static void buildLine(_Path data, _WebGL dst)
+	void buildLine(_Path data, _GLData dst)
 	{
 		bool wrap	= true;
 		var points	= data.points;
@@ -167,7 +198,6 @@ class WebGLGraphics
 		int i;
 		double px, py, p1x, p1y, p2x, p2y, p3x, p3y;
 		double perpx, perpy, perp2x, perp2y, perp3x, perp3y;
-		//num ipx, ipy;
 		double a1, b1, c1, a2, b2, c2;
 		double denom, pdist, dist;
 
@@ -296,7 +326,7 @@ class WebGLGraphics
 	}
 
 
-	static void buildRectangle(_Path data, _WebGL dst)
+	void buildRectangle(_Path data, _GLData dst)
 	{
 		double x 		= data.points[0].toDouble();
 		double y 		= data.points[1].toDouble();
@@ -344,7 +374,7 @@ class WebGLGraphics
 	static const SEGMENTS	= 40;
 	static const SEGMENT	= (PI * 2) / SEGMENTS;
 
-	static void buildCircle(_Path data, _WebGL dst)
+	void buildCircle(_Path data, _GLData dst)
 	{
 		int i;
 		double x	= data.points[0].toDouble();
