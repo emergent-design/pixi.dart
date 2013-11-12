@@ -1,7 +1,7 @@
 part of pixi;
 
 
-class DisplayObject
+abstract class DisplayObject
 {
 	bool _dirty				= true;
 	Point _position			= new Point(0, 0);

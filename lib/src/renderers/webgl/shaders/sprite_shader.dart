@@ -31,7 +31,7 @@ class _SpriteShader extends _BaseShader
 	
 		void main(void)
 		{
-			gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));
+			gl_FragColor = texture2D(uSampler, vTextureCoord);
 			gl_FragColor = gl_FragColor * vColor;
 		}
 	""";

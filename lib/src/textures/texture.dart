@@ -5,7 +5,7 @@ class Texture
 {
 	static Map<String, Texture> _cache = {};
 
-	Point _trim			= new Point();
+	//Point _trim			= new Point();
 	bool _updateFrame	= false;
 	BaseTexture _base;
 

@@ -35,7 +35,7 @@ class _GLGraphics
 {
 	GL.RenderingContext gl;
 	_GraphicsShader shader;
-	Map<DisplayObject, _GLData> data = {};
+	Map<Graphics, _GLData> data = {};
 
 
 	_GLGraphics(GL.RenderingContext gl, this.shader)

@@ -14,8 +14,7 @@ class _GraphicsShader extends _BaseShader
 	
 		void main(void) 
 		{
-			vec3 v = translationMatrix * vec3(aVertexPosition , 1.0);
-			v -= offsetVector.xyx;
+			vec3 v = translationMatrix * vec3(aVertexPosition , 1.0) - offsetVector.xyx;
 			gl_Position = vec4( v.x / projectionVector.x -1.0, v.y / -projectionVector.y + 1.0 , 0.0, 1.0);
 			vColor = aColor  * alpha;
 		}
@@ -49,38 +48,3 @@ class _GraphicsShader extends _BaseShader
 	}
 
 }
-
-
-
-/*
-class _Program
-{
-	GL.Program program;
-	int vertexPosition;
-	int colour;
-	int textureCoord;
-	GL.UniformLocation projectionVector;
-	GL.UniformLocation translationMatrix;
-	GL.UniformLocation alpha;
-	GL.UniformLocation sampler;
-	GL.UniformLocation offset;
-
-
-	_Program(this.program);
-
-	void initialise(GL.RenderingContext gl, bool translation, bool alpha, bool texture, bool sampler, bool offset)
-	{
-		gl.useProgram(this.program);
-
-		this.vertexPosition 	= gl.getAttribLocation(this.program, "aVertexPosition");
-		this.colour				= gl.getAttribLocation(this.program, "aColor");
-		this.projectionVector	= gl.getUniformLocation(program, "projectionVector");
-
-		if (translation)	this.translationMatrix	= gl.getUniformLocation(program, "translationMatrix");
-		if (alpha)			this.alpha				= gl.getUniformLocation(program, "alpha");
-		if (texture)		this.textureCoord		= gl.getAttribLocation(program, "aTextureCoord");
-		if (sampler)		this.sampler			= gl.getUniformLocation(program, "uSampler");
-		if (offset)			this.offset				= gl.getUniformLocation(program, "offsetVector");
-	}
-}
-*/

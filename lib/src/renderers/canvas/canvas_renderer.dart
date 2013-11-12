@@ -16,9 +16,6 @@ class CanvasRenderer extends Renderer
 	{
 		BaseTexture._toUpdate.clear();
 		BaseTexture._toDestroy.clear();
-		//DisplayObject._visibleCount++;
-
-		//stage.updateTransform();
 
 		if (this._view.style.backgroundColor != stage.backgroundColor && !this._transparent)
 		{
@@ -32,97 +29,12 @@ class CanvasRenderer extends Renderer
 
 		stage._render(this);
 
-		/*for (var object in stage._list)
-		{
-			if (object.visible && object.renderable)
-			{
-				this._renderDisplayObject(object);
-			}
-		}*/
-		//this._renderDisplayObject(stage);
 
 		if (stage.interactive)
 		{
 			// TODO: ??
 		}
-
-		// remove frame updates..
-		//if(PIXI.Texture.frameUpdates.length > 0)
-		//{
-		//	PIXI.Texture.frameUpdates = [];
-		//}
 	}
-
-
-	/*void renderRecursive(Stage stage)
-	{
-		BaseTexture._toUpdate.clear();
-		BaseTexture._toDestroy.clear();
-		DisplayObject._visibleCount++;
-
-		stage.updateTransform();
-
-		if (this._view.style.backgroundColor != stage.backgroundColor && !this._transparent)
-		{
-			this._view.style.backgroundColor = stage.backgroundColor.html;
-		}
-
-		this._context.setTransform(1, 0, 0, 1, 0, 0);
-		this._context.clearRect(0, 0, this._width, this._height);
-		this._context.globalCompositeOperation = 'source-over';
-
-		this._renderDisplayObjectRecursive(stage);
-	}
-
-	void _renderDisplayObjectRecursive(DisplayObject object)
-	{
-		if (object is DisplayObjectContainer)
-		{
-			for (var child in object.children)
-			{
-				this._renderDisplayObjectRecursive(child);
-			}
-		}
-		else if (object.visible && object.renderable)
-		{
-			this._renderDisplayObject(object);
-		}
-	}
-
-
-	void _renderDisplayObject(DisplayObject object)
-	{
-		var trans = object.worldTransform;
-
-		if (object is Graphics)
-		{
-			this._context.setTransform(trans[0], trans[3], trans[1], trans[4], trans[2], trans[5]);
-			_CanvasGraphics.renderGraphics(object, this._context);
-		}
-		else if (object is Sprite)
-		{
-			var frame = object.texture.frame;
-
-			if (frame != null)
-			{
-				this._context.globalAlpha = object.worldAlpha;
-				this._context.setTransform(trans[0], trans[3], trans[1], trans[4], trans[2], trans[5]);
-				this._context.drawImageToRect(
-					object.texture.source as CanvasImageSource,
-					new Rectangle((object.anchor.x) * (-frame.width), (object.anchor.y) * (-frame.height), frame.width, frame.height),
-					sourceRect: frame
-				);
-			}
-		}
-		//else if (object is Strip)
-		else if (object is TilingSprite)
-		{
-			this._context.setTransform(trans[0], trans[3], trans[1], trans[4], trans[2], trans[5]);
-			this._renderTilingSprite(object);
-		}
-		//else if (object is CustomRenderable)
-		//else if (object is FilterBlock)
-	}*/
 
 
 	void _renderGraphics(Graphics graphics)
@@ -194,7 +106,5 @@ class CanvasRenderer extends Renderer
 
 		context.closePath();
 	}
-
-
 }
 

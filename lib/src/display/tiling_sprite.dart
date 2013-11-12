@@ -1,7 +1,7 @@
 part of pixi;
 
 
-class TilingSprite extends DisplayObject //with _WebGLData
+class TilingSprite extends DisplayObject
 {
 	Texture _texture;
 	int _width;
@@ -13,10 +13,7 @@ class TilingSprite extends DisplayObject //with _WebGLData
 	CanvasPattern __tilePattern	= null;
 
 
-	TilingSprite(this._texture, this._width, this._height)
-	{
-		//this._renderable = true;
-	}
+	TilingSprite(this._texture, this._width, this._height);
 
 
 	void setTexture(Texture texture)
