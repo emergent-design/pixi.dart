@@ -76,7 +76,7 @@ class _GLTilingSprite
 	Map<TilingSprite, _GLTilingData> data = {};
 
 
-	_GLTilingSprite(GL.RenderingContext gl, this.shader)
+	_GLTilingSprite(GL.RenderingContext gl)
 	{
 		this.initialise(gl);
 	}
@@ -84,7 +84,8 @@ class _GLTilingSprite
 
 	void initialise(GL.RenderingContext gl)
 	{
-		this.gl = gl;
+		this.gl		= gl;
+		this.shader = new _StripShader(gl);
 
 		if (this.data.isNotEmpty)
 		{

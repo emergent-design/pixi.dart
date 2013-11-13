@@ -43,8 +43,10 @@ part 'src/renderers/webgl/shaders/base_shader.dart';
 part 'src/renderers/webgl/shaders/sprite_shader.dart';
 part 'src/renderers/webgl/shaders/graphics_shader.dart';
 part 'src/renderers/webgl/shaders/strip_shader.dart';
+part 'src/renderers/webgl/shaders/multi_shader.dart';
 
 part 'src/renderers/webgl/batch/base_batch.dart';
 part 'src/renderers/webgl/batch/simple_batch.dart';
+part 'src/renderers/webgl/batch/multi_batch.dart';
 
 part 'src/utils/polyk.dart';

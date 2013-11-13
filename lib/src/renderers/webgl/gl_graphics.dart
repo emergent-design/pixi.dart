@@ -38,7 +38,7 @@ class _GLGraphics
 	Map<Graphics, _GLData> data = {};
 
 
-	_GLGraphics(GL.RenderingContext gl, this.shader)
+	_GLGraphics(GL.RenderingContext gl)
 	{
 		this.initialise(gl);
 	}
@@ -46,7 +46,8 @@ class _GLGraphics
 
 	void initialise(GL.RenderingContext gl)
 	{
-		this.gl = gl;
+		this.gl		= gl;
+		this.shader = new _GraphicsShader(gl);
 
 		if (this.data.isNotEmpty)
 		{

@@ -1,38 +1,42 @@
 part of pixi;
 
 
-class _SimpleBatch extends _BaseBatch
+class _MultiBatch extends _BaseBatch
 {
-	_SpriteShader _shader	= null;
-	BaseTexture texture		= null;
+	_MultiShader _shader		= null;
+	List<BaseTexture> textures	= [];
 
 	_BaseShader get shader => this._shader;
-	int get vertexSize => 5;
+	int get vertexSize => 6;
 
 
-	_SimpleBatch(GL.RenderingContext gl, [ int size = 500 ]) : super(gl, size);
+	_MultiBatch(GL.RenderingContext gl, [ int size = 500 ]) : super(gl, size);
 
 
 	void initialise(GL.RenderingContext gl)
 	{
 		super.initialise(gl);
-		this._shader = new _SpriteShader(gl);
+		this._shader = new _MultiShader(gl);
 	}
 
 
 	// Called during a flush
 	void bind()
 	{
-		gl.activeTexture(GL.TEXTURE0);
-		gl.bindTexture(GL.TEXTURE_2D, this.texture._glTexture);
+		for (int i=this.textures.length - 1; i >= 0; i--)
+		{
+			gl.activeTexture(GL.TEXTURE0 + i);
+			gl.bindTexture(GL.TEXTURE_2D, this.textures[i]._glTexture);
+		}
 
 		gl.uniform2f(this._shader.projectionVector, this.projection.x, this.projection.y);
-		gl.vertexAttribPointer(this._shader.vertexPosition, 2, GL.FLOAT, false, 20, 0);
-		gl.vertexAttribPointer(this._shader.textureCoord, 2, GL.FLOAT, false, 20, 8);
-		gl.vertexAttribPointer(this._shader.colour, 1, GL.FLOAT, false, 20, 16);
+		gl.vertexAttribPointer(this._shader.vertexPosition, 2, GL.FLOAT, false, 24, 0);
+		gl.vertexAttribPointer(this._shader.textureCoord, 2, GL.FLOAT, false, 24, 8);
+		gl.vertexAttribPointer(this._shader.colour, 1, GL.FLOAT, false, 24, 16);
+		gl.vertexAttribPointer(this._shader.texture, 1, GL.FLOAT, false, 24, 20);
 
-		// After the flush the texture is reset
-		this.texture = null;
+		// After the flush the textures are reset
+		this.textures = [];
 	}
 
 
@@ -45,10 +49,17 @@ class _SimpleBatch extends _BaseBatch
 
 		if (frame == null || texture == null || texture._base == null || texture._base._glTexture == null) return;
 
-		if (texture._base != this.texture || this.index == this.vertices.length)
+		var textureIndex = this.textures.indexOf(texture._base);
+
+		if (textureIndex < 0 || this.index == this.vertices.length)
 		{
-			this.flush();
-			this.texture = texture._base;
+			if (this.textures.length == _MultiShader.MAX_TEXTURES || this.index == this.vertices.length)
+			{
+				this.flush();
+			}
+
+			this.textures.add(texture._base);
+			textureIndex = this.textures.indexOf(texture._base);
 		}
 
 		// Can the following be cached somehow and only updated
@@ -74,21 +85,24 @@ class _SimpleBatch extends _BaseBatch
 		this.vertices[this.index++] = frame.left / width;
 		this.vertices[this.index++] = frame.top / height;
 		this.vertices[this.index++] = sprite.worldAlpha;
+		this.vertices[this.index++] = textureIndex.toDouble();
 		this.vertices[this.index++] = a * w0 + c * h1 + tx;
 		this.vertices[this.index++] = d * h1 + b * w0 + ty;
 		this.vertices[this.index++] = (frame.left + frame.width) / width;
 		this.vertices[this.index++] = frame.top / height;
 		this.vertices[this.index++] = sprite.worldAlpha;
+		this.vertices[this.index++] = textureIndex.toDouble();
 		this.vertices[this.index++] = a * w0 + c * h0 + tx;
 		this.vertices[this.index++] = d * h0 + b * w0 + ty;
 		this.vertices[this.index++] = (frame.left + frame.width) / width;
 		this.vertices[this.index++] = (frame.top + frame.height) / height;
 		this.vertices[this.index++] = sprite.worldAlpha;
+		this.vertices[this.index++] = textureIndex.toDouble();
 		this.vertices[this.index++] = a * w1 + c * h0 + tx;
 		this.vertices[this.index++] = d * h0 + b * w1 + ty;
 		this.vertices[this.index++] = frame.left / width;
 		this.vertices[this.index++] = (frame.top + frame.height) / height;
 		this.vertices[this.index++] = sprite.worldAlpha;
+		this.vertices[this.index++] = textureIndex.toDouble();
 	}
 }
-

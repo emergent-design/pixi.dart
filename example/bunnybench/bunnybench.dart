@@ -15,11 +15,11 @@ class BunnyBench
 {
 	//Ordering sprites by their texture leads to better performance.
 	//'best', 'worst', 'random', or a number for the max
-	static const TEXTURE_BENCH = 'other';
+	static const TEXTURE_BENCH = 'worst';
 	static const START_BUNNIES = 400;
 
 	//Renderer renderer		= new CanvasRenderer(width: 800, height: 600, view: querySelector("#canvas"));
-	Renderer renderer		= new WebGLRenderer(width: 800, height: 600, view: querySelector("#canvas"));
+	Renderer renderer		= new WebGLRenderer(width: 800, height: 600, view: querySelector("#canvas"), multibatch: true);
 	Stage stage				= new Stage();
 	Element counter			= querySelector("#counter");
 	Random random			= new Random();
@@ -69,7 +69,7 @@ class BunnyBench
 		for (int i=0; i<this.count; i++)
 		{
 			var texture = this.textures[this.getIndex(i)];
-			var bunny	= new Bunny(texture, width: 26, height: 37)
+			var bunny	= new Bunny(texture, width: 48, height: 48)
 				..position	= new Point(0, 0)
 				..anchor	= new Point(0.5, 1.0)
 				..speed		= new Point(this.random.nextDouble() * 10, this.random.nextDouble() * 10 - 5);
@@ -146,7 +146,7 @@ class BunnyBench
 			for (int i=0; i<this.amount; this.count++, i++)
 			{
 				var texture = this.textures[this.getIndex(i)];
-				var bunny	= new Bunny(texture, width: 26, height: 37)
+				var bunny	= new Bunny(texture, width: 48, height: 48)
 					..position	= new Point(0, 0)
 					..anchor	= new Point(0.5, 1.0)
 					..speed		= new Point(this.random.nextDouble() * 10, this.random.nextDouble() * 10 - 5);

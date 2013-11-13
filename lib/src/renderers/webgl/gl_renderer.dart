@@ -9,29 +9,20 @@ class WebGLRenderer extends Renderer
 	Point _offset					= new Point(0, 0);
 
 	_BaseShader _shader				= null;
-	_SpriteShader _spriteShader		= null;
-	_GraphicsShader _graphicsShader	= null;
-	_StripShader _stripShader		= null;
-
 	_BaseBatch _batch				= null;
 	_GLGraphics _graphics			= null;
 	_GLTilingSprite _tiling			= null;
 
 
-
-	WebGLRenderer({int width: 800, int height: 600, CanvasElement view: null, bool transparent: false, bool antialias: false }) : super(width, height, view, transparent)
+	WebGLRenderer({int width: 800, int height: 600, CanvasElement view: null, bool transparent: false, bool antialias: false, bool multibatch: false, int batchSize: 1000 })
+		: super(width, height, view, transparent)
 	{
-		this._context = this._view.getContext3d(alpha: transparent, stencil: true, antialias: antialias, premultipliedAlpha: false);
+		var gl = this._context = this._view.getContext3d(alpha: transparent, stencil: true, antialias: antialias, premultipliedAlpha: false);
 
-		if (this._context == null) throw "This browser does not support webGL. Try using the canvas renderer";
+		if (gl == null) throw "This browser does not support webGL. Try using the canvas renderer";
 
 		this._view.onWebGlContextLost.listen(this._handleContextLost);
 		this._view.onWebGlContextRestored.listen(this._handleContextRestored);
-
-		var gl					= this._context;
-		this._spriteShader		= new _SpriteShader(gl);
-		this._graphicsShader	= new _GraphicsShader(gl);
-		this._stripShader		= new _StripShader(gl);
 
 		gl.disable(GL.DEPTH_TEST);
 		gl.disable(GL.CULL_FACE);
@@ -44,9 +35,10 @@ class WebGLRenderer extends Renderer
 
 		this.resize(width, height);
 
-		this._batch		= new _SimpleBatch(gl, this._spriteShader, 1000);
-		this._graphics	= new _GLGraphics(gl, this._graphicsShader);
-		this._tiling	= new _GLTilingSprite(gl, this._stripShader);
+		//this._batch		= new _SimpleBatch(gl, 1000);
+		this._batch		= multibatch ? new _MultiBatch(gl, batchSize) : new _SimpleBatch(gl, batchSize);
+		this._graphics	= new _GLGraphics(gl);
+		this._tiling	= new _GLTilingSprite(gl);
 	}
 
 
@@ -106,21 +98,22 @@ class WebGLRenderer extends Renderer
 	void _renderGraphics(Graphics graphics)
 	{
 		this._batch.flush();
-		this._setShader(this._graphicsShader);
+		this._setShader(this._graphics.shader);
 		this._graphics.renderGraphics(graphics, this._projection, this._offset);
 	}
 
 
 	void _renderSprite(Sprite sprite)
 	{
-		this._setShader(this._spriteShader);
+		this._setShader(this._batch.shader);
 		this._batch.renderSprite(sprite);
 	}
 
 
 	void _renderTilingSprite(TilingSprite sprite)
 	{
-		this._setShader(this._stripShader);
+		this._batch.flush();
+		this._setShader(this._tiling.shader);
 		this._tiling.renderSprite(sprite, this._projection, this._offset);
 	}
 

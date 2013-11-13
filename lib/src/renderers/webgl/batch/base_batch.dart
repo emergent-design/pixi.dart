@@ -22,9 +22,9 @@ abstract class _BaseBatch
 	Point projection;
 	// Blend mode, flush if changed??
 
-
 	// Abstract properties and functions
 	int get vertexSize;
+	_BaseShader get shader;
 
 	void bind();
 	void renderSprite(Sprite sprite);
