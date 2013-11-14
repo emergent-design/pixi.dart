@@ -26,7 +26,8 @@ class _MultiBatch extends _BaseBatch
 		for (int i=this.textures.length - 1; i >= 0; i--)
 		{
 			gl.activeTexture(GL.TEXTURE0 + i);
-			gl.bindTexture(GL.TEXTURE_2D, this.textures[i]._glTexture);
+			//gl.bindTexture(GL.TEXTURE_2D, this.textures[i]._glTexture);
+			gl.bindTexture(GL.TEXTURE_2D, this.glTexture(this.textures[i]));
 		}
 
 		gl.uniform2f(this._shader.projectionVector, this.projection.x, this.projection.y);

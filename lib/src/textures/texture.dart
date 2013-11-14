@@ -80,12 +80,6 @@ class Texture
 	}
 
 
-	void destroy(bool destroyBase)
-	{
-		if (destroyBase) this._base.destroy();
-	}
-
-
 	void setFrame(Rectangle frame)
 	{
 		this._frame		= frame != null ? frame : new Rectangle(0, 0, this._base.width, this._base.height);

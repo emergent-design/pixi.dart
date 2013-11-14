@@ -24,7 +24,8 @@ class _SimpleBatch extends _BaseBatch
 	void bind()
 	{
 		gl.activeTexture(GL.TEXTURE0);
-		gl.bindTexture(GL.TEXTURE_2D, this.texture._glTexture);
+		//gl.bindTexture(GL.TEXTURE_2D, this.texture._glTexture);
+		gl.bindTexture(GL.TEXTURE_2D, this.glTexture(this.texture));
 
 		gl.uniform2f(this._shader.projectionVector, this.projection.x, this.projection.y);
 		gl.vertexAttribPointer(this._shader.vertexPosition, 2, GL.FLOAT, false, 20, 0);

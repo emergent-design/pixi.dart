@@ -54,7 +54,7 @@ class WebGLRenderer extends Renderer
 	{
 		if (this._contextLost) return;
 
-		this._updateTextures();
+		//this._updateTextures();
 
 		var gl = this._context;
 
@@ -78,6 +78,14 @@ class WebGLRenderer extends Renderer
 		{
 			// ??
 		}
+	}
+
+
+	void destroyTextures(Iterable<BaseTexture> textures)
+	{
+		super.destroyTextures(textures);
+
+		for (var t in textures) this._batch.destroyTexture(t);
 	}
 
 
@@ -120,17 +128,17 @@ class WebGLRenderer extends Renderer
 	}
 
 
-	void _updateTextures()
+	/*void _updateTextures()
 	{
 		for (var t in BaseTexture._toUpdate)	_updateTexture(t);
 		for (var t in BaseTexture._toDestroy)	_destroyTexture(t);
 
 		BaseTexture._toUpdate.clear();
 		BaseTexture._toDestroy.clear();
-	}
+	}*/
 
 
-	void _updateTexture(BaseTexture texture)
+	/*void _updateTexture(BaseTexture texture)
 	{
 		var gl = this._context;
 
@@ -178,7 +186,7 @@ class WebGLRenderer extends Renderer
 		{
 			gl.deleteTexture(texture._glTexture);
 		}
-	}
+	}*/
 
 
 	void _handleContextLost(GL.ContextEvent e)

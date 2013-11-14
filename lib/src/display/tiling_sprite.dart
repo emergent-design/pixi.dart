@@ -27,7 +27,7 @@ class TilingSprite extends Sprite
 
 	void set height(num value)
 	{
-		this._height	= value;
+		this._height = value;
 		this._texture._frame = new Rectangle(0, 0, this._width, this._height);
 	}
 

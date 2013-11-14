@@ -14,8 +14,8 @@ class CanvasRenderer extends Renderer
 
 	void render(Stage stage)
 	{
-		BaseTexture._toUpdate.clear();
-		BaseTexture._toDestroy.clear();
+		//BaseTexture._toUpdate.clear();
+		//BaseTexture._toDestroy.clear();
 
 		if (this._view.style.backgroundColor != stage.backgroundColor && !this._transparent)
 		{

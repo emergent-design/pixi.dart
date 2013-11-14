@@ -4,9 +4,6 @@ part of pixi;
 class BaseTexture
 {
 	static Map<String, BaseTexture> _baseCache	= {};
-	static List<BaseTexture> _toUpdate			= [];
-	static List<BaseTexture> _toDestroy			= [];
-
 
 	int _width = 100;
 	int get width => this._width;
@@ -23,7 +20,7 @@ class BaseTexture
 	StreamController _loadedController = new StreamController.broadcast();
 	Stream get onLoaded => this._loadedController.stream;
 
-	GL.Texture _glTexture = null;
+	bool _dirtyTexture = true;
 
 
 	BaseTexture(Element source)
@@ -34,16 +31,14 @@ class BaseTexture
 		{
 			if (source.complete)
 			{
-				this._hasLoaded = true;
-				this._width		= source.width;
-				this._height	= source.height;
-				_toUpdate.add(this);
+				this._hasLoaded 	= true;
+				this._width			= source.width;
+				this._height		= source.height;
 			}
 			else source.onLoad.listen((e) {
 				this._hasLoaded = true;
 				this._width		= source.width;
 				this._height	= source.height;
-				_toUpdate.add(this);
 				this._loadedController.add('loaded');
 			});
 		}
@@ -52,13 +47,12 @@ class BaseTexture
 			this._hasLoaded = true;
 			this._width		= source.width;
 			this._height	= source.height;
-			_toUpdate.add(this);
 		}
 		else this._source = null;
 	}
 
 
-	void destroy()
+	void _destroy()
 	{
 		if (this._source is ImageElement)
 		{
@@ -66,7 +60,6 @@ class BaseTexture
 		}
 
 		this._source = null;
-		_toDestroy.add(this);
 	}
 
 

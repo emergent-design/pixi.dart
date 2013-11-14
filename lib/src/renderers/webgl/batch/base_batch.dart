@@ -8,6 +8,8 @@ abstract class _BaseBatch
 {
 	static const MAX_SIZE = 8000;
 
+	Map<BaseTexture, GL.Texture> glTextures = {};
+
 	GL.RenderingContext gl;
 	GL.Buffer vertexBuffer;
 	GL.Buffer indexBuffer;
@@ -53,6 +55,61 @@ abstract class _BaseBatch
 	}
 
 
+	GL.Texture glTexture(BaseTexture texture)
+	{
+		if (!texture.hasLoaded) throw "Attempting to generate a GL texture when the base texture has not loaded yet";
+
+		var result = this.glTextures.putIfAbsent(texture, () => gl.createTexture());
+
+		if (texture._dirtyTexture)
+		{
+			if (texture._source != null)
+			{
+				gl.bindTexture(GL.TEXTURE_2D, result);
+				gl.pixelStorei(GL.UNPACK_PREMULTIPLY_ALPHA_WEBGL, GL.ONE);
+
+				gl.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, GL.RGBA, GL.UNSIGNED_BYTE, texture._source);
+				gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
+				gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
+
+				if (_isPowerOfTwo(texture.width) && _isPowerOfTwo(texture.height))
+				{
+					gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.REPEAT);
+					gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.REPEAT);
+				}
+				else
+				{
+					gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
+					gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
+				}
+
+				gl.bindTexture(GL.TEXTURE_2D, null);
+			}
+			else throw "Attempting to use a texture without a source";
+
+			texture._dirtyTexture = false;
+		}
+
+		return result;
+	}
+
+
+	static bool _isPowerOfTwo(int value)
+	{
+		return (value & (value - 1)) == 0;
+	}
+
+
+	void destroyTexture(BaseTexture texture)
+	{
+		if (this.glTextures.containsKey(texture))
+		{
+			this.gl.deleteTexture(this.glTextures[texture]);
+			this.glTextures.remove(texture);
+		}
+	}
+
+
 	void destroy()
 	{
 		if (this.vertexBuffer != null)	this.gl.deleteBuffer(this.vertexBuffer);
@@ -60,6 +117,9 @@ abstract class _BaseBatch
 		this.vertices	= null;
 		this.indices	= null;
 		this.size		= 0;
+
+		for (var t in this.glTextures.values) this.gl.deleteTexture(t);
+		this.glTextures.clear();
 	}
 
 
@@ -101,8 +161,7 @@ abstract class _BaseBatch
 		this.gl.depthMask(true);
 	}
 
-	//var view = this.vertices.subarray(0, this.idx);
- // gl.bufferSubData(gl.ARRAY_BUFFER, 0, view);
+
 	void flush()
 	{
 		if (this.index == 0) return;
@@ -111,8 +170,7 @@ abstract class _BaseBatch
 		gl.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
 		gl.bindBuffer(GL.ARRAY_BUFFER, this.vertexBuffer);
 
-		// Only update the buffer with vertices that are actually being used
-		// by using a light-weight view.
+		// Only update the buffer with vertices that are actually being used by using a light-weight view.
 		gl.bufferSubDataTyped(GL.ARRAY_BUFFER, 0, new Float32List.view(this.vertices.buffer, 0, this.index));
 
 		this.bind();
@@ -130,7 +188,8 @@ abstract class _BaseBatch
 		var texture	= sprite._texture;
 		var frame	= texture.frame;
 
-		if (frame == null || texture == null || texture._base == null || texture._base._glTexture == null) return;
+		//if (frame == null || texture == null || texture._base == null || texture._base._glTexture == null) return;
+		if (frame == null || texture == null || texture._base == null || !texture._base.hasLoaded) return;
 
 		this.render(sprite, [
 			frame.left / texture._base.width, frame.top / texture._base.height,
@@ -144,7 +203,8 @@ abstract class _BaseBatch
 		var texture	= sprite._texture;
 		var frame	= texture.frame;
 
-		if (frame == null || texture == null || texture._base == null || texture._base._glTexture == null) return;
+		//if (frame == null || texture == null || texture._base == null || texture._base._glTexture == null) return;
+		if (frame == null || texture == null || texture._base == null || !texture._base.hasLoaded) return;
 
 		var position	= sprite.tilePosition;
 		var scale		= sprite.tileScale;

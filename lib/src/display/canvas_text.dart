@@ -79,10 +79,10 @@ class CanvasText extends Sprite
 	}
 
 
-	void destroy(bool destroyTexture)
+	/*void destroy(bool destroyTexture)
 	{
 		if (destroyTexture) this._texture.destroy(true);
-	}
+	}*/
 
 
 	void _updateText()
@@ -142,9 +142,11 @@ class CanvasText extends Sprite
 	{
 		this._texture._base._width	= this._canvas.width;
 		this._texture._base._height	= this._canvas.height;
+		this._texture._base._dirtyTexture = true;
 		this._texture.setFrame(null);
 
-		BaseTexture._toUpdate.add(this._texture._base);
+
+		//BaseTexture._toUpdate.add(this._texture._base);
 	}
 
 

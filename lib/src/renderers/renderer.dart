@@ -27,6 +27,11 @@ abstract class Renderer
 
 	void render(Stage stage);
 
+	void destroyTextures(Iterable<BaseTexture> textures)
+	{
+		for (var t in textures) t._destroy();
+	}
+
 
 	void _renderSprite(Sprite sprite);
 	void _renderGraphics(Graphics graphics);
