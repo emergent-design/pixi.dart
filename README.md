@@ -10,7 +10,7 @@ Work in Progress
 Implemented so far:
 
 * Canvas renderer
-* Partial WebGL renderer
+* WebGL renderer (with automatic batching)
 * Full scene graph
 * Asset loader / sprite sheet loader
 * Text
