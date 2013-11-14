@@ -1,25 +1,34 @@
 part of pixi;
 
 
-class TilingSprite extends DisplayObject
+class TilingSprite extends Sprite
 {
-	Texture _texture;
-	int _width;
-	int _height;
-	bool _updateFrame			= true;
-	int blendMode				= Sprite.NORMAL;
 	Point<double> tileScale		= new Point(1.0, 1.0);
 	Point<double> tilePosition	= new Point(0.0, 0.0);
 	CanvasPattern __tilePattern	= null;
 
 
-	TilingSprite(this._texture, this._width, this._height);
+	TilingSprite(Texture texture, { num width: 0, num height: 0 }) : super(texture, width: width, height: height);
 
 
-	void setTexture(Texture texture)
+	void _initialise()
 	{
-		this._texture		= texture;
-		this._updateFrame 	= true;
+		this.scale = new Point(1.0, 1.0);
+		this._texture._frame = new Rectangle(0, 0, this._width, this._height);
+	}
+
+
+	void set width(num value)
+	{
+		this._width	= value;
+		this._texture._frame = new Rectangle(0, 0, this._width, this._height);
+	}
+
+
+	void set height(num value)
+	{
+		this._height	= value;
+		this._texture._frame = new Rectangle(0, 0, this._width, this._height);
 	}
 
 
@@ -27,9 +36,4 @@ class TilingSprite extends DisplayObject
 	{
 		renderer._renderTilingSprite(this);
 	}
-
-	//void onTextureUpdate ??
-	//{
-	//	this._updateFrame = true;
-	//}
 }

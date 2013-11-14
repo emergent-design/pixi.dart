@@ -35,14 +35,12 @@ part 'src/renderers/canvas/canvas_graphics.dart';
 
 part 'src/renderers/webgl/gl_renderer.dart';
 part 'src/renderers/webgl/gl_graphics.dart';
-part 'src/renderers/webgl/gl_tiling_sprite.dart';
-//part 'src/renderers/webgl/webgl_shaders.dart';
-//part 'src/renderers/webgl/webgl_render_group.dart';
+//part 'src/renderers/webgl/gl_tiling_sprite.dart';
 
 part 'src/renderers/webgl/shaders/base_shader.dart';
 part 'src/renderers/webgl/shaders/sprite_shader.dart';
 part 'src/renderers/webgl/shaders/graphics_shader.dart';
-part 'src/renderers/webgl/shaders/strip_shader.dart';
+//part 'src/renderers/webgl/shaders/strip_shader.dart';
 part 'src/renderers/webgl/shaders/multi_shader.dart';
 
 part 'src/renderers/webgl/batch/base_batch.dart';

@@ -23,10 +23,10 @@ class _GLData
 	void update(GL.RenderingContext gl)
 	{
 		gl.bindBuffer(GL.ARRAY_BUFFER, this.buffer);
-		gl.bufferData(GL.ARRAY_BUFFER, new Float32List.fromList(this.points), GL.STATIC_DRAW);
+		gl.bufferDataTyped(GL.ARRAY_BUFFER, new Float32List.fromList(this.points), GL.STATIC_DRAW);
 
 		gl.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
-		gl.bufferData(GL.ELEMENT_ARRAY_BUFFER, new Uint16List.fromList(this.indices), GL.STATIC_DRAW);
+		gl.bufferDataTyped(GL.ELEMENT_ARRAY_BUFFER, new Uint16List.fromList(this.indices), GL.STATIC_DRAW);
 	}
 }
 

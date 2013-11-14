@@ -6,7 +6,6 @@ class Texture
 	static Map<String, Texture> _cache = {};
 
 	//Point _trim			= new Point();
-	bool _updateFrame	= false;
 	BaseTexture _base;
 
 	Element get source => this._base.source;
@@ -98,8 +97,7 @@ class Texture
 			throw "Texture error: frame does not fit inside the base texture dimensions";
 		}
 
-		this._hasLoaded		= true;
-		this._updateFrame	= true;
+		this._hasLoaded = true;
 	}
 }
 

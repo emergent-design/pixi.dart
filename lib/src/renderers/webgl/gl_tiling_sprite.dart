@@ -1,4 +1,4 @@
-part of pixi;
+/*part of pixi;
 
 
 
@@ -32,16 +32,16 @@ class _GLStripData
 	void update(GL.RenderingContext gl)
 	{
 		gl.bindBuffer(GL.ARRAY_BUFFER, this.vertexBuffer);
-		gl.bufferData(GL.ARRAY_BUFFER, this.vertices, GL.STATIC_DRAW);
+		gl.bufferDataTyped(GL.ARRAY_BUFFER, this.vertices, GL.STATIC_DRAW);
 
 		gl.bindBuffer(GL.ARRAY_BUFFER, this.uvBuffer);
-		gl.bufferData(GL.ARRAY_BUFFER, this.uvs, GL.DYNAMIC_DRAW);
+		gl.bufferDataTyped(GL.ARRAY_BUFFER, this.uvs, GL.DYNAMIC_DRAW);
 
 		gl.bindBuffer(GL.ARRAY_BUFFER, this.colourBuffer);
-		gl.bufferData(GL.ARRAY_BUFFER, this.colours, GL.STATIC_DRAW);
+		gl.bufferDataTyped(GL.ARRAY_BUFFER, this.colours, GL.STATIC_DRAW);
 
 		gl.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
-		gl.bufferData(GL.ELEMENT_ARRAY_BUFFER, this.indices, GL.STATIC_DRAW);
+		gl.bufferDataTyped(GL.ELEMENT_ARRAY_BUFFER, this.indices, GL.STATIC_DRAW);
 	}
 }
 
@@ -57,14 +57,14 @@ class _GLTilingData extends _GLStripData
 
 		this.update(gl);
 
-		if (texture._glTexture != null)
-		{
-			gl.bindTexture(GL.TEXTURE_2D, texture._glTexture);
-			gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.REPEAT);
-			gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.REPEAT);
-		}
+		//if (texture._glTexture != null)
+		//{
+		//	gl.bindTexture(GL.TEXTURE_2D, texture._glTexture);
+		//	gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.REPEAT);
+		//	gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.REPEAT);
+		//}
 
-		texture._powerOf2 = true;
+		//texture._powerOf2 = true;
 	}
 }
 
@@ -123,7 +123,7 @@ class _GLTilingSprite
 		strip.uvs[7] = scaleY - offsetY;
 
 		this.gl.bindBuffer(GL.ARRAY_BUFFER, strip.uvBuffer);
-		this.gl.bufferSubData(GL.ARRAY_BUFFER, 0, strip.uvs);
+		this.gl.bufferSubDataTyped(GL.ARRAY_BUFFER, 0, strip.uvs);
 
 		this.renderStrip(sprite, strip, projection, offset);
 	}
@@ -155,3 +155,4 @@ class _GLTilingSprite
 		this.gl.drawElements(GL.TRIANGLE_STRIP, strip.indices.length, GL.UNSIGNED_SHORT, 0);
 	}
 }
+*/

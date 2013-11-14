@@ -1,4 +1,4 @@
-part of pixi;
+/*part of pixi;
 
 
 class _StripShader extends _BaseShader
@@ -12,7 +12,7 @@ class _StripShader extends _BaseShader
 		varying vec2 vTextureCoord;
 		uniform vec2 offsetVector;
 		varying float vColor;
-	
+
 		void main(void)
 		{
 			vec3 v = translationMatrix * vec3(aVertexPosition, 1.0) - offsetVector.xyx;
@@ -28,7 +28,7 @@ class _StripShader extends _BaseShader
 		varying float vColor;
 		uniform float alpha;
 		uniform sampler2D uSampler;
-	
+
 		void main(void)
 		{
 			gl_FragColor = texture2D(uSampler, vTextureCoord);
@@ -72,3 +72,4 @@ class _StripShader extends _BaseShader
 		gl.disableVertexAttribArray(this.textureCoord);
 	}
 }
+*/

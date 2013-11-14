@@ -6,7 +6,7 @@ import 'package:pixi/pixi.dart';
 class TilingTextureExample
 {
 	//var renderer		= new CanvasRenderer(width: window.innerWidth, height: window.innerHeight);
-	var renderer		= new WebGLRenderer(width: window.innerWidth, height: window.innerHeight);
+	var renderer		= new WebGLRenderer(width: window.innerWidth, height: window.innerHeight, multibatch: false);
 	var stage			= new Stage(new Colour.fromInt(0x97c56e));
 	double count		= 0.0;
 	var tilingSprite	= null;
@@ -22,7 +22,7 @@ class TilingTextureExample
 		this.renderer.view.style.left		= "0";
 
 		var texture 		= new Texture.fromImage("p2.jpeg");
-		this.tilingSprite 	= new TilingSprite(texture, window.innerWidth, window.innerHeight);
+		this.tilingSprite 	= new TilingSprite(texture, width: window.innerWidth, height: window.innerHeight);
 
 		this.stage.children.add(tilingSprite);
 

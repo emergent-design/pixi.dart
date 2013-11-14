@@ -11,7 +11,7 @@ class WebGLRenderer extends Renderer
 	_BaseShader _shader				= null;
 	_BaseBatch _batch				= null;
 	_GLGraphics _graphics			= null;
-	_GLTilingSprite _tiling			= null;
+	//_GLTilingSprite _tiling			= null;
 
 
 	WebGLRenderer({int width: 800, int height: 600, CanvasElement view: null, bool transparent: false, bool antialias: false, bool multibatch: false, int batchSize: 1000 })
@@ -35,10 +35,9 @@ class WebGLRenderer extends Renderer
 
 		this.resize(width, height);
 
-		//this._batch		= new _SimpleBatch(gl, 1000);
 		this._batch		= multibatch ? new _MultiBatch(gl, batchSize) : new _SimpleBatch(gl, batchSize);
 		this._graphics	= new _GLGraphics(gl);
-		this._tiling	= new _GLTilingSprite(gl);
+		//this._tiling	= new _GLTilingSprite(gl);
 	}
 
 
@@ -112,9 +111,12 @@ class WebGLRenderer extends Renderer
 
 	void _renderTilingSprite(TilingSprite sprite)
 	{
-		this._batch.flush();
-		this._setShader(this._tiling.shader);
-		this._tiling.renderSprite(sprite, this._projection, this._offset);
+		this._setShader(this._batch.shader);
+		this._batch.renderTilingSprite(sprite);
+
+		//this._batch.flush();
+		//this._setShader(this._tiling.shader);
+		//this._tiling.renderSprite(sprite, this._projection, this._offset);
 	}
 
 
@@ -146,19 +148,25 @@ class WebGLRenderer extends Renderer
 			gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
 			gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
 
-			if (!texture._powerOf2)
-			{
-				gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
-				gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
-			}
-			else
+			if (_isPowerOfTwo(texture.width) && _isPowerOfTwo(texture.height))
 			{
 				gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.REPEAT);
 				gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.REPEAT);
 			}
+			else
+			{
+				gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
+				gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
+			}
 
 			gl.bindTexture(GL.TEXTURE_2D, null);
 		}
+	}
+
+
+	bool _isPowerOfTwo(int value)
+	{
+		return (value & (value - 1)) == 0;
 	}
 
 
@@ -177,7 +185,7 @@ class WebGLRenderer extends Renderer
 	{
 		print("Context lost");
 		e.preventDefault();
-		this._contextLost = false;
+		this._contextLost = true;
 	}
 
 

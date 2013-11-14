@@ -24,7 +24,6 @@ class BaseTexture
 	Stream get onLoaded => this._loadedController.stream;
 
 	GL.Texture _glTexture = null;
-	bool _powerOf2 = false;
 
 
 	BaseTexture(Element source)

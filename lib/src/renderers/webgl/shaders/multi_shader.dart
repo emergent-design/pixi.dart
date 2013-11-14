@@ -3,7 +3,7 @@ part of pixi;
 
 class _MultiShader extends _BaseShader
 {
-	static const MAX_TEXTURES = 32;
+	static const MAX_TEXTURES = 4;
 
 	static const VERTEX = """
 		attribute vec2 aVertexPosition;
@@ -33,26 +33,27 @@ class _MultiShader extends _BaseShader
 		varying vec2 vTextureCoord;
 		varying float vColor;
 		varying float vTexture;
-		uniform sampler2D uSamplers[32];
+		uniform sampler2D uSampler0;
+		uniform sampler2D uSampler1;
+		uniform sampler2D uSampler2;
+		uniform sampler2D uSampler3;
 		
 		void main(void)
 		{
-			for (int i=0; i<32; i++)
-			{
-				if (vTexture < float(i + 1))
-				{
-					gl_FragColor = texture2D(uSamplers[i], vTextureCoord) * vColor;
-					return;
-				}
-			}
+			if (vTexture < 1.0)			gl_FragColor = texture2D(uSampler0, vTextureCoord) * vColor;
+			else if (vTexture < 2.0)	gl_FragColor = texture2D(uSampler1, vTextureCoord) * vColor;
+			else if (vTexture < 3.0)	gl_FragColor = texture2D(uSampler2, vTextureCoord) * vColor;
+			else 						gl_FragColor = texture2D(uSampler3, vTextureCoord) * vColor;
 		}
 	""";
 
 
 	int textureCoord;
 	int texture;
-	GL.UniformLocation samplers;
 	GL.UniformLocation offset;
+
+	// Do these actually need to be stored since they're only set once?
+	List<GL.UniformLocation> samplers = new List<GL.UniformLocation>(MAX_TEXTURES);
 
 
 	_MultiShader(GL.RenderingContext gl) : super(gl, VERTEX, FRAGMENT);
@@ -64,11 +65,15 @@ class _MultiShader extends _BaseShader
 
 		this.textureCoord	= gl.getAttribLocation(this.program, "aTextureCoord");
 		this.texture		= gl.getAttribLocation(this.program, "aTexture");
-		this.samplers		= gl.getUniformLocation(this.program, "uSamplers");
 		this.offset			= gl.getUniformLocation(this.program, "offsetVector");
 
 		gl.useProgram(this.program);
-		gl.uniform1iv(this.samplers, new Int32List.fromList(new List<int>.generate(MAX_TEXTURES, (i) => i)));
+
+		for (int i=0; i<MAX_TEXTURES; i++)
+		{
+			this.samplers[i] = gl.getUniformLocation(this.program, "uSampler$i");
+			gl.uniform1i(this.samplers[i], i);
+		}
 	}
 
 

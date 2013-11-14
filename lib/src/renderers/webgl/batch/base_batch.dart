@@ -27,7 +27,7 @@ abstract class _BaseBatch
 	_BaseShader get shader;
 
 	void bind();
-	void renderSprite(Sprite sprite);
+	void render(Sprite sprite, List<num> uvs);
 
 
 	_BaseBatch(GL.RenderingContext gl, this.size)
@@ -70,7 +70,10 @@ abstract class _BaseBatch
 		this.indexBuffer	= gl.createBuffer();
 
 		gl.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
-    	gl.bufferData(GL.ELEMENT_ARRAY_BUFFER, this.indices, GL.STATIC_DRAW);
+    	gl.bufferDataTyped(GL.ELEMENT_ARRAY_BUFFER, this.indices, GL.STATIC_DRAW);
+
+		gl.bindBuffer(GL.ARRAY_BUFFER, this.vertexBuffer);
+		gl.bufferDataTyped(GL.ARRAY_BUFFER, this.vertices, GL.DYNAMIC_DRAW);
 	}
 
 
@@ -98,7 +101,8 @@ abstract class _BaseBatch
 		this.gl.depthMask(true);
 	}
 
-
+	//var view = this.vertices.subarray(0, this.idx);
+ // gl.bufferSubData(gl.ARRAY_BUFFER, 0, view);
 	void flush()
 	{
 		if (this.index == 0) return;
@@ -106,7 +110,10 @@ abstract class _BaseBatch
 
 		gl.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
 		gl.bindBuffer(GL.ARRAY_BUFFER, this.vertexBuffer);
-		gl.bufferData(GL.ARRAY_BUFFER, this.vertices, GL.DYNAMIC_DRAW);
+
+		// Only update the buffer with vertices that are actually being used
+		// by using a light-weight view.
+		gl.bufferSubDataTyped(GL.ARRAY_BUFFER, 0, new Float32List.view(this.vertices.buffer, 0, this.index));
 
 		this.bind();
 
@@ -115,5 +122,40 @@ abstract class _BaseBatch
 		gl.drawElements(GL.TRIANGLES, count * 6, GL.UNSIGNED_SHORT, 0);
 
 		this.index = 0;
+	}
+
+
+	void renderSprite(Sprite sprite)
+	{
+		var texture	= sprite._texture;
+		var frame	= texture.frame;
+
+		if (frame == null || texture == null || texture._base == null || texture._base._glTexture == null) return;
+
+		this.render(sprite, [
+			frame.left / texture._base.width, frame.top / texture._base.height,
+			(frame.left + frame.width) / texture._base.width, (frame.top + frame.height) / texture._base.height,
+		]);
+	}
+
+
+	void renderTilingSprite(TilingSprite sprite)
+	{
+		var texture	= sprite._texture;
+		var frame	= texture.frame;
+
+		if (frame == null || texture == null || texture._base == null || texture._base._glTexture == null) return;
+
+		var position	= sprite.tilePosition;
+		var scale		= sprite.tileScale;
+		double offsetX	= position.x / texture._base.width;
+		double offsetY	= position.y / texture._base.height;
+		double scaleX	= (sprite._width / texture._base.width) / scale.x;
+		double scaleY	= (sprite._height / texture._base.height) / scale.y;
+
+		this.render(sprite, [
+			-offsetX, -offsetY,
+			scaleX - offsetX, scaleY - offsetY
+		]);
 	}
 }

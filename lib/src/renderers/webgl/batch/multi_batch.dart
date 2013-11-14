@@ -40,16 +40,13 @@ class _MultiBatch extends _BaseBatch
 	}
 
 
-	void renderSprite(Sprite sprite)
+	void render(Sprite sprite, List<num> uvs)
 	{
 		if (!this.drawing) throw "Unable to draw a sprite before begin() is called for the batch";
 
-		var texture	= sprite._texture;
-		var frame	= texture.frame;
-
-		if (frame == null || texture == null || texture._base == null || texture._base._glTexture == null) return;
-
-		var textureIndex = this.textures.indexOf(texture._base);
+		var texture			= sprite._texture;
+		var frame			= texture.frame;
+		var textureIndex	= this.textures.indexOf(texture._base);
 
 		if (textureIndex < 0 || this.index == this.vertices.length)
 		{
@@ -62,8 +59,6 @@ class _MultiBatch extends _BaseBatch
 			textureIndex = this.textures.indexOf(texture._base);
 		}
 
-		// Can the following be cached somehow and only updated
-		// if the sprite has changed?
 		var world	= sprite.worldTransform;
 		num ax 		= sprite.anchor.x;
 		num ay 		= sprite.anchor.y;
@@ -77,31 +72,29 @@ class _MultiBatch extends _BaseBatch
 		num d		= world[4];
 		num tx		= world[2];
 		num ty		= world[5];
-		num width	= texture._base.width;
-		num height	= texture._base.height;
 
 		this.vertices[this.index++] = a * w1 + c * h1 + tx;
 		this.vertices[this.index++] = d * h1 + b * w1 + ty;
-		this.vertices[this.index++] = frame.left / width;
-		this.vertices[this.index++] = frame.top / height;
+		this.vertices[this.index++] = uvs[0];
+		this.vertices[this.index++] = uvs[1];
 		this.vertices[this.index++] = sprite.worldAlpha;
 		this.vertices[this.index++] = textureIndex.toDouble();
 		this.vertices[this.index++] = a * w0 + c * h1 + tx;
 		this.vertices[this.index++] = d * h1 + b * w0 + ty;
-		this.vertices[this.index++] = (frame.left + frame.width) / width;
-		this.vertices[this.index++] = frame.top / height;
+		this.vertices[this.index++] = uvs[2];
+		this.vertices[this.index++] = uvs[1];
 		this.vertices[this.index++] = sprite.worldAlpha;
 		this.vertices[this.index++] = textureIndex.toDouble();
 		this.vertices[this.index++] = a * w0 + c * h0 + tx;
 		this.vertices[this.index++] = d * h0 + b * w0 + ty;
-		this.vertices[this.index++] = (frame.left + frame.width) / width;
-		this.vertices[this.index++] = (frame.top + frame.height) / height;
+		this.vertices[this.index++] = uvs[2];
+		this.vertices[this.index++] = uvs[3];
 		this.vertices[this.index++] = sprite.worldAlpha;
 		this.vertices[this.index++] = textureIndex.toDouble();
 		this.vertices[this.index++] = a * w1 + c * h0 + tx;
 		this.vertices[this.index++] = d * h0 + b * w1 + ty;
-		this.vertices[this.index++] = frame.left / width;
-		this.vertices[this.index++] = (frame.top + frame.height) / height;
+		this.vertices[this.index++] = uvs[0];
+		this.vertices[this.index++] = uvs[3];
 		this.vertices[this.index++] = sprite.worldAlpha;
 		this.vertices[this.index++] = textureIndex.toDouble();
 	}

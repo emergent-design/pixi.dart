@@ -11,7 +11,6 @@ class Sprite extends DisplayObject
 	int blendMode		= NORMAL;
 	num _width			= 0;
 	num _height			= 0;
-	bool _updateFrame	= false;
 	bool _textureChange = false;
 	Texture _texture	= null;
 	Texture get texture => this._texture;
@@ -41,8 +40,7 @@ class Sprite extends DisplayObject
 		if (this._width > 0) 	x = this._width / this._texture.frame.width;
 		if (this._height > 0)	y = this._height / this._texture.frame.height;
 
-		this._scale			= new Point(x, y);
-		this._updateFrame	= true;
+		this._scale	= new Point(x, y);
 	}
 
 
@@ -74,8 +72,7 @@ class Sprite extends DisplayObject
 			this._textureChange = true;
 		}
 
-		this._texture		= texture;
-		this._updateFrame	= true;
+		this._texture = texture;
 	}
 
 
