@@ -47,4 +47,6 @@ part 'src/renderers/webgl/batch/base_batch.dart';
 part 'src/renderers/webgl/batch/simple_batch.dart';
 part 'src/renderers/webgl/batch/multi_batch.dart';
 
+part 'src/interaction/interaction_manager.dart';
+
 part 'src/utils/polyk.dart';

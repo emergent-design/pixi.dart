@@ -18,4 +18,12 @@ class DisplayObjectContainer extends DisplayObject
 			}
 		}
 	}
+
+
+	void _invalidate()
+	{
+		super._invalidate();
+
+		for (var c in this._children) c._invalidate();
+	}
 }

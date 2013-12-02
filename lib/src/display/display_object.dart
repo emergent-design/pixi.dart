@@ -25,31 +25,37 @@ abstract class DisplayObject
 	void set position(Point p)
 	{
 		this._position	= p;
-		this._dirty		= true;
+		this._invalidate();
 	}
 
 	void set pivot(Point p)
 	{
 		this._pivot	= p;
-		this._dirty	= true;
+		this._invalidate();
 	}
 
 	void set scale(Point s)
 	{
 		this._scale	= s;
-		this._dirty	= true;
+		this._invalidate();
 	}
 
 	void set rotation(double r)
 	{
 		this._rotation	= r;
-		this._dirty		= true;
+		this._invalidate();
 	}
 
 	void set alpha(double a)
 	{
 		this._alpha	= a;
-		this._dirty	= true;
+		this._invalidate();
+	}
+
+
+	void _invalidate()
+	{
+		this._dirty = true;
 	}
 
 
