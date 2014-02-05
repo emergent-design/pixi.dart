@@ -6,14 +6,18 @@ class CanvasRenderer extends Renderer
 	CanvasRenderingContext2D _context	= null;
 
 
-	CanvasRenderer({int width: 800, int height: 600, CanvasElement view: null, bool transparent: false }) : super(width, height, view, transparent)
+	CanvasRenderer({int width: 800, int height: 600, CanvasElement view: null, bool transparent: false, bool interactive: false }) : super(width, height, view, transparent, interactive)
 	{
 		this._context = this._view.context2D;
+
+		// New transparency option?
+		//this._view.getContext("2d", { "alpha": transparent });
 	}
 
 
 	void render(Stage stage)
 	{
+		if (this._interaction != null) this._interaction.stage = stage;
 		//BaseTexture._toUpdate.clear();
 		//BaseTexture._toDestroy.clear();
 
@@ -30,10 +34,10 @@ class CanvasRenderer extends Renderer
 		stage._render(this);
 
 
-		if (stage.interactive)
-		{
+		//if (this._interaction != null)
+		//{
 			// TODO: ??
-		}
+		//}
 	}
 
 

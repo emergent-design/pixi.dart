@@ -18,7 +18,7 @@ class TextExample
 	void start()
 	{
 		this.loader.onComplete.listen((c) {
-			var bitmapText		= new BitmapText("bitmap fonts are\n now supported!", new Style(font: "35px Desyrel", align: Style.RIGHT));
+			var bitmapText		= new BitmapText("bitmap fonts are\n now supported!", new TextStyle(font: "35px Desyrel", align: TextStyle.RIGHT));
 			bitmapText.position = new Point(620 - bitmapText.width - 20, 20);
 
 			this.stage.children.add(bitmapText);
@@ -31,19 +31,19 @@ class TextExample
 		stage.children.add(background);
 
 		// create some white text using the Snippet webfont
-		var textSample = new CanvasText("Pixi.dart can has\nmultiline text!", new Style(
+		var textSample = new CanvasText("Pixi.dart can has\nmultiline text!", new TextStyle(
 			font: "35px Snippet",
 			fill: new Colour(255,255,255),
-			align: Style.LEFT
+			align: TextStyle.LEFT
 		));
 
 		textSample.position = new Point(20, 20);
 
 		// create a text object with a nice stroke
-		this.spinningText = new CanvasText("I'm fun!", new Style(
+		this.spinningText = new CanvasText("I'm fun!", new TextStyle(
 			font: "bold 60px Podkova",
 			fill: new Colour.fromHtml('#cc00ff'),
-			align: Style.CENTRE,
+			align: TextStyle.CENTRE,
 			stroke: new Colour(255,255,255),
 			strokeThickness: 6
 		));
@@ -53,10 +53,10 @@ class TextExample
 		this.spinningText.position	= new Point(620 / 2, 400 / 2);
 
 		// create a text object that will be updated..
-		this.countingText = new CanvasText("COUNT 4EVAR: 0", new Style(
+		this.countingText = new CanvasText("COUNT 4EVAR: 0", new TextStyle(
 			font: "bold italic 60px Arvo",
 			fill: new Colour.fromHtml("#3e1707"),
-			align: Style.CENTRE,
+			align: TextStyle.CENTRE,
 			stroke: new Colour.fromHtml("#a4410e"),
 			strokeThickness: 7
 		));

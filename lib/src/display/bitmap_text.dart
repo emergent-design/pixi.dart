@@ -38,7 +38,7 @@ class BitmapText extends DisplayObjectContainer
 	static Map<String, _Font> _fonts = {};
 
 	String _text	= " ";
-	Style _style	= new Style();
+	TextStyle _style	= new TextStyle();
 	bool _dirtyText	= false;
 
 	String _fontFace;
@@ -51,7 +51,7 @@ class BitmapText extends DisplayObjectContainer
 	num get height => this._height;
 
 
-	BitmapText(String text, Style style)
+	BitmapText(String text, TextStyle style)
 	{
 		this.setText(text);
 		this.setStyle(style);
@@ -66,7 +66,7 @@ class BitmapText extends DisplayObjectContainer
 	}
 
 
-	void setStyle(Style style)
+	void setStyle(TextStyle style)
 	{
 		var match = new RegExp(r".*?(\d+)px\s+(.+)").firstMatch(style.font);
 
@@ -144,9 +144,9 @@ class BitmapText extends DisplayObjectContainer
 		{
 			switch (this._style.align)
 			{
-				case Style.LEFT:	offsets[i] = 0;										break;
-				case Style.RIGHT:	offsets[i] = maxWidth - widths[i];					break;
-				case Style.CENTRE:	offsets[i] = ((maxWidth - widths[i]) / 2).ceil();	break;
+				case TextStyle.LEFT:	offsets[i] = 0;										break;
+				case TextStyle.RIGHT:	offsets[i] = maxWidth - widths[i];					break;
+				case TextStyle.CENTRE:	offsets[i] = ((maxWidth - widths[i]) / 2).ceil();	break;
 			}
 		}
 

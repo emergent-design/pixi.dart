@@ -1,7 +1,7 @@
 part of pixi;
 
 
-abstract class DisplayObject
+abstract class DisplayObject extends _Interactive
 {
 	bool _dirty				= true;
 	Point _position			= new Point(0, 0);
@@ -12,7 +12,7 @@ abstract class DisplayObject
 	double _worldAlpha 		= 1.0;
 	Mat3 _worldTransform	= new Mat3();
 	bool visible			= true;
-	bool buttonMode			= false;
+	//bool buttonMode			= false;
 
 	Point get position		=> this._position;
 	Point get pivot			=> this._pivot;
@@ -48,7 +48,7 @@ abstract class DisplayObject
 
 	void set alpha(double a)
 	{
-		this._alpha	= a;
+		this._alpha	= min(1.0, max(0.0, a));
 		this._invalidate();
 	}
 
@@ -60,15 +60,8 @@ abstract class DisplayObject
 
 
 	bool _filter		= false;
-	bool _interactive	= false;
 	bool _dynamic		= true;
-	//bool get interactive => this._interactive;
 
-	/*void set interactive(bool i)
-	{
-		this._interactive = i;
-		//if (this.stage != null) this.stage._dirty = true;
-	}*/
 
 
 	void _updateTransform(DisplayObject parent)

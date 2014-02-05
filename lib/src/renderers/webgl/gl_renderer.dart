@@ -14,8 +14,8 @@ class WebGLRenderer extends Renderer
 	//_GLTilingSprite _tiling			= null;
 
 
-	WebGLRenderer({int width: 800, int height: 600, CanvasElement view: null, bool transparent: false, bool antialias: false, bool multibatch: false, int batchSize: 1000 })
-		: super(width, height, view, transparent)
+	WebGLRenderer({int width: 800, int height: 600, CanvasElement view: null, bool transparent: false, bool antialias: false, bool multibatch: false, int batchSize: 1000, bool interactive: false })
+		: super(width, height, view, transparent, interactive)
 	{
 		var gl = this._context = this._view.getContext3d(alpha: transparent, stencil: true, antialias: antialias, premultipliedAlpha: false);
 
@@ -52,6 +52,8 @@ class WebGLRenderer extends Renderer
 
 	void render(Stage stage)
 	{
+		if (this._interaction != null) this._interaction.stage = stage;
+
 		if (this._contextLost) return;
 
 		//this._updateTextures();
@@ -74,10 +76,10 @@ class WebGLRenderer extends Renderer
 
 		//print(this._batch.totalRenderCalls);
 
-		if (stage.interactive)
-		{
-			// ??
-		}
+		//if (this._interaction != null)
+		//{
+		//	// ??
+		//}
 	}
 
 

@@ -10,33 +10,36 @@ class _CanvasGraphics
 
 		for (_Path p in graphics._data)
 		{
-			context.strokeStyle = p.lineColor.html;
-			context.lineWidth	= p.lineWidth;
-
-			if (p.type == _Path.RECTANGLE)
+			if (p.points.length > 0)
 			{
-				renderRectangle(alpha, p, context);
-			}
-			else
-			{
-				switch (p.type)
-				{
-					case _Path.POLY:		renderPoly(p, context);				break;
-					case _Path.CIRCLE:		renderCircle(p, context);			break;
-					case _Path.ELLIPSE:		renderEllipse(p, context);			break;
-				}
+				context.strokeStyle = p.lineColor.html;
+				context.lineWidth	= p.lineWidth;
 
-				if (p.filling)
+				if (p.type == _Path.RECTANGLE)
 				{
-					context.globalAlpha = p.fillAlpha * alpha;
-					context.fillStyle	= p.fillColor.html;
-					context.fill();
+					renderRectangle(alpha, p, context);
 				}
-
-				if (p.lineWidth > 0)
+				else
 				{
-					context.globalAlpha = p.lineAlpha * alpha;
-					context.stroke();
+					switch (p.type)
+					{
+						case _Path.POLY:		renderPoly(p, context);				break;
+						case _Path.CIRCLE:		renderCircle(p, context);			break;
+						case _Path.ELLIPSE:		renderEllipse(p, context);			break;
+					}
+
+					if (p.filling)
+					{
+						context.globalAlpha = p.fillAlpha * alpha;
+						context.fillStyle	= p.fillColor.html;
+						context.fill();
+					}
+
+					if (p.lineWidth > 0)
+					{
+						context.globalAlpha = p.lineAlpha * alpha;
+						context.stroke();
+					}
 				}
 			}
 		}

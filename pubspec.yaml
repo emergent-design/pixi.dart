@@ -1,5 +1,5 @@
 name:  pixi
-version: 0.0.4
+version: 0.0.5
 description: >
   Port of the pixi.js library for 2D graphics using WebGL where available and the
   canvas where not.

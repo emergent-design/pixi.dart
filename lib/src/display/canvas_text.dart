@@ -1,22 +1,22 @@
 part of pixi;
 
 
-class Style
+class TextStyle
 {
 	static const LEFT 	= 0;
 	static const CENTRE = 1;
 	static const RIGHT	= 2;
 
-	int align;
-	String font;
-	Colour fill;
-	Colour stroke;
-	num strokeThickness;
-	bool wordWrap;
-	num wordWrapWidth;
+	final int align;
+	final String font;
+	final Colour fill;
+	final Colour stroke;
+	final num strokeThickness;
+	final bool wordWrap;
+	final num wordWrapWidth;
 
 
-	Style({
+	const TextStyle({
 		this.font: "bold 20pt Arial",
 		this.align: LEFT,
 		this.fill: const Colour(0, 0, 0),
@@ -27,6 +27,7 @@ class Style
 	});
 }
 
+
 // TODO: Derive both text classes from an abstract base
 // which share some of the word wrapping functionality?
 class CanvasText extends Sprite
@@ -36,19 +37,16 @@ class CanvasText extends Sprite
 	CanvasElement _canvas 				= new CanvasElement();
 	CanvasRenderingContext2D _context	= null;
 	String _text						= " ";
-	Style _style						= new Style();
+	TextStyle _style						= const TextStyle();
 	bool _dirtyText						= false;
 
 
-	CanvasText(String text, Style style) : super(null)
+	CanvasText(String text, TextStyle style) : super(null)
 	{
-		this._context = this._canvas.getContext("2d");
-
+		this._context = this._canvas.context2D;
 		this.setTexture(new Texture.fromCanvas(this._canvas));
-
 		this.setText(text);
 		this.setStyle(style);
-
 		this._updateText();
 	}
 
@@ -60,7 +58,7 @@ class CanvasText extends Sprite
 	}
 
 
-	void setStyle(Style style)
+	void setStyle(TextStyle style)
 	{
 		this._style = style;
 		this._dirtyText	= true;
@@ -118,9 +116,9 @@ class CanvasText extends Sprite
 
 			switch (this._style.align)
 			{
-				case Style.LEFT:	x = (this._style.strokeThickness / 2).ceil();	break;
-				case Style.CENTRE:	x = (maxWidth - widths[i]).ceil();				break;
-				case Style.RIGHT:	x = ((maxWidth - widths[i]) / 2).ceil();		break;
+				case TextStyle.LEFT:	x = (this._style.strokeThickness / 2).ceil();	break;
+				case TextStyle.CENTRE:	x = (maxWidth - widths[i]).ceil();				break;
+				case TextStyle.RIGHT:	x = ((maxWidth - widths[i]) / 2).ceil();		break;
 			}
 
 			if (this._style.stroke != null && this._style.strokeThickness > 0)
@@ -156,18 +154,18 @@ class CanvasText extends Sprite
 		{
 			var dummy = new DivElement()
 				..appendText('M')
-				..style.font = font
-				..style.position = 'absolute'
+				..style.font 		= font
+				..style.position 	= 'absolute'
 				..style.top			= '0'
-				..style.left		= '0';
+				..style.left		= '0'
+				..style.opacity		= '0.0'
+				..style.zIndex		= '-1';
 
+			//document.body.children.insert(0, dummy);	// this breaks as javascript when used in a PolymerElement
 			document.body.children.add(dummy);
-
 			_heights[font] = dummy.offsetHeight;
-
 			document.body.children.remove(dummy);
 		}
-
 		return _heights[font];
 	}
 

@@ -35,7 +35,6 @@ part 'src/renderers/canvas/canvas_graphics.dart';
 
 part 'src/renderers/webgl/gl_renderer.dart';
 part 'src/renderers/webgl/gl_graphics.dart';
-//part 'src/renderers/webgl/gl_tiling_sprite.dart';
 
 part 'src/renderers/webgl/shaders/base_shader.dart';
 part 'src/renderers/webgl/shaders/sprite_shader.dart';
@@ -47,6 +46,8 @@ part 'src/renderers/webgl/batch/base_batch.dart';
 part 'src/renderers/webgl/batch/simple_batch.dart';
 part 'src/renderers/webgl/batch/multi_batch.dart';
 
+part 'src/interaction/interactive.dart';
+part 'src/interaction/interaction_data.dart';
 part 'src/interaction/interaction_manager.dart';
 
 part 'src/utils/polyk.dart';

@@ -107,22 +107,25 @@ class _GLGraphics
 		{
 			var data = graphics._data[i];
 
-			if (data.type == _Path.POLY)
+			if (data.points.length > 0)
 			{
-				if (data.filling)
+				if (data.type == _Path.POLY)
 				{
-					if (data.points.length > 3) buildPoly(data, dst);
-				}
+					if (data.filling)
+					{
+						if (data.points.length > 3) buildPoly(data, dst);
+					}
 
-				if (data.lineWidth > 0) buildLine(data, dst);
-			}
-			else if (data.type == _Path.RECTANGLE)
-			{
-				buildRectangle(data, dst);
-			}
-			else if (data.type == _Path.CIRCLE || data.type == _Path.ELLIPSE)
-			{
-				buildCircle(data, dst);
+					if (data.lineWidth > 0) buildLine(data, dst);
+				}
+				else if (data.type == _Path.RECTANGLE)
+				{
+					buildRectangle(data, dst);
+				}
+				else if (data.type == _Path.CIRCLE || data.type == _Path.ELLIPSE)
+				{
+					buildCircle(data, dst);
+				}
 			}
 		}
 
