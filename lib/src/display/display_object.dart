@@ -97,6 +97,33 @@ abstract class DisplayObject extends _Interactive
 	}
 
 
+	Point _transform(double x, double y)
+	{
+		var world	= this._worldTransform;
+		var a00 	= world[0], a01 = world[1], a02 = world[2];
+		var	a10 	= world[3], a11 = world[4], a12 = world[5];
+		var id 		= 1 / (a00 * a11 + a01 * -a10);
+
+		return new Point(
+			a11 * id * x + -a01 * id * y + (a12 * a01 - a02 * a11) * id,
+			a00 * id * y + -a10 * id * x + (-a12 * a00 + a02 * a10) * id
+		);
+	}
+
+
+	bool _hit(double x, double y)
+	{
+		if (this.visible && this.hitArea != null)
+		{
+			var p = this._transform(x, y);
+
+			return this.hitArea.contains(p.x, p.y);
+		}
+
+		return false;
+	}
+
+
 	// Default is no-op for a non-renderable object, should be
 	// overridden by derived display objects that are renderable.
 	void _render(Renderer renderer) {}

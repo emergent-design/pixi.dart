@@ -5,7 +5,7 @@ import 'dart:html';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:web_gl' as GL;
-import 'dart:collection';
+//import 'dart:collection';
 import 'dart:typed_data';
 
 part 'src/core/matrix.dart';
@@ -47,7 +47,7 @@ part 'src/renderers/webgl/batch/simple_batch.dart';
 part 'src/renderers/webgl/batch/multi_batch.dart';
 
 part 'src/interaction/interactive.dart';
-part 'src/interaction/interaction_data.dart';
 part 'src/interaction/interaction_manager.dart';
+part 'src/interaction/hit_area.dart';
 
 part 'src/utils/polyk.dart';

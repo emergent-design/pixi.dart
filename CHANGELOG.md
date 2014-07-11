@@ -1,4 +1,21 @@
-# v0.0.4 (2013-11-14)
+v0.1.0 (2014-07-11)
+
+Initial release of the interaction implementation:
+  * It works for mouse and touch events (and should even support multi-touch).
+  * The appropriate examples have been ported from pixi.js.
+  * Sprites will have an automatic hit area unless explicitly assigned one.
+  * Non-sprites should assign a hit area if required.
+  * A few basic hit shapes are provided (rectangle, circle and polygon).
+
+
+v0.0.5 (2014-02-05)
+
+* Fix around issues that occur only when compiled to javascript.
+* Initial interaction manager design.
+* Some renaming to avoid clashes with existing Dart classes.
+
+
+v0.0.4 (2013-11-14)
 
 This is a merge of the simple-render branch into the master and includes the following changes:
 

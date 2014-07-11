@@ -17,8 +17,7 @@ Implemented so far:
 * BitmapFont text
 * Multiline text
 * Primitive drawing
-
-No interaction yet I'm afraid!
+* Interaction (mouse and touch events)
 
 
 Usage

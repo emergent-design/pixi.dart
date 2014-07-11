@@ -50,6 +50,31 @@ class Sprite extends DisplayObject
 	}
 
 
+	bool _hit(double x, double y)
+	{
+		if (this.visible)
+		{
+			var p = this._transform(x, y);
+
+			if (this.hitArea == null)
+			{
+				if (this.texture != null && this.texture.frame != null)
+				{
+					var width 	= this._texture.frame.width;
+					var height	= this._texture.frame.height;
+					var x0		= -width * this.anchor.x;
+					var y0 		= -height * this.anchor.y;
+
+					return p.x > x0 && p.x < x0 + width && p.y > y0 && p.y < y0 + height;
+				}
+			}
+			else return this.hitArea.contains(p.x, p.y);
+		}
+
+		return false;
+	}
+
+
 	num get width => this._scale.x * this._texture.frame.width;
 	void set width(num value)
 	{
