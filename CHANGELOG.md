@@ -1,11 +1,17 @@
+v0.1.1 (2014-07-14)
+
+* Added the missing onClick implementation.
+
+
 v0.1.0 (2014-07-11)
 
 Initial release of the interaction implementation:
-  * It works for mouse and touch events (and should even support multi-touch).
-  * The appropriate examples have been ported from pixi.js.
-  * Sprites will have an automatic hit area unless explicitly assigned one.
-  * Non-sprites should assign a hit area if required.
-  * A few basic hit shapes are provided (rectangle, circle and polygon).
+
+* It works for mouse and touch events (and should even support multi-touch).
+* The appropriate examples have been ported from pixi.js.
+* Sprites will have an automatic hit area unless explicitly assigned one.
+* Non-sprites should assign a hit area if required.
+* A few basic hit shapes are provided (rectangle, circle and polygon).
 
 
 v0.0.5 (2014-02-05)

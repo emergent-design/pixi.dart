@@ -43,6 +43,7 @@ class IteractivityExample
 			button.onMouseOver.listen((e) { if (!button.isDown) button.setTexture(textures["over"]); });
 			button.onMouseOut.listen((e) { if (!button.isDown) button.setTexture(textures["button"]); });
 			button.onTap.listen((e) => print("Tapped button $i"));
+			button.onClick.listen((e) => print("Clicked button $i"));
 
 			//button.hitArea = new HitRectangle(-10, -10, 20, 20);
 

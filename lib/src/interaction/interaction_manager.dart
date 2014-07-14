@@ -81,14 +81,22 @@ class _InteractionManager
 	{
 		if (object.interactive)
 		{
-			if (object._controller.listening("mouseUp"))
+			if (object._controller.listening("mouseUp") || object._controller.listening("click"))
 			{
 				// The stage gets the mouse up event regardless of the hit test
 				// so that we can catch mouseup when the mouse has moved outside
 				// of the canvas.
 				if (object == this.stage || object._hit(x, y))
 				{
-					object._controller["mouseUp"].add(new InteractionEvent(0, x, y));
+					if (object._controller.listening("mouseUp"))
+					{
+						object._controller["mouseUp"].add(new InteractionEvent(0, x, y));
+					}
+
+					if (object._down && object._controller.listening("click"))
+					{
+						object._controller["click"].add(new InteractionEvent(0, x, y));
+					}
 				}
 			}
 
