@@ -61,11 +61,11 @@ class _InteractionManager
 
 	void propagateDown(DisplayObject object, double x, double y)
 	{
-		if (object.interactive && object._controller.listening("mouseDown"))
+		if (object.interactive)
 		{
 			if (object._hit(x, y))
 			{
-				object._controller["mouseDown"].add(new InteractionEvent(0, x, y));
+				if (object._controller.listening("mouseDown")) object._controller["mouseDown"].add(new InteractionEvent(0, x, y));
 				object._down = true;
 			}
 		}
@@ -81,22 +81,23 @@ class _InteractionManager
 	{
 		if (object.interactive)
 		{
-			if (object._controller.listening("mouseUp") || object._controller.listening("click"))
+			// The stage gets the mouse up event regardless of the hit test
+			// so that we can catch mouseup when the mouse has moved outside
+			// of the canvas.
+			if (object == this.stage && object._controller.listening("mouseUp"))
 			{
-				// The stage gets the mouse up event regardless of the hit test
-				// so that we can catch mouseup when the mouse has moved outside
-				// of the canvas.
-				if (object == this.stage || object._hit(x, y))
+				object._controller["mouseUp"].add(new InteractionEvent(0, x, y));
+			}
+			else if (object._hit(x, y))
+			{
+				if (object._controller.listening("mouseUp"))
 				{
-					if (object._controller.listening("mouseUp"))
-					{
-						object._controller["mouseUp"].add(new InteractionEvent(0, x, y));
-					}
+					object._controller["mouseUp"].add(new InteractionEvent(0, x, y));
+				}
 
-					if (object._down && object._controller.listening("click"))
-					{
-						object._controller["click"].add(new InteractionEvent(0, x, y));
-					}
+				if (object._down && object._controller.listening("click"))
+				{
+					object._controller["click"].add(new InteractionEvent(0, x, y));
 				}
 			}
 
@@ -112,11 +113,15 @@ class _InteractionManager
 
 	void propagateStart(DisplayObject object, int id, double x, double y)
 	{
-		if (object.interactive && object._controller.listening("touchStart"))
+		if (object.interactive)
 		{
 			if (object._hit(x, y))
 			{
-				object._controller["touchStart"].add(new InteractionEvent(id, x, y));
+				if (object._controller.listening("touchStart"))
+				{
+					object._controller["touchStart"].add(new InteractionEvent(id, x, y));
+				}
+
 				object._over	= true;
 				object._down	= true;
 				object._touches.add(id);
@@ -132,22 +137,27 @@ class _InteractionManager
 
 	void propagateEnd(DisplayObject object, int id, double x, double y)
 	{
-		if (object.interactive)
+		if (object.interactive && object._touches.contains(id))
 		{
-			if (object._controller.listening("touchEnd") || object._controller.listening("tap"))
+			if (object == this.stage || object._hit(x, y))
 			{
-				if (object._touches.contains(id) && (object == this.stage || object._hit(x, y)))
+				if (object._controller.listening("touchEnd"))
 				{
-					if (object._controller.listening("touchEnd"))				object._controller["touchEnd"].add(new InteractionEvent(id, x, y));
-					if (object._over && object._controller.listening("tap"))	object._controller["tap"].add(new InteractionEvent(id, x, y));
-
-					object._over = false;
+					object._controller["touchEnd"].add(new InteractionEvent(id, x, y));
 				}
+
+				if (object._over && object._controller.listening("tap"))
+				{
+					object._controller["tap"].add(new InteractionEvent(id, x, y));
+				}
+
+				object._over = false;
 			}
 
-			object._down 	= false;
+			object._down = false;
 			object._touches.remove(id);
 		}
+
 
 		if (object is DisplayObjectContainer)
 		{
@@ -174,19 +184,24 @@ class _InteractionManager
 	{
 		if (object.interactive)
 		{
-			if (object._controller.listening("mouseOver") || object._controller.listening("mouseOut"))
+			if (object._hit(x, y))
 			{
-				if (object._hit(x, y))
+				if (!object._over)
 				{
-					if (!object._over)
+					object._over = true;
+
+					if (object._controller.listening("mouseOver"))
 					{
-						object._over = true;
 						object._controller["mouseOver"].add(new InteractionEvent(0, x, y));
 					}
 				}
-				else if (object._over)
+			}
+			else if (object._over)
+			{
+				object._over = false;
+
+				if (object._controller.listening("mouseOut"))
 				{
-					object._over = false;
 					object._controller["mouseOut"].add(new InteractionEvent(0, x, y));
 				}
 			}

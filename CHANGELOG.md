@@ -1,3 +1,8 @@
+v0.1.2 (2014-07-14)
+
+* Fixed an issue with interaction states getting missed.
+
+
 v0.1.1 (2014-07-14)
 
 * Added the missing onClick implementation.
