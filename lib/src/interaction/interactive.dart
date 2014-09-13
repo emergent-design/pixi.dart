@@ -20,6 +20,12 @@ class _InteractiveController
 		return this.controllers.putIfAbsent(type, () => new StreamController<InteractionEvent>.broadcast());
 	}
 
+	void clear()
+	{
+		for (var c in this.controllers.values) c.close();
+		this.controllers.clear();
+	}
+
 	bool has(String type)		=> this.controllers.containsKey(type);
 	bool listening(String type)	=> this.controllers.containsKey(type) && this.controllers[type].hasListener;
 	bool get enabled			=> this.controllers.isNotEmpty;
@@ -41,6 +47,7 @@ abstract class _Interactive
 	Stream<InteractionEvent> get onTouchStart	=> this._controller["touchStart"].stream;
 	Stream<InteractionEvent> get onTouchEnd		=> this._controller["touchEnd"].stream;
 	Stream<InteractionEvent> get onTouchMove	=> this._controller["touchMove"].stream;
+	void clearEvents() 							=> this._controller.clear();
 	bool get interactive						=> this._controller.enabled;
 	bool get isDown								=> _down;
 	bool get isOver								=> _over;

@@ -3,8 +3,14 @@ part of pixi;
 
 class DisplayObjectContainer extends DisplayObject
 {
-	List<DisplayObject> _children = [];
+	List<DisplayObject> _children = []; //toObservable([]);
 	List<DisplayObject> get children => this._children;
+
+
+	/*DisplayObjectContainer()
+	{
+		(this._children as ObservableList).changes.listen((e) => this._invalidate());
+	}*/
 
 
 	void _render(Renderer renderer)

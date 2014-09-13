@@ -1,6 +1,7 @@
 import 'dart:html';
+import 'dart:js';
 import 'package:pixi/pixi.dart';
-import 'package:js/js.dart' as js;
+
 
 
 class TextExample
@@ -96,10 +97,10 @@ void main()
 {
 	var text = new TextExample();
 
-	js.context.WebFont.load(js.map({
+	context["WebFont"].callMethod("load", [ new JsObject.jsify({
 		'google': { 'families': [ 'Snippet', 'Arvo:700italic', 'Podkova:700' ] },
-		'active': text.start
-	}));
+        'active': text.start
+	})]);
 }
 
 

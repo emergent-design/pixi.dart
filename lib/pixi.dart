@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'dart:web_gl' as GL;
 //import 'dart:collection';
 import 'dart:typed_data';
+//import 'package:observe/observe.dart';
 
 part 'src/core/matrix.dart';
 part 'src/core/colour.dart';

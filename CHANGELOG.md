@@ -1,3 +1,10 @@
+v0.1.3 (2014-09-13)
+
+* Switched from package js to dart:js for the examples.
+* Removed the unittest dependency for now.
+* Added a clearEvents method to interactive objects.
+* Fixed an issue with colour referencing in the Graphics display object.
+
 v0.1.2 (2014-07-14)
 
 * Fixed an issue with interaction states getting missed.

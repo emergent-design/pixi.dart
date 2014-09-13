@@ -3,13 +3,15 @@ part of pixi;
 
 class Graphics extends DisplayObject
 {
+	static const Colour _default = const Colour(0, 0, 0);
+
 	num _lineWidth		= 0;
 	double _lineAlpha	= 1.0;
-	Colour _lineColor	= new Colour(0, 0, 0);
+	Colour _lineColor	= _default;
 	double _fillAlpha 	= 1.0;
-	Colour _fillColor	= new Colour(0, 0, 0);
+	Colour _fillColor	= _default;
 	bool _filling		= false;
-	_Path _path 		= new _Path(_Path.POLY, 0, new Colour(0, 0, 0), 1.0, 1.0, new Colour(0, 0, 0), false, []);
+	_Path _path 		= new _Path(_Path.POLY, 0, _default, 1.0, 1.0, _default, false, []);
 	bool _dirtyGraphics	= true;
 	bool _dirtyClear	= false;
 	List<_Path> _data;
@@ -27,7 +29,7 @@ class Graphics extends DisplayObject
 	}
 
 
-	void lineStyle([ num width = 0.0, Colour color = const Colour(0, 0, 0), double alpha = 1.0 ])
+	void lineStyle([ num width = 0.0, Colour color = _default, double alpha = 1.0 ])
 	{
 		if (this._path.points.length == 0) this._data.removeLast();
 
@@ -60,7 +62,7 @@ class Graphics extends DisplayObject
 	}
 
 
-	void beginFill([ Colour color = const Colour(0, 0, 0), double alpha = 1.0 ])
+	void beginFill([ Colour color = _default, double alpha = 1.0 ])
 	{
 		this._filling	= true;
 		this._fillColor	= color;
@@ -122,7 +124,7 @@ class Graphics extends DisplayObject
 		this._filling		= false;
 		this._dirtyGraphics	= true;
 		this._dirtyClear	= true;
-		this._path			= new _Path(_Path.POLY, 0, new Colour(0, 0, 0), 1.0, 1.0, new Colour(0, 0, 0), false, []);
+		this._path			= new _Path(_Path.POLY, 0, _default, 1.0, 1.0, _default, false, []);
 		this._data			= [ this._path ];
 	}
 }

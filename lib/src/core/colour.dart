@@ -58,6 +58,12 @@ class Colour
 	}
 
 
+//	Colour clone()
+//	{
+//		return new Colour(this.r, this.g, this.b);
+//	}
+
+
 	// Produces a padded hex value
 	String _hex(int value)
 	{

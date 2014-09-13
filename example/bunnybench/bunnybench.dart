@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'dart:math';
+import 'dart:js';
 import 'package:pixi/pixi.dart';
-import 'package:js/js.dart' as js;
 
 
 class Bunny extends Sprite
@@ -10,6 +10,7 @@ class Bunny extends Sprite
 
 	Bunny(Texture texture, { num width: 0, num height: 0 }) : super(texture, width: width, height: height);
 }
+
 
 class BunnyBench
 {
@@ -33,7 +34,7 @@ class BunnyBench
 	List<Texture> textures	= [];
 	var bunnies				= [];
 
-	var stats;
+	JsObject stats;
 
 	bool isAdding = false;
 	int count = 0;
@@ -45,11 +46,11 @@ class BunnyBench
 	{
 		this.renderer.view.style.position = 'absolute';
 
-		this.stats = new js.Proxy(js.context.Stats);
+		this.stats = new JsObject(context["Stats"]);
 
-		document.body.append(this.stats.domElement);
-		this.stats.domElement.style.position = 'absolute';
-		this.stats.domElement.style.top = '0';
+		document.body.append(this.stats["domElement"]);
+		this.stats["domElement"].style.position = 'absolute';
+		this.stats["domElement"].style.top = '0';
 
 		var urls = [
 			"images/spinObj_01.png", "images/spinObj_02.png",
@@ -104,8 +105,8 @@ class BunnyBench
 		this.renderer.view.style.left	= "${w}px";
 		this.renderer.view.style.top 	= "${h}px";
 
-		this.stats.domElement.style.left	= "${w}px";
-		this.stats.domElement.style.top		= "${h}px";
+		this.stats["domElement"].style.left	= "${w}px";
+		this.stats["domElement"].style.top		= "${h}px";
 
 		this.counter.style.left = "${w}px";
 		this.counter.style.top	= "${h + 49}px";
@@ -139,7 +140,7 @@ class BunnyBench
 
 	void update(var frame)
 	{
-		this.stats.begin();
+		this.stats.callMethod("begin");
 
 		if (this.isAdding)
 		{
@@ -204,7 +205,7 @@ class BunnyBench
 		this.renderer.render(this.stage);
 		window.requestAnimationFrame(this.update);
 
-		this.stats.end();
+		this.stats.callMethod("end");
 	}
 }
 
