@@ -1,23 +1,16 @@
 pixi.dart
 =========
 
-A [Dart](https://www.dartlang.org/) port of [pixi.js](https://github.com/GoodBoyDigital/pixi.js/).
+A [Dart](https://www.dartlang.org/) wrapper for [PixiJS](https://github.com/pixijs/pixi.js).
 
+The version number of this package mirrors that of the PixiJS library it wraps. An official build
+of minified pixijs is provided as part of the package.
 
-Work in Progress
-----------------
+[The PixiJS documentation](http://pixijs.download/release/docs/index.html) can be used
+as reference with a few exceptions such as the loading of shaders (see the custom-filter
+example).
 
-Implemented so far:
-
-* Canvas renderer
-* WebGL renderer (with automatic batching)
-* Full scene graph
-* Asset loader / sprite sheet loader
-* Text
-* BitmapFont text
-* Multiline text
-* Primitive drawing
-* Interaction (mouse and touch events)
+Remember to wrap all callback functions that are passed to JS with ```allowInterop()```.
 
 
 Usage
@@ -27,37 +20,25 @@ Usage
 import 'dart:html';
 import 'package:pixi/pixi.dart';
 
-
 class BunnyExample
 {
-	var renderer	= new CanvasRenderer(width: 400, height: 300);
-	var stage		= new Stage(new Colour.fromHtml('#6f9'));
-	var bunny		= new Sprite.fromImage("bunny.png");
-
+	var app		= new Application();
+	var bunny	= new Sprite.fromImage('bunny.png');
 
 	BunnyExample()
 	{
-		document.body.append(this.renderer.view);
+		document.body.append(app.view);
 
-		this.bunny.anchor 	= new Point(0.5, 0.5);
-		this.bunny.position	= new Point(200, 150);
+		this.bunny
+			..anchor 	= new Point(0.5, 0.5);
+			..position	= new Point(200, 150);
 
-		this.stage.children.add(this.bunny);
-
-		window.requestAnimationFrame(this._animate);
-	}
-
-
-	void _animate(var num)
-	{
-		window.requestAnimationFrame(this._animate);
-
-		this.bunny.rotation += 0.1;
-
-		this.renderer.render(this.stage);
+		app.stage.children.add(this.bunny);
+		app.ticker.add(allowInterop(
+			(_) => this.bunny.rotation += 0.1
+		));
 	}
 }
-
 
 void main()
 {

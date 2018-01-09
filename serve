@@ -1,0 +1,4 @@
+#!/bin/bash
+
+/usr/lib/dart/bin/pub serve example --port 48000 --web-compiler=dartdevc
+

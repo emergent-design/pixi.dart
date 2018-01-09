@@ -1,3 +1,9 @@
+v4.6.2-0 (2018-01-09)
+
+* Complete refactor as a JS interop wrapper for pixijs.
+* Versioning is now based on the underlying pixijs version.
+* Official build of minified pixijs is provided as part of the package.
+
 v0.1.3 (2014-09-13)
 
 * Switched from package js to dart:js for the examples.

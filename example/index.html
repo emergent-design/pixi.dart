@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+	<title>pixi.dart - Examples</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
+	<script src="packages/pixi/js/pixi.min.js"></script>
+
+	<style>
+		body
+		{
+			margin: 0;
+			padding: 0;
+			display: flex;
+			min-height: 100vh;
+			font-family: sans-serif;
+			background-color: #272d37;
+
+			/* background: url('assets/pixi_examples_bg.jpg') no-repeat; */
+			/* background-size: 100% 870px; */
+		}
+
+		nav
+		{
+			/* padding: 16px; */
+			/* background-color: rgba(68, 68, 136, 0.9); */
+			background-color: #38404e;
+			/* color: #919bac; */
+			z-index: 1;
+			min-width: 256px;
+		}
+
+		h1, h2 { font-weight: normal; }
+
+		#content
+		{
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		#content h1
+		{
+			color: #fff;
+		}
+
+
+		#canvas
+		{
+			width: 800px;
+			height: 600px;
+			background: #38404e url('/assets/tile.png') 56px 56px;
+		}
+
+
+		nav h1
+		{
+			margin: 16px;
+			font-size: 1.6em;
+			color: #ec407a;
+			text-align: center;
+		}
+
+		h2
+		{
+			margin: 16px 0 4px 0;
+			padding: 0 16px;
+			font-size: 1em;
+			color: #aaf;
+			cursor: pointer;
+		}
+
+		ul
+		{
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			transition: all 300ms;
+			overflow: hidden;
+			max-height: 100vh;
+		}
+
+		li
+		{
+			font-size: 0.8em;
+			padding: 4px 32px;
+		}
+
+		ul.closed
+		{
+			max-height: 0;
+		}
+
+		a
+		{
+			text-decoration: none;
+			color: #919bac;
+			transition: all 300ms;
+		}
+
+		.selected	{ box-shadow: inset 2px 0 0 0 #ec407a; }
+		.selected a { color: #fff; }
+		a:hover		{ color: #fff; }
+
+	</style>
+	</head>
+
+	<body>
+		<nav id="menu">
+			<h1>pixi</h1>
+		</nav>
+
+		<div id="content">
+			<h1 id="title"></h1>
+			<canvas id="canvas"></canvas>
+		</div>
+
+		<script type="application/dart" src="index.dart"></script>
+		<script src="packages/browser/dart.js"></script>
+	</body>
+</html>

@@ -1,9 +1,9 @@
 pubspec.lock
 *~
-*.js
-*.js.deps
 *.map
 
+build
 packages
+.packages
 .settings
 .buildlog
