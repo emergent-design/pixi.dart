@@ -6,7 +6,7 @@ A [Dart](https://www.dartlang.org/) wrapper for [PixiJS](https://github.com/pixi
 The version number of this package mirrors that of the PixiJS library it wraps. An official build
 of minified pixijs is provided as part of the package.
 
-[The PixiJS documentation](http://pixijs.download/release/docs/index.html) can be used
+The [PixiJS documentation](http://pixijs.download/release/docs/index.html) can be used
 as reference with a few exceptions such as the loading of shaders (see the custom-filter
 example).
 

@@ -1,4 +1,4 @@
-v4.6.2-0 (2018-01-09)
+v4.6.2+0 (2018-01-09)
 
 * Complete refactor as a JS interop wrapper for pixijs.
 * Versioning is now based on the underlying pixijs version.

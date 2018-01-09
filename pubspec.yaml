@@ -1,5 +1,5 @@
 name:  pixi
-version: 4.6.2-0
+version: 4.6.2+0
 description: >
   An interop wrapper around the pixijs library.
 author: Dan Parnham <dan@emergent-design.co.uk>
@@ -13,5 +13,3 @@ environment:
 
 dev_dependencies:
   browser: ^0.10.0
-
-dev_environment:
