@@ -15,7 +15,7 @@ abstract class SystemRenderer
 	external void resize(num screenWidth, num screenHeight);
 
 	external CanvasElement get view;
-	external set view(CanvasElement);
+	external set view(CanvasElement canvas);
 
 	external num get type;
 	external num get width;

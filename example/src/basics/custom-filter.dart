@@ -4,7 +4,7 @@ part of pixi.examples;
 class CustomFilterExample extends Example
 {
 	Application app;
-	Dynamic uniforms;
+	Dynamic<double> uniforms;
 	Sprite bg;
 
 
@@ -31,10 +31,10 @@ class CustomFilterExample extends Example
 
 	void onLoaded(Loader loader, DynamicSource resources)
 	{
-		var fragmentSrc = new Dynamic<Resource>(resources)['shader'].data;
-		var filter		= new Filter(null, fragmentSrc);
-		this.uniforms	= new Dynamic(filter.uniforms);
-		this.bg.filters	= [ filter ];
+		String fragmentSrc	= new Dynamic<Resource>(resources)['shader'].data;
+		var filter			= new Filter(null, fragmentSrc);
+		this.uniforms		= new Dynamic<double>(filter.uniforms);
+		this.bg.filters		= [ filter ];
 
 		app.start();
 	}

@@ -6,7 +6,7 @@ import 'package:js/js.dart';
 
 
 @JS()
-external load(Config config);
+external void load(Config config);
 
 @JS()
 @anonymous

@@ -38,7 +38,7 @@ class TintingDemo extends Example
 	}
 
 
-	void animate(num)
+	void animate(num d)
 	{
 		for (var dude in this.aliens)
 		{

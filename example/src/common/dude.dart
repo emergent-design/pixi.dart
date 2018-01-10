@@ -12,7 +12,7 @@ class Dude
 	Dude({ this.direction, this.turningSpeed, this.speed, this.offset });
 
 	// Helper function to update a sprite based on the metadata
-	static void move(Sprite dude, Rectangle bounds, { double scale(num) : null, double rotationOffset: -PI / 2 })
+	static void move(Sprite dude, Rectangle bounds, { double scale(num offset) : null, double rotationOffset: -PI / 2 })
 	{
 		var meta = dude.userdata as Dude;
 		meta.direction += meta.turningSpeed * 0.01;

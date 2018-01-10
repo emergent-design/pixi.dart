@@ -18,7 +18,7 @@ class TilingSpriteExample extends Example
 		app.ticker.add(allowInterop(animate));
 	}
 
-	void animate(num)
+	void animate(num d)
 	{
 		this.count += 0.005;
 		this.tilingSprite

@@ -81,7 +81,7 @@ class TextDemo extends Example
 	}
 
 
-	void animate(num)
+	void animate(num d)
 	{
 		this.count += 0.05;
 		this.countingText.text = "COUNT 4EVAR: ${this.count.floor()}";

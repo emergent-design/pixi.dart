@@ -58,12 +58,12 @@ class MaskingDemo extends Example
 		app.ticker.add(allowInterop(animate));
 	}
 
-	void onClick(PixiEvent)
+	void onClick(PixiEvent e)
 	{
 		this.container.mask = this.container.mask == null ? this.thing : null;
 	}
 
-	void animate(num)
+	void animate(num d)
 	{
 		this.bg.rotation += 0.01;
 		this.bgFront.rotation -= 0.01;

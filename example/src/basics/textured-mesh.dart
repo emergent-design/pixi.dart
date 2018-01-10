@@ -30,7 +30,7 @@ class TexturedMeshExample extends Example
 	}
 
 
-	void animate(num)
+	void animate(num d)
 	{
 		count += 0.1;
 		for (int i=0; i<this.points.length; i++)

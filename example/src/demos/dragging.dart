@@ -20,42 +20,35 @@ class DraggingDemo extends Example
 
 		for (int i=0; i<10; i++)
 		{
-			app.stage.addChild(new Sprite(texture)
+			var sprite = new Sprite(texture)
 				..interactive = true
 				..buttonMode = true
 				..anchor.set(0.5)
 				..scale.set(3)
-				..position.set(random.nextDouble() * app.screen.width, random.nextDouble() * app.screen.height)
-				..on('pointerdown', allowInteropCaptureThis(onDragStart))
-				..on('pointerup', allowInteropCaptureThis(onDragEnd))
-				..on('pointerupoutside', allowInteropCaptureThis(onDragEnd))
-				..on('pointermove', allowInteropCaptureThis(onDragMove))
-			);
-		}
-	}
+				..position.set(random.nextDouble() * app.screen.width, random.nextDouble() * app.screen.height);
 
+			sprite.on('pointerdown', allowInterop((e) {
+				sprite.userdata = e.data;
+				sprite.alpha	= 0.5;
+			}));
+			sprite.on('pointerup', allowInterop((e) {
+				sprite.userdata	= null;
+				sprite.alpha	= 1.0;
+			}));
+			sprite.on('pointerupoutside', allowInterop((e) {
+				sprite.userdata	= null;
+				sprite.alpha	= 1.0;
+			}));
+			sprite.on('pointermove', allowInterop((e) {
+				InteractionData data = sprite.userdata;
 
-	void onDragStart(Sprite self, PixiEvent event)
-	{
-		self.userdata	= event.data;
-		self.alpha		= 0.5;
-	}
+				if (data != null)
+				{
+					sprite.position = data.getLocalPosition(sprite.parent);
+				}
+			}));
 
-
-	void onDragEnd(Sprite self, PixiEvent event)
-	{
-		self.userdata	= null;
-		self.alpha		= 1.0;
-	}
-
-
-	void onDragMove(Sprite self, PixiEvent event)
-	{
-	 	var data = self.userdata as InteractionData;
-
-		if (data != null)
-		{
-			self.position = data.getLocalPosition(self.parent);
+			app.stage.addChild(sprite);
 		}
 	}
 }

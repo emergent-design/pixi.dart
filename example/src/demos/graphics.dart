@@ -71,7 +71,7 @@ class GraphicsDemo extends Example
 		app.ticker.add(allowInterop(animate));
 	}
 
-	void onClick(PixiEvent)
+	void onClick(PixiEvent e)
 	{
 		this.graphics
 			.lineStyle(random.nextDouble() * 30, random.nextDouble() * 0xffffff, 1)
@@ -83,7 +83,7 @@ class GraphicsDemo extends Example
 			);
 	}
 
-	void animate(num)
+	void animate(num d)
 	{
 		this.count += 0.1;
 

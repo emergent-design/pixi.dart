@@ -36,7 +36,7 @@ class VideoExample extends Example
 	}
 
 
-	void onPlay(_)
+	void onPlay(PixiEvent e)
 	{
 		this.button.destroy();
 

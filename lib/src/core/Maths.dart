@@ -10,12 +10,12 @@ class Point
 	external num get y;
 	external set y(num value);
 
-	external Point([x = 0, y = 0]);
+	external Point([num x = 0, num y = 0]);
 
 	external Point clone();
 	external void copy(Point p);
 	external bool equals(Point p);
-	external void set(num x, [ y ]);
+	external void set(num x, [ num y ]);
 }
 
 

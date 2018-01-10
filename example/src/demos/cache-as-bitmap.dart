@@ -29,7 +29,7 @@ class CacheAsBitmapDemo extends Example
 	}
 
 
-	void onClick(PixiEvent)
+	void onClick(PixiEvent e)
 	{
 		this.alienContainer.cacheAsBitmap = !this.alienContainer.cacheAsBitmap;
 	}
@@ -56,7 +56,7 @@ class CacheAsBitmapDemo extends Example
 		app.start();
 	}
 
-	void animate(num)
+	void animate(num d)
 	{
 		for (var a in this.aliens)
 		{

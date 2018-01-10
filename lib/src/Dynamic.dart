@@ -13,19 +13,19 @@ class DynamicSource {}
 @anonymous
 class DynamicDescription
 {
-	external get value;
+	external dynamic get value;
 
-	external factory DynamicDescription({bool configurable, bool enumerable, bool writable, value });
+	external factory DynamicDescription({bool configurable, bool enumerable, bool writable, dynamic value });
 }
 
 
 // Interop to ES5+ functions that will allow us to get/set arbitrary properties on
 // anonymous javascript objects.
 @JS('Object.defineProperty')
-external void defineProperty(object, String property, DynamicDescription description);
+external void defineProperty(dynamic object, String property, DynamicDescription description);
 
 @JS('Object.getOwnPropertyDescriptor')
-external DynamicDescription getOwnPropertyDescriptor(object, String property);
+external DynamicDescription getOwnPropertyDescriptor(dynamic object, String property);
 
 
 // A helper class for dealing with proxying anonymous JS objects that are to be
@@ -41,16 +41,16 @@ class Dynamic<T>
 
 	T operator [](String key)
 	{
-		return getOwnPropertyDescriptor(this.source, key)?.value;
+		return getOwnPropertyDescriptor(this.source, key)?.value as T;
 	}
 
 
-	operator []=(String key, T value)
+	void operator []=(String key, T value)
 	{
 		defineProperty(this.source, key, new DynamicDescription(
 			value: value, writable: true, enumerable: true, configurable: true
 		));
 
-		return value;
+		// return value;
 	}
 }

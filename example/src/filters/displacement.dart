@@ -74,7 +74,7 @@ class DisplacementFilterDemo extends Example
 		this.ring.position.copy(this.displacementSprite.position);
 	}
 
-	void animate(num)
+	void animate(num d)
 	{
 		count += 0.05;
 

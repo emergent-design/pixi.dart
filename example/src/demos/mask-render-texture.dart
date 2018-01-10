@@ -31,11 +31,11 @@ class MaskingRenderTextureDemo extends Example
 	void setup(Loader loader, DynamicSource resources)
 	{
 		var r = new Dynamic<Resource>(resources);
-		var background = new Sprite(r['t1'].texture)
+		var background = new Sprite(r['t1'].texture as Texture)
 			..width = app.screen.width
 			..height = app.screen.height;
 
-		var imageToReveal = new Sprite(r['t2'].texture)
+		var imageToReveal = new Sprite(r['t2'].texture as Texture)
 			..width = app.screen.width
 			..height = app.screen.height;
 
@@ -56,7 +56,7 @@ class MaskingRenderTextureDemo extends Example
 		this.pointerMove(event);
 	}
 
-	void pointerUp(PixiEvent)
+	void pointerUp(PixiEvent event)
 	{
 		this.dragging = false;
 	}

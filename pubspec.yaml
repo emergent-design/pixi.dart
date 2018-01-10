@@ -1,9 +1,10 @@
 name:  pixi
-version: 4.6.2+0
+version: 4.6.2+1
 description: >
   An interop wrapper around the pixijs library.
 author: Dan Parnham <dan@emergent-design.co.uk>
 homepage: http://github.com/emergent-design/pixi.dart
+documentation: http://pixijs.download/release/docs/index.html
 
 dependencies:
   js: ^0.6.1

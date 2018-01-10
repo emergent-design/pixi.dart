@@ -50,7 +50,7 @@ class ParticleContainerDemo extends Example
 		app.ticker.add(allowInterop(animate));
 	}
 
-	void animate(num)
+	void animate(num d)
 	{
 		for (var dude in this.maggots)
 		{

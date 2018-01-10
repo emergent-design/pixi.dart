@@ -38,5 +38,5 @@ void main()
 
 	Examples
 		.create(Uri.base.queryParameters['example'])
-		.run(document.querySelector('#canvas'));
+		.run(document.querySelector('#canvas') as CanvasElement);
 }

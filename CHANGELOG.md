@@ -1,8 +1,15 @@
+v4.6.2+1 (2018-01-10)
+
+* Added analysis_options and editorconfig files.
+* Fixed a few issues to better support strong mode.
+
+
 v4.6.2+0 (2018-01-09)
 
 * Complete refactor as a JS interop wrapper for pixijs.
 * Versioning is now based on the underlying pixijs version.
 * Official build of minified pixijs is provided as part of the package.
+
 
 v0.1.3 (2014-09-13)
 
@@ -10,6 +17,7 @@ v0.1.3 (2014-09-13)
 * Removed the unittest dependency for now.
 * Added a clearEvents method to interactive objects.
 * Fixed an issue with colour referencing in the Graphics display object.
+
 
 v0.1.2 (2014-07-14)
 

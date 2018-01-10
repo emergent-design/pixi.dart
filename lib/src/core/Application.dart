@@ -11,7 +11,7 @@ class Application
 	external Rectangle get screen;
 
 	external Ticker get ticker;
-	external set ticker(Ticker);
+	external set ticker(Ticker ticker);
 
 	external void render();
 	external void stop();
