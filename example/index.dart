@@ -11,7 +11,6 @@ void main()
 	for (var group in Examples.groups.keys)
 	{
 		var heading		= new HeadingElement.h2()..innerHtml = group;
-		// var list		= new UListElement()..hidden = Uri.base.queryParameters['group'] != group;
 		var list		= new UListElement()..classes = Uri.base.queryParameters['group'] != group ? [ 'closed' ] : [];
 		var selected	= Uri.base.queryParameters['example'];
 
@@ -25,8 +24,7 @@ void main()
 					..append(
 						new AnchorElement()
 							..innerHtml = Examples.groups[group][item]
-							..href		= "${Uri.base.origin}/?group=$group&example=$item"
-							// ..classes	= item == Uri.base.queryParameters['example'] ? [ "selected" ] : []
+							..href		= "${Uri.base.path}?group=$group&example=$item"
 					)
 			);
 		}

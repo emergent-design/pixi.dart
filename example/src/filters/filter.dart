@@ -4,7 +4,7 @@ part of pixi.examples;
 class FilterDemo extends Example
 {
 	Application app;
-	double count = 0.0;
+	double c = 0.0;
 
 	void run(CanvasElement canvas)
 	{
@@ -18,8 +18,8 @@ class FilterDemo extends Example
 
 		// app.stage.addChild(bg);
 
-		var filter = new ColorMatrixFilter();
-		var container = new Container()
+		var filter		= new ColorMatrixFilter();
+		var container	= new Container()
 			..x = app.screen.width / 2
 			..y = app.screen.height / 2;
 
@@ -60,19 +60,18 @@ class FilterDemo extends Example
 			lights[0].rotation	+= 0.01;
 
 			panda.scale.set(
-				1 + sin(count) * 0.04,
-				1 + cos(count) * 0.04
+				1 + sin(c) * 0.04,
+				1 + cos(c) * 0.04
 			);
 
-			count += 0.1;
+			c += 0.1;
 
-			var matrix	= filter.matrix;
-			matrix[1]	= sin(count) * 3;
-			matrix[2]	= cos(count);
-			matrix[3]	= cos(count) * 1.5;
-			matrix[4]	= sin(count / 3) * 2;
-			matrix[5]	= sin(count / 2);
-			matrix[6]	= sin(count / 4);
+			filter.matrix = [
+				1, sin(c) * 3, cos(c), cos(c) * 1.5,  sin(c / 3) * 2,
+				sin(c / 2), sin(c / 4), 0, 0, 0,
+				0, 0, 1, 0, 0,
+				0, 0, 0, 1, 0
+			];
 		}));
 	}
 }
