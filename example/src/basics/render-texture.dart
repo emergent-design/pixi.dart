@@ -26,7 +26,7 @@ class RenderTextureExample extends Example
 				var bunny = Sprite.fromImage('assets/basics/bunny.png')
 					..x = 30 * i
 					..y = 30 * j
-					..rotation = random.nextDouble() * PI * 2;
+					..rotation = random.nextDouble() * pi * 2;
 
 				container.addChild(bunny);
 			}

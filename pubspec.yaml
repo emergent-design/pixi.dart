@@ -1,5 +1,5 @@
 name:  pixi
-version: 4.6.2+1
+version: 4.8.1
 description: >
   An interop wrapper around the pixijs library.
 author: Dan Parnham <dan@emergent-design.co.uk>
@@ -7,10 +7,11 @@ homepage: http://github.com/emergent-design/pixi.dart
 documentation: http://pixijs.download/release/docs/index.html
 
 dependencies:
-  js: ^0.6.1
+  js: ^0.6.1+1
 
 environment:
-  sdk: '>=1.24.3 <2.0.0'
+  sdk: '>=1.24.3 <3.0.0'
 
 dev_dependencies:
-  browser: ^0.10.0
+  build_runner: ^0.10.1
+  build_web_compilers: ^0.4.2

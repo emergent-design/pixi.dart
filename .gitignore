@@ -7,3 +7,6 @@ packages
 .packages
 .settings
 .buildlog
+
+.dart_tool
+.directory

@@ -42,7 +42,7 @@ class DisplacementFilterDemo extends Example
 				..x = random.nextDouble() * bounds.width
 				..y = random.nextDouble() * bounds.height
 				..userdata = new Dude(
-					direction: random.nextDouble() * PI * 2,
+					direction: random.nextDouble() * pi * 2,
 					speed: 1.0,
 					turningSpeed: random.nextDouble() - 0.8
 				)

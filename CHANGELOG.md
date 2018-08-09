@@ -1,3 +1,10 @@
+v4.8.1 (2018-08-10)
+
+* Updated the JS library but API changes to the interop classes yet to be applied.
+* Ready to be used with Dart v2.
+* Examples now use the build runner.
+
+
 v4.6.2+1 (2018-01-10)
 
 * Added analysis_options and editorconfig files.

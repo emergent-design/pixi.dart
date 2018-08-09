@@ -31,7 +31,7 @@ class ParticleContainerDemo extends Example
 				..y = random.nextDouble() * app.screen.height
 				..tint = random.nextDouble() * 0x808080
 				..userdata = new Dude(
-					direction: random.nextDouble() * PI * 2,
+					direction: random.nextDouble() * pi * 2,
 					turningSpeed: random.nextDouble() - 0.8,
 					speed: (2 + random.nextDouble() * 2) * 0.2,
 					offset: random.nextDouble() * 100
@@ -55,7 +55,7 @@ class ParticleContainerDemo extends Example
 		for (var dude in this.maggots)
 		{
 			Dude.move(dude, this.dudeBounds,
-				rotationOffset: PI,
+				rotationOffset: pi,
 				scale: (offset) => dude.scale.y = 0.95 + sin(tick + offset) * 0.05
 			);
 		}

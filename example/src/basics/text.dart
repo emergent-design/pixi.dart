@@ -30,7 +30,7 @@ class TextExample extends Example
 			dropShadow: true,
 			dropShadowColor: '#000000',
 			dropShadowBlur: 4,
-			dropShadowAngle: PI / 6,
+			dropShadowAngle: pi / 6,
 			dropShadowDistance: 6,
 			wordWrap: true,
 			wordWrapWidth: 440

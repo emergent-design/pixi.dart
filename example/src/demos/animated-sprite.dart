@@ -26,7 +26,7 @@ class AnimatedSpriteDemo extends Example
 			var explosion = new AnimatedSprite(explosionTextures)
 				..position.x	= random.nextDouble() * app.screen.width
 				..position.y	= random.nextDouble() * app.screen.height
-				..rotation		= random.nextDouble() * PI
+				..rotation		= random.nextDouble() * pi
 				..scale.set(0.75 + random.nextDouble() * 0.5)
 				..anchor.set(0.5)
 				..gotoAndPlay(random.nextInt(27));

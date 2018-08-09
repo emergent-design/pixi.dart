@@ -51,9 +51,9 @@ class InteractivityDemo extends Example
 		}
 
 		buttons[0].scale.set(1.2);
-		buttons[2].rotation = PI / 10;
+		buttons[2].rotation = pi / 10;
 		buttons[3].scale.set(0.8);
 		buttons[4].scale.set(0.8, 1.2);
-		buttons[4].rotation = PI;
+		buttons[4].rotation = pi;
 	}
 }

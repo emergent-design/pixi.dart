@@ -21,7 +21,7 @@ class TintingDemo extends Example
 				..y = (random.nextDouble() * app.screen.height).floor()
 				..tint = random.nextDouble() * 0xffffff
 				..userdata = new Dude(
-					direction: random.nextDouble() * PI * 2,
+					direction: random.nextDouble() * pi * 2,
 					turningSpeed: random.nextDouble() - 0.8,
 					speed: 2 + random.nextDouble() * 2
 				)
