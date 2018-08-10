@@ -1,7 +1,8 @@
 name:  pixi
-version: 4.8.1
+version: 4.8.1+1
 description: >
-  An interop wrapper around the pixijs library.
+  An interop wrapper around the pixijs library providing
+  GPU accelerated 2D graphics for web applications.
 author: Dan Parnham <dan@emergent-design.co.uk>
 homepage: http://github.com/emergent-design/pixi.dart
 documentation: http://pixijs.download/release/docs/index.html

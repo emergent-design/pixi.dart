@@ -17,21 +17,22 @@ Usage
 -----
 
 ```dart
-import 'dart:html';
+import 'dart:html' hide Point;
 import 'package:pixi/pixi.dart';
+import 'package:js/js.dart';
 
 class BunnyExample
 {
-	var app		= new Application();
-	var bunny	= new Sprite.fromImage('bunny.png');
+	Application app	= Application();
+	Sprite bunny	= Sprite.fromImage('bunny.png');
 
 	BunnyExample()
 	{
 		document.body.append(app.view);
 
 		this.bunny
-			..anchor 	= new Point(0.5, 0.5);
-			..position	= new Point(200, 150);
+			..anchor 	= Point(0.5, 0.5)
+			..position	= Point(200, 150);
 
 		app.stage.children.add(this.bunny);
 		app.ticker.add(allowInterop(
