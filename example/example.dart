@@ -15,7 +15,7 @@ class BunnyExample
 			..anchor 	= Point(0.5, 0.5)
 			..position	= Point(200, 150);
 
-		app.stage.children.add(this.bunny);
+		app.stage.addChild(this.bunny);
 		app.ticker.add(allowInterop(
 			(_) => this.bunny.rotation += 0.1
 		));
